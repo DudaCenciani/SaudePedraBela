@@ -1,0 +1,30 @@
+﻿@model List<SaudePedraBela.Models.Categorias>
+
+@{
+    ViewData["Title"] = "Plano Municipal de Saúde";
+}
+
+<div class="container">
+
+    <h1>Plano Municipal de Saúde</h1>
+
+    @foreach (var categoria in Model)
+    {
+        <div style="margin-bottom:20px">
+
+            <h3>📁 @categoria.NomeCategoria</h3>
+
+            <ul>
+                @foreach (var doc in categoria.Documentos)
+                {
+                    <li>
+                        <a href="@doc.CaminhoDocumento" target="_blank">
+                            @doc.NomeDocumento
+                        </a>
+                    </li>
+                }
+            </ul>
+
+        </div>
+    }
+</div>

@@ -1,8 +1,318 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>Info-Saúde Pedra Bela</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css">
+
+</head>
+<body>
+
+	<!-- HEADER -->
+	<header class="bg-white shadow-md sticky top-0 z-50">
+		<div class="max-w-7xl mx-auto px-4 flex justify-between items-center py-4">
+
+			<div class="flex items-center gap-4">
+				<img src="~/Images/logo.png" class="h-14">
+				<div>
+					<h1 class="text-xl text-green-700 font-bold">Info-Saúde Pedra Bela</h1>
+					<p class="text-xs text-gray-600">Transparência na Saúde Pública</p>
+				</div>
+			</div>
+
+			<nav class="flex gap-6">
+				<a href="#hero" class="text-gray-700 hover:text-green-700">Início</a>
+				<a href="#services" class="text-gray-700 hover:text-green-700">Serviços</a>
+				<a href="#contact" class="text-gray-700 hover:text-green-700">Contato</a>
+
+				<button onclick="openDocuments()" class="bg-green-700 text-white px-4 py-2 rounded">
+					Documentos
+				</button>
+			</nav>
+
+		</div>
+	</header>
+
+
+	<!-- HERO -->
+	<section id="hero" class="bg-gradient-to-r from-green-700 to-blue-600 text-white py-20">
+
+		<div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+
+			<div>
+				<h1 class="text-5xl mb-4">Saúde Transparente</h1>
+				<h2 class="text-3xl mb-6">Olá, Seja Bem Vindo(a)!</h2>
+
+				<p class="text-lg">
+					O portal Info-Saúde contém informações relevantes na área da saúde no município de Pedra Bela, promovendo transparência e acesso público às informações.
+				</p>
+			</div>
+
+			<div class="flex justify-center">
+				<div class="bg-white/10 rounded-full p-16">
+					❤️
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- SERVIÇOS -->
+	<section id="services" class="py-20 bg-gray-50">
+
+		<div class="max-w-7xl mx-auto px-4">
+
+			<h2 class="text-4xl text-center mb-12">
+				Informações Importantes
+			</h2>
+
+			<div class="grid md:grid-cols-3 gap-6">
+
+				<!-- LOCAL E HORÁRIOS -->
+				<a href="/Home/LocalHorarios" class="bg-white p-6 rounded-xl shadow block">
+					<h3 class="text-xl mb-3">Local e Horários</h3>
+					<p class="text-gray-600 mb-4">
+						Conheça os endereços das unidades de saúde e os horários de atendimento.
+					</p>
+
+					<ul class="text-sm space-y-2">
+						<li>• Endereços das unidades</li>
+						<li>• Horários de atendimento</li>
+					</ul>
+				</a>
+
+
+				<!-- FARMÁCIA -->
+				<a href="/Home/Farmacia" class="bg-white p-6 rounded-xl shadow block">
+					<h3 class="text-xl mb-3">Farmácia Municipal</h3>
+					<p class="text-gray-600 mb-4">
+						Informações sobre medicamentos disponíveis na rede municipal.
+					</p>
+
+					<ul class="text-sm space-y-2">
+						<li>• Relação de medicamentos disponíveis</li>
+						<li>• Medicamentos de alto custo</li>
+					</ul>
+				</a>
+
+
+				<!-- VACINAÇÃO -->
+				<a href="/Home/Vacinacao" class="bg-white p-6 rounded-xl shadow block">
+					<h3 class="text-xl mb-3">Vacinação</h3>
+
+					<p class="text-gray-600 mb-4">
+						Informações sobre campanhas e imunização.
+					</p>
+
+					<ul class="text-sm space-y-2">
+						<li>• Campanhas de vacinação</li>
+						<li>• Calendário vacinal</li>
+					</ul>
+				</a>
+				
+
+				<!-- GESTÃO -->
+				<a href="/Home/Gestao" class="bg-white p-6 rounded-xl shadow block">
+					<h3 class="text-xl mb-3">Gestão</h3>
+
+					<p class="text-gray-600 mb-4">
+						Relatórios e indicadores da saúde.
+					</p>
+
+					<ul class="text-sm space-y-2">
+						<li>• Relatórios de gestão</li>
+						<li>• Plano Municipal de Saúde</li>
+					</ul>
+				</a>
+
+				<!-- PESQUISA -->
+				<div class="bg-gradient-to-r from-green-700 to-blue-600 text-white p-6 rounded-xl">
+
+					<h3 class="text-xl mb-3">
+						Pesquisa de Satisfação
+					</h3>
+
+					<p class="mb-6">
+						Sua opinião é muito importante para melhorar a saúde pública.
+					</p>
+
+					<a href="https://docs.google.com/forms/d/e/1FAIpQLScDA4-c4KW2v3VJbhu-WKsuiE-ptexZjQfCD-_QFNcqIrIqpg/viewform"
+					   target="_blank"
+					   class="block text-center bg-white text-green-700 px-6 py-3 rounded w-full">
+						Responder Pesquisa
+					</a>
+
+				</div>
+
+
+			</div>
+
+		</div>
+	</section>
+	
+
+	<!-- CONTATO -->
+	<section id="contact" class="py-20">
+
+		<div class="max-w-4xl mx-auto px-4">
+
+			<h2 class="text-4xl text-center mb-12">
+				Fale Conosco
+			</h2>
+
+			<div class="bg-gradient-to-r from-green-700 to-blue-600 text-white p-10 rounded-xl">
+
+				<h3 class="text-2xl mb-6">
+					Info-Saúde Pedra Bela
+				</h3>
+
+				<p>Telefone: (11) 4037-1277 ramal 112</p>
+				<p>WhatsApp: (11) 94322-6381</p>
+				<p>Email: secretariasaude@pedrabela.sp.gov.br</p>
+
+				<p class="mt-4">
+					Rua Bernardino de Lima Paes, nº45
+					Centro - Pedra Bela SP
+				</p>
+
+			</div>
+
+		</div>
+	</section>
+
+
+	<!-- FOOTER -->
+	<footer class="bg-gray-800 text-white py-8">
+
+		<div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-6">
+
+			<div>
+				<img src="~/Images/logo.png" class="h-16 mb-4">
+				<p class="text-gray-400 text-sm">
+					Prefeitura Municipal de Pedra Bela
+				</p>
+			</div>
+
+			<div>
+				<h3 class="mb-3">Links</h3>
+
+				<ul class="text-gray-400 text-sm space-y-2">
+					<li><a href="#hero">Início</a></li>
+					<li><a href="#services">Serviços</a></li>
+					<li><a href="#contact">Contato</a></li>
+				</ul>
+
+			</div>
+
+			<div>
+
+				<h3 class="mb-3">Contato</h3>
+
+				<p class="text-gray-400 text-sm">
+					(11) 4037-1277
+				</p>
+
+				<p class="text-gray-400 text-sm">
+					secretariasaude@pedrabela.sp.gov.br
+				</p>
+
+			</div>
+
+		</div>
+
+		<div class="text-center text-gray-400 text-sm mt-6">
+			© 2026 Prefeitura de Pedra Bela
+		</div>
+
+	</footer>
+
+	<!-- MODAL DOCUMENTOS -->
+	<div id="modalDocumentos" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+
+		<div class="bg-white w-3/4 max-h-[80vh] overflow-auto rounded-xl p-8">
+
+			<div class="flex justify-between mb-6">
+				<h2 class="text-2xl font-bold text-green-700">Documentos</h2>
+
+				<button onclick="closeDocuments()" class="text-red-500 text-xl">
+					✖
+				</button>
+			</div>
+
+			<div id="listaDocumentos"></div>
+
+		</div>
+
+	</div>
+
+	
+
+	<script>
+
+function openDocuments() {
+
+    document.getElementById("modalDocumentos").classList.remove("hidden");
+
+    fetch("/Documentos/ListaPublica")
+    .then(response => response.json())
+    .then(data => {
+
+        let html = "";
+
+        data.forEach(categoria => {
+
+            html += `
+                <div style="margin-bottom:25px">
+
+                    <h3 style="font-size:20px;font-weight:bold;color:#166534;margin-bottom:10px">
+                        📂 ${categoria.nomeCategoria}
+                    </h3>
+
+                    <ul style="padding-left:20px">
+            `;
+
+            categoria.documentos.forEach(doc => {
+
+                html += `
+                    <li style="margin-bottom:8px">
+
+                        📄 ${doc.nomeDocumento}
+
+                        <a href="${doc.caminhoDocumento}" 
+                           target="_blank"
+                           style="margin-left:10px;color:blue">
+                           Visualizar
+                        </a>
+
+                        <a href="${doc.caminhoDocumento}" 
+                           download
+                           style="margin-left:10px;color:green">
+                           Baixar
+                        </a>
+
+                    </li>
+                `;
+            });
+
+            html += `
+                    </ul>
+                </div>
+            `;
+        });
+
+        document.getElementById("listaDocumentos").innerHTML = html;
+
+    });
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+function closeDocuments() {
+    document.getElementById("modalDocumentos").classList.add("hidden");
+}
+
+</script>
+
+</body>
+</html>
+

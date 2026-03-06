@@ -24,7 +24,10 @@ namespace SaudePedraBela.Controllers
         }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (HttpContext.Session.GetString("UsuarioLogado") == null)
+            var action = context.RouteData.Values["action"]?.ToString();
+
+            if (action != "ListaPublica" &&
+                HttpContext.Session.GetString("UsuarioLogado") == null)
             {
                 context.Result = RedirectToAction("Login", "Account");
             }
@@ -106,6 +109,26 @@ namespace SaudePedraBela.Controllers
                 return NotFound();
             }
             return View(documento);
+        }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> ListaPublica()
+        {
+            var categorias = await _context.Categorias
+                .Include(c => c.Documentos)
+                .Select(c => new
+                {
+                    nomeCategoria = c.NomeCategoria,
+                    documentos = c.Documentos.Select(d => new
+                    {
+                        nomeDocumento = d.NomeDocumento,
+                        caminhoDocumento = d.CaminhoDocumento
+                    })
+                })
+                .ToListAsync();
+
+            return Json(categorias);
         }
 
         // POST: Documentos/Edit/5
