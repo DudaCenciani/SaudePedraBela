@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Documentos\" />
+    <Folder Include="wwwroot\pdf\escalas\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,225 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Escalas";
 }
+
+<style>
+
+    .banner-local {
+        background: linear-gradient(90deg,#1e7a3a,#2563eb);
+        color: white;
+        padding: 60px 0;
+    }
+
+        .banner-local h1 {
+            font-size: 42px;
+            font-weight: 600;
+        }
+
+    .card-unidade {
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    .btn-arquivo {
+        margin-top: 15px;
+    }
+
+    .aviso {
+        background: #eaf2ff;
+        border: 1px solid #c6d7ff;
+        border-radius: 14px;
+        padding: 20px;
+        margin-top: 40px;
+    }
+
+</style>
+
+
+<div class="banner-local">
+    <div class="container d-flex align-items-center">
+
+        <div style="background:rgba(255,255,255,0.15);padding:18px;border-radius:12px;margin-right:20px">
+            📄
+        </div>
+
+        <div>
+            <h1>Escalas dos Profissionais de Saúde</h1>
+            <p>Consulte as escalas de atendimento das unidades de saúde</p>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container mt-5">
+
+    <h3 class="text-center mb-4">2025</h3>
+
+    <div class="row g-4">
+
+        <!-- CLINICOS -->
+        <div class="col-md-4">
+            <div class="card-unidade">
+
+                <h4>Clínicos e Especialistas</h4>
+
+                <button class="btn btn-primary btn-arquivo abrir-arquivos" data-pasta="clinicos">
+                    Acessar Arquivos
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- CENTRO DE SAUDE -->
+        <div class="col-md-4">
+            <div class="card-unidade">
+
+                <h4>C.S Angelina Santana Schievenin</h4>
+
+                <button class="btn btn-primary btn-arquivo abrir-arquivos" data-pasta="centro-saude">
+                    Acessar Arquivos
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- UBS -->
+        <div class="col-md-4">
+            <div class="card-unidade">
+
+                <h4>UBS Dr. Jorge Hirodi Orita</h4>
+
+                <button class="btn btn-primary btn-arquivo abrir-arquivos" data-pasta="ubs">
+                    Acessar Arquivos
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- ACADEMIA -->
+        <div class="col-md-4">
+            <div class="card-unidade">
+
+                <h4>Academia de Saúde (PAPI)</h4>
+
+                <button class="btn btn-secondary btn-arquivo abrir-arquivos" data-pasta="papi">
+                    Acessar Arquivos
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- SAMU -->
+        <div class="col-md-4">
+            <div class="card-unidade">
+
+                <h4>Base Descentralizada do SAMU 192</h4>
+
+                <button class="btn btn-secondary btn-arquivo abrir-arquivos" data-pasta="samu">
+                    Acessar Arquivos
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="aviso">
+        <p><strong>*Arquivos serão publicados em breve.</strong></p>
+    </div>
+
+</div>
+
+
+<!-- MODAL (JANELA DOS ARQUIVOS) -->
+
+<div class="modal fade" id="modalArquivos" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Arquivos Disponíveis</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <ul id="listaArquivos" class="list-group"></ul>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    document.querySelectorAll(".abrir-arquivos").forEach(btn => {
+
+        btn.addEventListener("click", function () {
+
+            let pasta = this.dataset.pasta;
+
+            fetch("/Home/ListarArquivos?pasta=" + pasta)
+            .then(res => res.json())
+            .then(arquivos => {
+
+                let lista = document.getElementById("listaArquivos");
+                lista.innerHTML = "";
+
+                if (arquivos.length === 0) {
+
+                    lista.innerHTML =
+                    "<li class='list-group-item'>Nenhum arquivo encontrado</li>";
+
+                }
+
+                arquivos.forEach(a => {
+
+                    lista.innerHTML += `
+
+                    <li class="list-group-item d-flex justify-content-between">
+
+                        ${a}
+
+                        <div>
+
+                            <a href="/pdf/escalas/${pasta}/${a}"
+                               target="_blank"
+                               class="btn btn-sm btn-primary">
+                               Visualizar
+                            </a>
+
+                            <a href="/pdf/escalas/${pasta}/${a}"
+                               download
+                               class="btn btn-sm btn-success">
+                               Baixar
+                            </a>
+
+                        </div>
+
+                    </li>
+
+                    `;
+
+                });
+
+                let modal = new bootstrap.Modal(document.getElementById("modalArquivos"));
+                modal.show();
+
+            });
+
+        });
+
+    });
+
+</script>

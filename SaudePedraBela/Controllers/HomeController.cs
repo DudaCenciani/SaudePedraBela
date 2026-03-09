@@ -32,6 +32,20 @@ namespace SaudePedraBela.Controllers
             return View();
         }
 
+        public IActionResult ListarArquivos(string pasta)
+        {
+            var caminho = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdf/escalas", pasta);
+
+            if (!Directory.Exists(caminho))
+                return Json(new List<string>());
+
+            var arquivos = Directory.GetFiles(caminho)
+                .Select(a => Path.GetFileName(a))
+                .ToList();
+
+            return Json(arquivos);
+        }
+
         // NOVAS PÁGINAS
 
         public IActionResult LocalHorarios()

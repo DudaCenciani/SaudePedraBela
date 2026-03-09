@@ -17,5 +17,8 @@ namespace SaudePedraBela.Data
         public DbSet<SaudePedraBela.Models.Usuario> Usuario { get; set; } = default!;
         public DbSet<SaudePedraBela.Models.Categorias> Categorias { get; set; } = default!;
         public DbSet<SaudePedraBela.Models.Documento> Documento { get; set; } = default!;
+
+        public DbSet<Escala> Escalas { get; set; }
+
     }
 }

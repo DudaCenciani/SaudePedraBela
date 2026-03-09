@@ -1,0 +1,63 @@
+﻿@model List<Escala>
+
+<h2>Gerenciar Escalas</h2>
+
+<form asp-controller="EscalasAdmin"
+      asp-action="Upload"
+      method="post"
+      enctype="multipart/form-data">
+
+    <select name="categoria" class="form-control mb-3">
+        <option>Clínicos e Especialistas</option>
+        <option>C.S Angelina Santana Schievenin</option>
+        <option>UBS Dr. Jorge Hirodi Orita</option>
+        <option>Academia de Saúde (PAPI)</option>
+        <option>Base Descentralizada do SAMU 192</option>
+    </select>
+
+    <input type="file" name="arquivo" class="form-control mb-3" required />
+
+    <button type="submit" class="btn btn-success">
+        Salvar PDF
+    </button>
+
+</form>
+
+
+<hr>
+
+<h3>Arquivos enviados</h3>
+
+<table class="table">
+
+    <tr>
+        <th>Categoria</th>
+        <th>Arquivo</th>
+        <th>Ação</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>@item.Categoria</td>
+
+            <td>
+                <a href="@item.CaminhoArquivo" target="_blank">
+                    @item.NomeArquivo
+                </a>
+            </td>
+
+            <td>
+
+                <a asp-action="Excluir" asp-route-id="@item.Id"
+                   class="btn btn-danger btn-sm">
+                    Excluir
+                </a>
+
+            </td>
+
+        </tr>
+    }
+
+</table>
