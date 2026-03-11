@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaudePedraBela.Data;
 
@@ -11,9 +12,11 @@ using SaudePedraBela.Data;
 namespace SaudePedraBela.Migrations
 {
     [DbContext(typeof(SaudePedraBelaContext))]
-    partial class SaudePedraBelaContextModelSnapshot : ModelSnapshot
+    [Migration("20260311124912_AddMesAnoEscalas2")]
+    partial class AddMesAnoEscalas2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

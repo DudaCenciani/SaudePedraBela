@@ -6,14 +6,46 @@
       asp-action="Upload"
       method="post"
       enctype="multipart/form-data">
+    <select name="categoria">
 
-    <select name="categoria" class="form-control mb-3">
-        <option>Clínicos e Especialistas</option>
-        <option>C.S Angelina Santana Schievenin</option>
-        <option>UBS Dr. Jorge Hirodi Orita</option>
-        <option>Academia de Saúde (PAPI)</option>
-        <option>Base Descentralizada do SAMU 192</option>
+        <option value="clinicos">Clínicos e Especialistas</option>
+
+        <option value="centro-saude">
+            C.S Angelina Santana Schievenin
+        </option>
+
+        <option value="ubs">
+            UBS Dr. Jorge Hirodi Orita
+        </option>
+
+        <option value="papi">
+            Academia de Saúde (PAPI)
+        </option>
+
+        <option value="samu">
+            Base Descentralizada do SAMU 192
+        </option>
+
     </select>
+
+    <select name="mes" class="form-control mb-2">
+
+        <option value="1">Janeiro</option>
+        <option value="2">Fevereiro</option>
+        <option value="3">Março</option>
+        <option value="4">Abril</option>
+        <option value="5">Maio</option>
+        <option value="6">Junho</option>
+        <option value="7">Julho</option>
+        <option value="8">Agosto</option>
+        <option value="9">Setembro</option>
+        <option value="10">Outubro</option>
+        <option value="11">Novembro</option>
+        <option value="12">Dezembro</option>
+
+    </select>
+
+    <input type="number" name="ano" class="form-control mb-2" placeholder="Ano" />
 
     <input type="file" name="arquivo" class="form-control mb-3" required />
 

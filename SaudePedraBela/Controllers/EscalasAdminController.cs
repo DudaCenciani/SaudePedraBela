@@ -24,13 +24,41 @@ public class EscalasAdminController : Controller
         return View(escalas);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Upload(IFormFile arquivo, string categoria)
+    public IActionResult ListarArquivos(string pasta)
     {
+        var arquivos = _context.Escalas
+            .Where(e => e.Categoria == pasta)
+            .OrderByDescending(e => e.Ano)
+            .ThenByDescending(e => e.Mes)
+            .Select(e => new
+            {
+                nome = e.NomeArquivo,
+                caminho = e.CaminhoArquivo,
+                mes = e.Mes,
+                ano = e.Ano
+            })
+            .ToList();
+
+        return Json(arquivos);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Upload(IFormFile arquivo, string categoria, int mes, int ano)
+    {
+
+        Console.WriteLine("Categoria recebida: " + categoria);
         if (arquivo != null && arquivo.Length > 0)
         {
-            var pasta = Path.Combine(_env.WebRootPath, "pdf", "escalas");
+            string pastaCategoria = categoria;
 
+            var pasta = Path.Combine(
+     _env.WebRootPath,
+     "pdf",
+     "escalas",
+     pastaCategoria,
+     ano.ToString(),
+     mes.ToString("D2")
+ );
             if (!Directory.Exists(pasta))
                 Directory.CreateDirectory(pasta);
 
@@ -46,7 +74,9 @@ public class EscalasAdminController : Controller
             {
                 Categoria = categoria,
                 NomeArquivo = arquivo.FileName,
-                CaminhoArquivo = "/pdf/escalas/" + arquivo.FileName,
+                CaminhoArquivo = $"/pdf/escalas/{pastaCategoria}/{ano}/{mes:D2}/{nomeArquivo}",
+                Mes = mes,
+                Ano = ano,
                 DataUpload = DateTime.Now
             };
 

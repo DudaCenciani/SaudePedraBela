@@ -1,0 +1,60 @@
+﻿<h2 class="mb-4">Administração de Vacinação</h2>
+
+<div class="mb-4">
+
+    <button class="btn btn-primary"
+            onclick="mostrar('campanhas')">
+        Campanhas
+    </button>
+
+    <button class="btn btn-success"
+            onclick="mostrar('calendario')">
+        Calendário Vacinal
+    </button>
+
+    <button class="btn btn-info"
+            onclick="mostrar('locais')">
+        Onde se Vacinar
+    </button>
+
+</div>
+
+<div id="campanhas" class="janela-admin">
+
+    <h4>Gerenciar Campanhas</h4>
+
+    <p>Aqui você vai cadastrar campanhas de vacinação.</p>
+
+</div>
+
+<div id="calendario" class="janela-admin" style="display:none;">
+
+    <h4>Calendário Vacinal Infantil</h4>
+
+    <p>Aqui você vai editar o calendário vacinal.</p>
+
+</div>
+
+<div id="locais" class="janela-admin" style="display:none;">
+
+    <h4>Onde se Vacinar</h4>
+
+    <p>Informações das UBS e horários.</p>
+
+</div>
+
+<script>
+
+    function mostrar(id){
+
+        document.querySelectorAll(".janela-admin").forEach(j => {
+
+            j.style.display = "none";
+
+        });
+
+        document.getElementById(id).style.display = "block";
+
+    }
+
+</script>

@@ -17,7 +17,11 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Documentos\" />
-    <Folder Include="wwwroot\pdf\escalas\" />
+    <Folder Include="wwwroot\pdf\escalas\clinicos\" />
+    <Folder Include="wwwroot\pdf\escalas\centro-saude\" />
+    <Folder Include="wwwroot\pdf\escalas\samu\" />
+    <Folder Include="wwwroot\pdf\escalas\papi\" />
+    <Folder Include="wwwroot\pdf\escalas\ubs\" />
   </ItemGroup>
 
 </Project>
