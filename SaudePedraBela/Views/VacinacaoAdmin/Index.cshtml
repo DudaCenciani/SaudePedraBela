@@ -1,60 +1,723 @@
 ﻿<h2 class="mb-4">Administração de Vacinação</h2>
 
+<!-- BOTÕES DE NAVEGAÇÃO DAS JANELAS -->
 <div class="mb-4">
 
-    <button class="btn btn-primary"
-            onclick="mostrar('campanhas')">
+    <button class="btn btn-primary" onclick="mostrar('campanhas')">
         Campanhas
     </button>
 
-    <button class="btn btn-success"
-            onclick="mostrar('calendario')">
+    <button class="btn btn-success" onclick="mostrar('calendario')">
         Calendário Vacinal
     </button>
 
-    <button class="btn btn-info"
-            onclick="mostrar('locais')">
+    <button class="btn btn-info" onclick="mostrar('locais')">
         Onde se Vacinar
+    </button>
+
+    <button class="btn btn-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#modalNovoPdf">
+        Adicionar Documento
     </button>
 
 </div>
 
-<div id="campanhas" class="janela-admin">
+
+<!-- ============================= -->
+<!-- JANELA: CAMPANHAS -->
+<!-- ============================= -->
+
+<div id="campanhas" class="janela-admin" style="display:none;">
 
     <h4>Gerenciar Campanhas</h4>
 
-    <p>Aqui você vai cadastrar campanhas de vacinação.</p>
+    <!-- BOTÃO QUE ABRE O MODAL -->
+    <button class="btn btn-success mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#modalCampanha">
+
+        ➕ Criar Campanha
+
+    </button>
+
+
+    <!-- TABELA DE CAMPANHAS -->
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Período</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var c in Model)
+            {
+                <tr>
+
+                    <td>@c.Titulo</td>
+
+                    <td>@c.Status</td>
+
+                    <td>
+                        @c.DataInicio.ToShortDateString()
+                        -
+                        @c.DataFim.ToShortDateString()
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-sm btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEditarCampanha"
+                                onclick="editarCampanha(
+            '@c.Id',
+            '@c.Titulo',
+            '@c.DataInicio.ToString("yyyy-MM-dd")',
+            '@c.DataFim.ToString("yyyy-MM-dd")',
+            '@c.Status',
+            '@c.PublicoAlvo',
+            '@c.Observacoes'
+        )">
+                            Editar
+                        </button>
+                        <a asp-action="ExcluirCampanha"
+                           asp-route-id="@c.Id"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Tem certeza que deseja excluir esta campanha?')">
+                            Excluir
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
 
 </div>
+
+
+<!-- ============================= -->
+<!-- JANELA: CALENDÁRIO VACINAL -->
+<!-- ============================= -->
 
 <div id="calendario" class="janela-admin" style="display:none;">
 
     <h4>Calendário Vacinal Infantil</h4>
 
-    <p>Aqui você vai editar o calendário vacinal.</p>
+    <button class="btn btn-success mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#modalCalendario">
+
+        ➕ Adicionar Linha
+
+    </button>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Idade</th>
+                <th>Vacinas</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in ViewBag.Calendario)
+            {
+                <tr>
+
+                    <td>@item.Idade</td>
+
+                    <td>@item.Vacinas</td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEditarCalendario"
+                                onclick="editarCalendario('@item.Id','@item.Idade','@item.Vacinas')">
+                            Editar
+                        </button>
+
+                        <a asp-action="ExcluirCalendario"
+                           asp-route-id="@item.Id"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Deseja excluir este item?')">
+                            Excluir
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
 
 </div>
+
+
+<!-- ============================= -->
+<!-- JANELA: LOCAIS DE VACINAÇÃO -->
+<!-- ============================= -->
 
 <div id="locais" class="janela-admin" style="display:none;">
 
     <h4>Onde se Vacinar</h4>
 
-    <p>Informações das UBS e horários.</p>
+    <button class="btn btn-success mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#modalLocal">
+
+        ➕ Novo Local
+
+    </button>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Local</th>
+                <th>Horário</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var local in ViewBag.Locais)
+            {
+                <tr>
+
+                    <td>@local.Nome</td>
+
+                    <td>@local.Horario</td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEditarLocal"
+                                onclick="editarLocal('@local.Id','@local.Nome','@local.Horario')">
+                            Editar
+                        </button>
+
+                        <a asp-action="ExcluirLocal"
+                           asp-route-id="@local.Id"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Deseja excluir este local?')">
+                            Excluir
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
 
 </div>
+
+
+<!-- ============================= -->
+<!-- SCRIPT PARA MOSTRAR AS JANELAS -->
+<!-- ============================= -->
 
 <script>
 
     function mostrar(id){
 
+        // esconder todas as janelas
         document.querySelectorAll(".janela-admin").forEach(j => {
-
             j.style.display = "none";
-
         });
 
+        // mostrar somente a selecionada
         document.getElementById(id).style.display = "block";
 
     }
 
+        function editarCampanha(id,titulo,inicio,fim,status,publico,obs){
+
+    document.getElementById("editId").value = id;
+    document.getElementById("editTitulo").value = titulo;
+    document.getElementById("editInicio").value = inicio;
+    document.getElementById("editFim").value = fim;
+    document.getElementById("editStatus").value = status;
+    document.getElementById("editPublico").value = publico;
+    document.getElementById("editObs").value = obs;
+
+    }
+
+        function editarCalendario(id,idade,vacinas){
+
+    document.getElementById("editCalId").value = id;
+    document.getElementById("editCalIdade").value = idade;
+    document.getElementById("editCalVacinas").value = vacinas;
+
+    }
+
+        function editarLocal(id,nome,horario){
+
+    document.getElementById("editLocalId").value = id;
+    document.getElementById("editLocalNome").value = nome;
+    document.getElementById("editLocalHorario").value = horario;
+
+    }
+
 </script>
+
+
+<!-- ============================= -->
+<!-- MODAL: CRIAR CAMPANHA -->
+<!-- ============================= -->
+
+<div class="modal fade" id="modalCampanha" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- CABEÇALHO -->
+            <div class="modal-header">
+                <h5 class="modal-title">Nova Campanha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- FORMULÁRIO -->
+            <form asp-action="CriarCampanha"
+                  asp-controller="VacinacaoAdmin"
+                  method="post">
+
+                <div class="modal-body">
+
+                    <!-- NOME -->
+                    <div class="mb-3">
+                        <label class="form-label">Nome da campanha</label>
+                        <input type="text"
+                               name="Titulo"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <!-- DATA INÍCIO -->
+                    <div class="mb-3">
+                        <label class="form-label">Data início</label>
+                        <input type="date"
+                               name="DataInicio"
+                               class="form-control">
+                    </div>
+
+                    <!-- DATA FIM -->
+                    <div class="mb-3">
+                        <label class="form-label">Data fim</label>
+                        <input type="date"
+                               name="DataFim"
+                               class="form-control">
+                    </div>
+
+                    <!-- STATUS -->
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="Status" class="form-control">
+
+                            <option value="Ativa">Ativa</option>
+                            <option value="Inativa">Inativa</option>
+
+                        </select>
+                    </div>
+
+                    <!-- PUBLICO ALVO -->
+                    <div class="mb-3">
+                        <label class="form-label">Público alvo</label>
+                        <input type="text"
+                               name="PublicoAlvo"
+                               class="form-control"
+                               placeholder="Ex: crianças, idosos, gestantes">
+                    </div>
+
+                    <!-- OBSERVAÇÕES -->
+                    <div class="mb-3">
+                        <label class="form-label">Observações</label>
+                        <textarea name="Observacoes"
+                                  class="form-control"
+                                  rows="3"></textarea>
+                    </div>
+
+                </div>
+
+                <!-- BOTÕES -->
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Salvar
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCalendario" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Nova Linha do Calendário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="CriarCalendario"
+                  asp-controller="VacinacaoAdmin"
+                  method="post">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Idade</label>
+                        <input type="text"
+                               name="Idade"
+                               class="form-control"
+                               placeholder="Ex: 2 meses">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Vacinas</label>
+                        <input type="text"
+                               name="Vacinas"
+                               class="form-control"
+                               placeholder="Ex: Pentavalente, VIP">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Salvar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLocal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Local de Vacinação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="CriarLocal"
+                  asp-controller="VacinacaoAdmin"
+                  method="post">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome do local</label>
+                        <input type="text"
+                               name="Nome"
+                               class="form-control"
+                               placeholder="Ex: UBS Central">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Horário</label>
+                        <input type="text"
+                               name="Horario"
+                               class="form-control"
+                               placeholder="Ex: Segunda a Sexta 8h às 16h">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Salvar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarCampanha" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Campanha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="EditarCampanha"
+                  asp-controller="VacinacaoAdmin"
+                  method="post">
+
+                <input type="hidden" name="Id" id="editId">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome</label>
+                        <input type="text" name="Titulo" id="editTitulo" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Data início</label>
+                        <input type="date" name="DataInicio" id="editInicio" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Data fim</label>
+                        <input type="date" name="DataFim" id="editFim" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="Status" id="editStatus" class="form-control">
+                            <option value="Ativa">Ativa</option>
+                            <option value="Inativa">Inativa</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Público alvo</label>
+                        <input type="text" name="PublicoAlvo" id="editPublico" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Observações</label>
+<textarea name="Observacoes" id="editObs" class="form-control"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Salvar alterações
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarCalendario" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Calendário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="EditarCalendario"
+                  asp-controller="VacinacaoAdmin"
+                  method="post">
+
+                <input type="hidden" id="editCalId" name="Id">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Idade</label>
+                        <input type="text" id="editCalIdade" name="Idade" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Vacinas</label>
+                        <input type="text" id="editCalVacinas" name="Vacinas" class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Salvar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarLocal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Local</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="EditarLocal"
+                  asp-controller="VacinacaoAdmin"
+                  method="post">
+
+                <input type="hidden" id="editLocalId" name="Id">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Nome do local</label>
+                        <input type="text"
+                               id="editLocalNome"
+                               name="Nome"
+                               class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Horário</label>
+                        <input type="text"
+                               id="editLocalHorario"
+                               name="Horario"
+                               class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Salvar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalNovoPdf">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>Novo Documento</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="UploadPdfVacina"
+                  asp-controller="VacinacaoAdmin"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Título</label>
+                        <input type="text"
+                               name="titulo"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>PDF</label>
+                        <input type="file"
+                               name="arquivo"
+                               accept="application/pdf"
+                               class="form-control"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Salvar
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

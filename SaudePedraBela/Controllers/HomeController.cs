@@ -65,7 +65,12 @@ namespace SaudePedraBela.Controllers
 
         public IActionResult Vacinacao()
         {
-            return View();
+            var campanhas = _context.CampanhasVacinacao.ToList();
+
+            ViewBag.Calendario = _context.CalendarioVacinal.ToList();
+            ViewBag.Locais = _context.LocaisVacinacao.ToList();
+
+            return View(campanhas);
         }
 
         public IActionResult Gestao()

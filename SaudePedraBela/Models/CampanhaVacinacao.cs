@@ -1,12 +1,14 @@
 ﻿using System;
 
-namespace SeuProjeto.Models
+namespace SaudePedraBela.Models
 {
     public class CampanhaVacinacao
     {
         public int Id { get; set; }
 
-        public string Nome { get; set; }
+        public string Titulo { get; set; }
+
+        public string Status { get; set; } // Em andamento, Disponível
 
         public DateTime DataInicio { get; set; }
 
@@ -14,6 +16,7 @@ namespace SeuProjeto.Models
 
         public string PublicoAlvo { get; set; }
 
-        public bool Ativa { get; set; }
+        public string? Observacoes { get; set; }
     }
+
 }

@@ -22,6 +22,7 @@
     <Folder Include="wwwroot\pdf\escalas\samu\" />
     <Folder Include="wwwroot\pdf\escalas\papi\" />
     <Folder Include="wwwroot\pdf\escalas\ubs\" />
+    <Folder Include="wwwroot\pdf\Vacina\" />
   </ItemGroup>
 
 </Project>

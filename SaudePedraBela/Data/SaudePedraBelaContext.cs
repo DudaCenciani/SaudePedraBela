@@ -18,6 +18,12 @@ namespace SaudePedraBela.Data
         public DbSet<SaudePedraBela.Models.Categorias> Categorias { get; set; } = default!;
         public DbSet<SaudePedraBela.Models.Documento> Documento { get; set; } = default!;
 
+        public DbSet<CampanhaVacinacao> CampanhasVacinacao { get; set; }
+
+        public DbSet<CalendarioVacinal> CalendarioVacinal { get; set; }
+
+        public DbSet<LocalVacinacao> LocaisVacinacao { get; set; }
+
         public DbSet<Escala> Escalas { get; set; }
 
     }

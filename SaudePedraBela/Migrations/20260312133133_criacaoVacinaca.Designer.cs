@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaudePedraBela.Data;
 
@@ -11,9 +12,11 @@ using SaudePedraBela.Data;
 namespace SaudePedraBela.Migrations
 {
     [DbContext(typeof(SaudePedraBelaContext))]
-    partial class SaudePedraBelaContextModelSnapshot : ModelSnapshot
+    [Migration("20260312133133_criacaoVacinaca")]
+    partial class criacaoVacinaca
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,6 +95,7 @@ namespace SaudePedraBela.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Observacoes")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PublicoAlvo")

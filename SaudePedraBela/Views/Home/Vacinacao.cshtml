@@ -1,5 +1,378 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<CampanhaVacinacao>
+
+<style>
+
+    .bg-gradient {
+        background: linear-gradient(90deg,#1b7a60,#2c63d6);
+    }
+
+    .section-title {
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    .card {
+        border-radius: 12px;
+    }
+
+    .badge {
+        font-size: 12px;
+    }
+
+    .icon-box {
+        background: #ede9fe;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .table thead {
+        background: linear-gradient(90deg,#1b7a60,#2c63d6);
+        color: white;
+    }
+
+</style>
+
+
+<!-- HEADER -->
+<section class="bg-gradient text-white p-5 mb-5">
+
+    <h1>Vacinação</h1>
+
+    <p>Informações sobre campanhas e imunização no município</p>
+
+</section>
+
+<div class="card mt-4">
+    <div class="card-body">
+
+        <h4>📄 Documentos</h4>
+
+        <button class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#modalDocumentos">
+            Ver anexos
+        </button>
+
+    </div>
+</div>
+
+
+<div class="container">
+
+
+    <!-- CAMPANHAS -->
+    <div class="mb-5">
+
+        <div class="d-flex align-items-center mb-4">
+
+            <div class="icon-box me-3">
+                💉
+            </div>
+
+            <h2 class="section-title">Campanhas de Vacinação</h2>
+
+        </div>
+
+
+        <div class="row">
+
+            @if (Model != null && Model.Any())
+            {
+                foreach (var campanha in Model)
+                {
+
+                    <div class="col-md-4">
+
+                        <div class="card shadow-sm p-4 mb-4">
+
+                            <div class="d-flex justify-content-between">
+
+                                <h5>@campanha.Titulo</h5>
+
+                                <span class="badge bg-success">
+                                    @campanha.Status
+                                </span>
+
+                            </div>
+
+                            <div class="mt-3">
+
+                                <p class="text-muted mb-1">
+                                    📅 Período
+                                </p>
+
+                                <p>
+                                    @campanha.DataInicio.ToShortDateString()
+                                    até
+                                    @campanha.DataFim.ToShortDateString()
+                                </p>
+
+                            </div>
+
+                            <div>
+
+                                <p class="text-muted mb-1">
+                                    ℹ Público-alvo
+                                </p>
+
+                                <p>
+                                    @campanha.PublicoAlvo
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                }
+            }
+            else
+            {
+
+                <!-- CARD VAZIO SE NÃO TIVER CAMPANHA -->
+
+                <div class="col-md-4">
+
+                    <div class="card shadow-sm p-4 mb-4 text-muted">
+
+                        <h5>Nenhuma campanha cadastrada</h5>
+
+                        <span class="badge bg-secondary">
+                            Sem dados
+                        </span>
+
+                        <p class="mt-3">
+                            Período: --
+                        </p>
+
+                        <p>
+                            Público-alvo: --
+                        </p>
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CALENDARIO VACINAL -->
+    <div class="mb-5">
+
+        <div class="d-flex align-items-center mb-4">
+
+            <div class="icon-box me-3">
+                📅
+            </div>
+
+            <h2 class="section-title">
+                Calendário Vacinal Infantil
+            </h2>
+
+        </div>
+
+
+        <div class="card shadow-sm">
+
+            <table class="table mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Idade</th>
+
+                        <th>Vacinas</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (ViewBag.Calendario != null && ViewBag.Calendario.Count > 0)
+                    {
+                        foreach (var item in ViewBag.Calendario)
+                        {
+
+                            <tr>
+
+                                <td>@item.Idade</td>
+
+                                <td>@item.Vacinas</td>
+
+                            </tr>
+
+                        }
+                    }
+                    else
+                    {
+
+                        <tr>
+
+                            <td>--</td>
+
+                            <td>--</td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- LOCAIS + DOCUMENTOS -->
+
+    <div class="row mb-5">
+
+
+        <!-- LOCAIS -->
+
+        <div class="col-md-6">
+
+            <div class="card text-white p-4"
+                 style="background:linear-gradient(90deg,#1b7a60,#2c63d6)">
+
+                <h4 class="mb-3">
+
+                    Onde se Vacinar
+
+                </h4>
+
+
+                @if (ViewBag.Locais != null && ViewBag.Locais.Count > 0)
+                {
+
+                    foreach (var local in ViewBag.Locais)
+                    {
+
+                        <p>
+
+                            <strong>@local.Nome</strong>
+
+                            <br>
+
+                            @local.Horario
+
+                        </p>
+
+                    }
+
+                }
+                else
+                {
+
+                    <p>
+
+                        <strong>Local não cadastrado</strong>
+
+                        <br>
+
+                        --
+
+                    </p>
+
+                }
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DOCUMENTOS -->
+
+        <div class="col-md-6">
+
+            <div class="card p-4 bg-warning bg-opacity-25 border-warning">
+
+                <h4 class="mb-3">
+
+                    Documentos Necessários
+
+                </h4>
+
+                <ul>
+
+                    <li>Cartão SUS ou CPF</li>
+
+                    <li>Carteira de vacinação (se possuir)</li>
+
+                    <li>Documento de identidade</li>
+
+                    <li>Comprovante de residência (para primeira dose)</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalDocumentos">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>Documentos da vacinação</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="mb-4">
+
+                    <h6>Calendário Vacinal</h6>
+
+                    <iframe src="/pdf/Vacina/calendario-vacinal.pdf"
+                            width="100%"
+                            height="500">
+                    </iframe>
+
+                </div>
+
+
+                <div class="mb-4">
+
+                    <h6>Campanha Influenza</h6>
+
+                    <iframe src="/pdf/Vacina/campanha-influenza.pdf"
+                            width="100%"
+                            height="500">
+                    </iframe>
+
+                </div>
+
+
+                <div class="mb-4">
+
+                    <h6>Orientações de Vacinação</h6>
+
+                    <iframe src="/pdf/Vacina/orientacoes.pdf"
+                            width="100%"
+                            height="500">
+                    </iframe>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
