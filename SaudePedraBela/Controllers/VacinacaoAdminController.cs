@@ -18,13 +18,14 @@ public class VacinacaoAdminController : Controller
         var campanhas = _context.CampanhasVacinacao.ToList();
         var calendario = _context.CalendarioVacinal.ToList();
         var locais = _context.LocaisVacinacao.ToList();
+        var documentos = _context.DocumentosVacina.ToList();
 
         ViewBag.Calendario = calendario;
         ViewBag.Locais = locais;
+        ViewBag.Documentos = documentos;
 
         return View(campanhas);
     }
-
     [HttpPost]
     public IActionResult CriarCampanha(CampanhaVacinacao campanha)
     {
@@ -94,6 +95,7 @@ public class VacinacaoAdminController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
     public IActionResult ExcluirCalendario(int id)
     {
         var item = _context.CalendarioVacinal.Find(id);
@@ -131,6 +133,7 @@ public class VacinacaoAdminController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
     public IActionResult ExcluirLocal(int id)
     {
         var local = _context.LocaisVacinacao.Find(id);
@@ -143,7 +146,6 @@ public class VacinacaoAdminController : Controller
 
         return RedirectToAction("Index");
     }
-
     [HttpPost]
     public async Task<IActionResult> UploadPdfVacina(string titulo, IFormFile arquivo)
     {
@@ -156,28 +158,49 @@ public class VacinacaoAdminController : Controller
 
             var nomeArquivo = titulo.Replace(" ", "_") + ".pdf";
 
-            var caminho = Path.Combine(pasta, nomeArquivo);
+            var caminhoCompleto = Path.Combine(pasta, nomeArquivo);
 
-            using (var stream = new FileStream(caminho, FileMode.Create))
+            using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
             {
                 await arquivo.CopyToAsync(stream);
             }
+
+            // SALVAR NO BANCO
+            var documento = new DocumentoVacina
+            {
+                Titulo = titulo,
+                Caminho = "/pdf/Vacina/" + nomeArquivo
+            };
+
+            _context.DocumentosVacina.Add(documento);
+            _context.SaveChanges();
         }
 
         return RedirectToAction("Index");
     }
+    [HttpPost]
     public IActionResult ExcluirPdfVacina(string nome)
     {
-        var caminho = Path.Combine(Directory.GetCurrentDirectory(),
-                                   "wwwroot/pdf/Vacina",
-                                   nome);
+        var documento = _context.DocumentosVacina
+            .FirstOrDefault(d => d.Caminho.Contains(nome));
 
-        if (System.IO.File.Exists(caminho))
-            System.IO.File.Delete(caminho);
+        if (documento != null)
+        {
+            var caminho = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                documento.Caminho.TrimStart('/')
+            );
+
+            if (System.IO.File.Exists(caminho))
+                System.IO.File.Delete(caminho);
+
+            _context.DocumentosVacina.Remove(documento);
+            _context.SaveChanges();
+        }
 
         return RedirectToAction("Index");
     }
-
 
 
 

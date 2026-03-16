@@ -1,38 +1,54 @@
-﻿<h2 class="mb-4">Administração de Vacinação</h2>
+﻿<!-- ===================================================== -->
+<!-- PÁGINA: ADMINISTRAÇÃO DE VACINAÇÃO -->
+<!-- Esta página funciona como um painel administrativo -->
+<!-- para gerenciar campanhas, calendário, locais e PDFs -->
+<!-- ===================================================== -->
 
-<!-- BOTÕES DE NAVEGAÇÃO DAS JANELAS -->
+<h2 class="mb-4">Administração de Vacinação</h2>
+
+
+<!-- ===================================================== -->
+<!-- BOTÕES DE NAVEGAÇÃO ENTRE AS JANELAS -->
+<!-- Cada botão chama a função JS "mostrar()" -->
+<!-- que exibe apenas a seção selecionada -->
+<!-- ===================================================== -->
+
 <div class="mb-4">
 
+    <!-- Abre a seção de campanhas -->
     <button class="btn btn-primary" onclick="mostrar('campanhas')">
         Campanhas
     </button>
 
+    <!-- Abre a seção do calendário vacinal -->
     <button class="btn btn-success" onclick="mostrar('calendario')">
         Calendário Vacinal
     </button>
 
+    <!-- Abre a seção de locais de vacinação -->
     <button class="btn btn-info" onclick="mostrar('locais')">
         Onde se Vacinar
     </button>
 
-    <button class="btn btn-dark"
-            data-bs-toggle="modal"
-            data-bs-target="#modalNovoPdf">
-        Adicionar Documento
+    <!-- Abre a seção de documentos PDF -->
+    <button class="btn btn-secondary" onclick="mostrar('documentos')">
+        Documentos
     </button>
 
 </div>
 
 
-<!-- ============================= -->
-<!-- JANELA: CAMPANHAS -->
-<!-- ============================= -->
+
+<!-- ===================================================== -->
+<!-- JANELA ADMINISTRATIVA: CAMPANHAS -->
+<!-- Exibe todas as campanhas cadastradas no banco -->
+<!-- ===================================================== -->
 
 <div id="campanhas" class="janela-admin" style="display:none;">
 
     <h4>Gerenciar Campanhas</h4>
 
-    <!-- BOTÃO QUE ABRE O MODAL -->
+    <!-- BOTÃO QUE ABRE O MODAL DE CRIAR CAMPANHA -->
     <button class="btn btn-success mb-3"
             data-bs-toggle="modal"
             data-bs-target="#modalCampanha">
@@ -42,7 +58,11 @@
     </button>
 
 
+    <!-- ===================================================== -->
     <!-- TABELA DE CAMPANHAS -->
+    <!-- Cada linha representa uma campanha do banco -->
+    <!-- ===================================================== -->
+
     <table class="table table-striped">
 
         <thead>
@@ -56,14 +76,18 @@
 
         <tbody>
 
+            <!-- Loop Razor que percorre o Model -->
             @foreach (var c in Model)
             {
                 <tr>
 
+                    <!-- Nome da campanha -->
                     <td>@c.Titulo</td>
 
+                    <!-- Status -->
                     <td>@c.Status</td>
 
+                    <!-- Datas -->
                     <td>
                         @c.DataInicio.ToShortDateString()
                         -
@@ -72,6 +96,8 @@
 
                     <td>
 
+                        <!-- BOTÃO EDITAR -->
+                        <!-- Abre modal e envia dados via JS -->
                         <button class="btn btn-sm btn-primary"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalEditarCampanha"
@@ -86,13 +112,21 @@
         )">
                             Editar
                         </button>
-                        <a asp-action="ExcluirCampanha"
-                           asp-route-id="@c.Id"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Tem certeza que deseja excluir esta campanha?')">
-                            Excluir
-                        </a>
 
+                        <!-- BOTÃO EXCLUIR -->
+                        <form asp-action="ExcluirCampanha"
+                              asp-controller="VacinacaoAdmin"
+                              method="post"
+                              style="display:inline;">
+
+                            <input type="hidden" name="id" value="@c.Id">
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+                                Excluir
+                            </button>
+
+                        </form>
                     </td>
 
                 </tr>
@@ -105,14 +139,17 @@
 </div>
 
 
-<!-- ============================= -->
-<!-- JANELA: CALENDÁRIO VACINAL -->
-<!-- ============================= -->
+
+<!-- ===================================================== -->
+<!-- JANELA ADMINISTRATIVA: CALENDÁRIO VACINAL -->
+<!-- Gerencia vacinas por idade -->
+<!-- ===================================================== -->
 
 <div id="calendario" class="janela-admin" style="display:none;">
 
     <h4>Calendário Vacinal Infantil</h4>
 
+    <!-- BOTÃO PARA ADICIONAR LINHA -->
     <button class="btn btn-success mb-3"
             data-bs-toggle="modal"
             data-bs-target="#modalCalendario">
@@ -133,16 +170,17 @@
 
         <tbody>
 
+            <!-- Lista do calendário -->
             @foreach (var item in ViewBag.Calendario)
             {
                 <tr>
 
                     <td>@item.Idade</td>
-
                     <td>@item.Vacinas</td>
 
                     <td>
 
+                        <!-- BOTÃO EDITAR -->
                         <button class="btn btn-primary btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalEditarCalendario"
@@ -150,12 +188,20 @@
                             Editar
                         </button>
 
-                        <a asp-action="ExcluirCalendario"
-                           asp-route-id="@item.Id"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Deseja excluir este item?')">
-                            Excluir
-                        </a>
+                        <form asp-action="ExcluirCalendario"
+                              asp-controller="VacinacaoAdmin"
+                              method="post"
+                              style="display:inline;">
+
+                            <input type="hidden" name="id" value="@item.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Deseja excluir este item?')">
+                                Excluir
+                            </button>
+
+                        </form>
 
                     </td>
 
@@ -169,14 +215,17 @@
 </div>
 
 
-<!-- ============================= -->
-<!-- JANELA: LOCAIS DE VACINAÇÃO -->
-<!-- ============================= -->
+
+<!-- ===================================================== -->
+<!-- JANELA ADMINISTRATIVA: LOCAIS DE VACINAÇÃO -->
+<!-- Mostra UBS ou locais de vacinação -->
+<!-- ===================================================== -->
 
 <div id="locais" class="janela-admin" style="display:none;">
 
     <h4>Onde se Vacinar</h4>
 
+    <!-- BOTÃO PARA CRIAR NOVO LOCAL -->
     <button class="btn btn-success mb-3"
             data-bs-toggle="modal"
             data-bs-target="#modalLocal">
@@ -197,16 +246,17 @@
 
         <tbody>
 
+            <!-- Lista de locais -->
             @foreach (var local in ViewBag.Locais)
             {
                 <tr>
 
                     <td>@local.Nome</td>
-
                     <td>@local.Horario</td>
 
                     <td>
 
+                        <!-- BOTÃO EDITAR -->
                         <button class="btn btn-primary btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalEditarLocal"
@@ -214,13 +264,20 @@
                             Editar
                         </button>
 
-                        <a asp-action="ExcluirLocal"
-                           asp-route-id="@local.Id"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Deseja excluir este local?')">
-                            Excluir
-                        </a>
+                        <form asp-action="ExcluirLocal"
+                              asp-controller="VacinacaoAdmin"
+                              method="post"
+                              style="display:inline;">
 
+                            <input type="hidden" name="id" value="@local.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Deseja excluir este local?')">
+                                Excluir
+                            </button>
+
+                        </form>
                     </td>
 
                 </tr>
@@ -232,106 +289,235 @@
 
 </div>
 
+<!-- ===================================================== -->
+<!-- SEÇÃO ADMINISTRATIVA: DOCUMENTOS -->
+<!-- Exibe lista de PDFs cadastrados -->
+<!-- ===================================================== -->
 
-<!-- ============================= -->
-<!-- SCRIPT PARA MOSTRAR AS JANELAS -->
-<!-- ============================= -->
+<div id="documentos"
+     class="janela-admin"
+     style="display:none;">
+
+    <h4>
+        Documentos de Vacinação
+    </h4>
+
+    <button class="btn btn-success mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#modalNovoPdf">
+
+        ➕ Adicionar Documento
+
+    </button>
+
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+
+                <th>
+                    Título
+                </th>
+
+                <th>
+                    Ações
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (ViewBag.Documentos != null)
+            {
+                foreach (var doc in ViewBag.Documentos)
+                {
+
+                    <tr>
+
+                        <!-- TÍTULO DO DOCUMENTO -->
+                        <td>
+                            @doc.Titulo
+                        </td>
+
+                        <td>
+
+                            <!-- ABRIR PDF -->
+                            <a href="@doc.Caminho"
+                               target="_blank"
+                               class="btn btn-primary btn-sm">
+                                Ver PDF
+                            </a>
+
+
+
+                            <!-- EXCLUIR DOCUMENTO -->
+                            <form asp-action="ExcluirPdfVacina"
+                                  asp-controller="VacinacaoAdmin"
+                                  method="post"
+                                  style="display:inline;">
+
+                                <input type="hidden"
+                                       name="nome"
+                                       value="@System.IO.Path.GetFileName(doc.Caminho)" />
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Excluir este documento?')">
+                                    Excluir
+                                </button>
+
+                            </form>
+                        </td>
+
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- SCRIPT JAVASCRIPT -->
+<!-- Controla exibição das janelas e preenchimento dos modais -->
+<!-- ===================================================== -->
 
 <script>
 
+    // FUNÇÃO QUE MOSTRA UMA JANELA
     function mostrar(id){
 
-        // esconder todas as janelas
+        // esconder todas
         document.querySelectorAll(".janela-admin").forEach(j => {
             j.style.display = "none";
         });
 
-        // mostrar somente a selecionada
+        // mostrar selecionada
         document.getElementById(id).style.display = "block";
 
     }
 
-        function editarCampanha(id,titulo,inicio,fim,status,publico,obs){
+    // PREENCHE MODAL EDITAR CAMPANHA
+    function editarCampanha(id,titulo,inicio,fim,status,publico,obs){
 
-    document.getElementById("editId").value = id;
-    document.getElementById("editTitulo").value = titulo;
-    document.getElementById("editInicio").value = inicio;
-    document.getElementById("editFim").value = fim;
-    document.getElementById("editStatus").value = status;
-    document.getElementById("editPublico").value = publico;
-    document.getElementById("editObs").value = obs;
-
-    }
-
-        function editarCalendario(id,idade,vacinas){
-
-    document.getElementById("editCalId").value = id;
-    document.getElementById("editCalIdade").value = idade;
-    document.getElementById("editCalVacinas").value = vacinas;
+        document.getElementById("editId").value = id;
+        document.getElementById("editTitulo").value = titulo;
+        document.getElementById("editInicio").value = inicio;
+        document.getElementById("editFim").value = fim;
+        document.getElementById("editStatus").value = status;
+        document.getElementById("editPublico").value = publico;
+        document.getElementById("editObs").value = obs;
 
     }
 
-        function editarLocal(id,nome,horario){
+    // PREENCHE MODAL EDITAR CALENDÁRIO
+    function editarCalendario(id,idade,vacinas){
 
-    document.getElementById("editLocalId").value = id;
-    document.getElementById("editLocalNome").value = nome;
-    document.getElementById("editLocalHorario").value = horario;
+        document.getElementById("editCalId").value = id;
+        document.getElementById("editCalIdade").value = idade;
+        document.getElementById("editCalVacinas").value = vacinas;
+
+    }
+
+    // PREENCHE MODAL EDITAR LOCAL
+    function editarLocal(id,nome,horario){
+
+        document.getElementById("editLocalId").value = id;
+        document.getElementById("editLocalNome").value = nome;
+        document.getElementById("editLocalHorario").value = horario;
 
     }
 
 </script>
 
 
-<!-- ============================= -->
+<!-- ===================================================== -->
+<!-- MODAIS DO SISTEMA -->
+<!-- Todos os popups utilizados para criar ou editar dados -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
 <!-- MODAL: CRIAR CAMPANHA -->
-<!-- ============================= -->
+<!-- Envia dados para o controller: VacinacaoAdmin -->
+<!-- Action: CriarCampanha -->
+<!-- ===================================================== -->
 
 <div class="modal fade" id="modalCampanha" tabindex="-1">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <!-- CABEÇALHO -->
+            <!-- ======================= -->
+            <!-- CABEÇALHO DO MODAL -->
+            <!-- ======================= -->
+
             <div class="modal-header">
                 <h5 class="modal-title">Nova Campanha</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <!-- Botão fechar -->
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
             </div>
 
-            <!-- FORMULÁRIO -->
+
+
+            <!-- ======================= -->
+            <!-- FORMULÁRIO DE CRIAÇÃO -->
+            <!-- ======================= -->
+
             <form asp-action="CriarCampanha"
                   asp-controller="VacinacaoAdmin"
                   method="post">
 
                 <div class="modal-body">
 
-                    <!-- NOME -->
+                    <!-- NOME DA CAMPANHA -->
                     <div class="mb-3">
                         <label class="form-label">Nome da campanha</label>
+
                         <input type="text"
                                name="Titulo"
                                class="form-control"
                                required>
                     </div>
 
-                    <!-- DATA INÍCIO -->
+
+
+                    <!-- DATA DE INÍCIO -->
                     <div class="mb-3">
                         <label class="form-label">Data início</label>
+
                         <input type="date"
                                name="DataInicio"
                                class="form-control">
                     </div>
 
-                    <!-- DATA FIM -->
+
+
+                    <!-- DATA DE FIM -->
                     <div class="mb-3">
                         <label class="form-label">Data fim</label>
+
                         <input type="date"
                                name="DataFim"
                                class="form-control">
                     </div>
 
-                    <!-- STATUS -->
+
+
+                    <!-- STATUS DA CAMPANHA -->
                     <div class="mb-3">
                         <label class="form-label">Status</label>
-                        <select name="Status" class="form-control">
+
+                        <select name="Status"
+                                class="form-control">
 
                             <option value="Ativa">Ativa</option>
                             <option value="Inativa">Inativa</option>
@@ -339,41 +525,51 @@
                         </select>
                     </div>
 
-                    <!-- PUBLICO ALVO -->
+
+
+                    <!-- PÚBLICO ALVO -->
                     <div class="mb-3">
                         <label class="form-label">Público alvo</label>
+
                         <input type="text"
                                name="PublicoAlvo"
                                class="form-control"
                                placeholder="Ex: crianças, idosos, gestantes">
                     </div>
 
+
+
                     <!-- OBSERVAÇÕES -->
                     <div class="mb-3">
                         <label class="form-label">Observações</label>
+
                         <textarea name="Observacoes"
                                   class="form-control"
-                                  rows="3"></textarea>
+                                  rows="3">
+                        </textarea>
                     </div>
 
                 </div>
 
-                <!-- BOTÕES -->
+
+
+                <!-- ======================= -->
+                <!-- BOTÕES DO MODAL -->
+                <!-- ======================= -->
+
                 <div class="modal-footer">
 
+                    <!-- Cancelar -->
                     <button type="button"
                             class="btn btn-secondary"
                             data-bs-dismiss="modal">
-
                         Cancelar
-
                     </button>
 
+                    <!-- Salvar -->
                     <button type="submit"
                             class="btn btn-primary">
-
                         Salvar
-
                     </button>
 
                 </div>
@@ -382,33 +578,56 @@
 
         </div>
     </div>
+
 </div>
 
+
+
+<!-- ===================================================== -->
+<!-- MODAL: CRIAR ITEM DO CALENDÁRIO VACINAL -->
+<!-- Action: CriarCalendario -->
+<!-- ===================================================== -->
+
 <div class="modal fade" id="modalCalendario" tabindex="-1">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
+            <!-- CABEÇALHO -->
             <div class="modal-header">
                 <h5 class="modal-title">Nova Linha do Calendário</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
             </div>
 
+
+
+            <!-- FORMULÁRIO -->
             <form asp-action="CriarCalendario"
                   asp-controller="VacinacaoAdmin"
                   method="post">
 
                 <div class="modal-body">
 
+                    <!-- IDADE -->
                     <div class="mb-3">
                         <label class="form-label">Idade</label>
+
                         <input type="text"
                                name="Idade"
                                class="form-control"
                                placeholder="Ex: 2 meses">
                     </div>
 
+
+
+                    <!-- VACINAS -->
                     <div class="mb-3">
                         <label class="form-label">Vacinas</label>
+
                         <input type="text"
                                name="Vacinas"
                                class="form-control"
@@ -417,6 +636,9 @@
 
                 </div>
 
+
+
+                <!-- BOTÕES -->
                 <div class="modal-footer">
 
                     <button type="button"
@@ -436,33 +658,56 @@
 
         </div>
     </div>
+
 </div>
 
+
+
+<!-- ===================================================== -->
+<!-- MODAL: CRIAR LOCAL DE VACINAÇÃO -->
+<!-- Action: CriarLocal -->
+<!-- ===================================================== -->
+
 <div class="modal fade" id="modalLocal" tabindex="-1">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
+            <!-- CABEÇALHO -->
             <div class="modal-header">
                 <h5 class="modal-title">Novo Local de Vacinação</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
             </div>
 
+
+
+            <!-- FORMULÁRIO -->
             <form asp-action="CriarLocal"
                   asp-controller="VacinacaoAdmin"
                   method="post">
 
                 <div class="modal-body">
 
+                    <!-- NOME DO LOCAL -->
                     <div class="mb-3">
                         <label class="form-label">Nome do local</label>
+
                         <input type="text"
                                name="Nome"
                                class="form-control"
                                placeholder="Ex: UBS Central">
                     </div>
 
+
+
+                    <!-- HORÁRIO -->
                     <div class="mb-3">
                         <label class="form-label">Horário</label>
+
                         <input type="text"
                                name="Horario"
                                class="form-control"
@@ -471,6 +716,9 @@
 
                 </div>
 
+
+
+                <!-- BOTÕES -->
                 <div class="modal-footer">
 
                     <button type="button"
@@ -490,60 +738,229 @@
 
         </div>
     </div>
+
 </div>
 
+
+<!-- ===================================================== -->
+<!-- SEÇÃO ADMINISTRATIVA: DOCUMENTOS -->
+<!-- Exibe lista de PDFs cadastrados -->
+<!-- ===================================================== -->
+
+<div id="documentos"
+     class="janela-admin"
+     style="display:none;">
+
+    <h4>
+        Documentos de Vacinação
+    </h4>
+
+    <button class="btn btn-success mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#modalNovoPdf">
+
+        ➕ Adicionar Documento
+
+    </button>
+
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+
+                <th>
+                    Título
+                </th>
+
+                <th>
+                    Ações
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (ViewBag.Documentos != null)
+            {
+                foreach (var doc in ViewBag.Documentos)
+                {
+
+                    <tr>
+
+                        <!-- TÍTULO DO DOCUMENTO -->
+                        <td>
+                            @doc.Titulo
+                        </td>
+
+                        <td>
+
+                            <!-- ABRIR PDF -->
+                            <a href="@doc.Caminho"
+                               target="_blank"
+                               class="btn btn-primary btn-sm">
+                                Ver PDF
+                            </a>
+
+
+
+                            <!-- EXCLUIR DOCUMENTO -->
+                            <a asp-action="ExcluirPdfVacina"
+                               asp-route-nome="@System.IO.Path.GetFileName(doc.Caminho)"
+                               class="btn btn-danger btn-sm">
+                                Excluir
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- MODAL: EDITAR CAMPANHA -->
+<!-- Campos são preenchidos via JavaScript -->
+<!-- Action: EditarCampanha -->
+<!-- Controller: VacinacaoAdmin -->
+<!-- ===================================================== -->
+
 <div class="modal fade" id="modalEditarCampanha" tabindex="-1">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
+            <!-- CABEÇALHO DO MODAL -->
             <div class="modal-header">
-                <h5 class="modal-title">Editar Campanha</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <h5 class="modal-title">
+                    Editar Campanha
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
             </div>
 
+
+
+            <!-- FORMULÁRIO DE EDIÇÃO -->
             <form asp-action="EditarCampanha"
                   asp-controller="VacinacaoAdmin"
                   method="post">
 
-                <input type="hidden" name="Id" id="editId">
+                <!-- ID DA CAMPANHA (OCULTO) -->
+                <input type="hidden"
+                       name="Id"
+                       id="editId">
 
                 <div class="modal-body">
 
+                    <!-- NOME DA CAMPANHA -->
                     <div class="mb-3">
-                        <label class="form-label">Nome</label>
-                        <input type="text" name="Titulo" id="editTitulo" class="form-control">
+                        <label class="form-label">
+                            Nome
+                        </label>
+
+                        <input type="text"
+                               name="Titulo"
+                               id="editTitulo"
+                               class="form-control">
                     </div>
 
+
+
+                    <!-- DATA DE INÍCIO -->
                     <div class="mb-3">
-                        <label class="form-label">Data início</label>
-                        <input type="date" name="DataInicio" id="editInicio" class="form-control">
+                        <label class="form-label">
+                            Data início
+                        </label>
+
+                        <input type="date"
+                               name="DataInicio"
+                               id="editInicio"
+                               class="form-control">
                     </div>
 
+
+
+                    <!-- DATA DE FIM -->
                     <div class="mb-3">
-                        <label class="form-label">Data fim</label>
-                        <input type="date" name="DataFim" id="editFim" class="form-control">
+                        <label class="form-label">
+                            Data fim
+                        </label>
+
+                        <input type="date"
+                               name="DataFim"
+                               id="editFim"
+                               class="form-control">
                     </div>
 
+
+
+                    <!-- STATUS -->
                     <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select name="Status" id="editStatus" class="form-control">
-                            <option value="Ativa">Ativa</option>
-                            <option value="Inativa">Inativa</option>
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select name="Status"
+                                id="editStatus"
+                                class="form-control">
+
+                            <option value="Ativa">
+                                Ativa
+                            </option>
+
+                            <option value="Inativa">
+                                Inativa
+                            </option>
+
                         </select>
                     </div>
 
+
+
+                    <!-- PÚBLICO ALVO -->
                     <div class="mb-3">
-                        <label class="form-label">Público alvo</label>
-                        <input type="text" name="PublicoAlvo" id="editPublico" class="form-control">
+                        <label class="form-label">
+                            Público alvo
+                        </label>
+
+                        <input type="text"
+                               name="PublicoAlvo"
+                               id="editPublico"
+                               class="form-control">
                     </div>
 
+
+
+                    <!-- OBSERVAÇÕES -->
                     <div class="mb-3">
-                        <label class="form-label">Observações</label>
-<textarea name="Observacoes" id="editObs" class="form-control"></textarea>
+                        <label class="form-label">
+                            Observações
+                        </label>
+
+                        <textarea name="Observacoes"
+                                  id="editObs"
+                                  class="form-control">
+                        </textarea>
                     </div>
 
                 </div>
 
+
+
+                <!-- BOTÕES DO MODAL -->
                 <div class="modal-footer">
 
                     <button type="button"
@@ -563,37 +980,81 @@
 
         </div>
     </div>
+
 </div>
 
+
+
+<!-- ===================================================== -->
+<!-- MODAL: EDITAR ITEM DO CALENDÁRIO VACINAL -->
+<!-- Action: EditarCalendario -->
+<!-- Campos preenchidos via JavaScript -->
+<!-- ===================================================== -->
+
 <div class="modal fade" id="modalEditarCalendario" tabindex="-1">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
+            <!-- CABEÇALHO -->
             <div class="modal-header">
-                <h5 class="modal-title">Editar Calendário</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <h5 class="modal-title">
+                    Editar Calendário
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
             </div>
 
+
+
+            <!-- FORMULÁRIO -->
             <form asp-action="EditarCalendario"
                   asp-controller="VacinacaoAdmin"
                   method="post">
 
-                <input type="hidden" id="editCalId" name="Id">
+                <!-- ID DO REGISTRO -->
+                <input type="hidden"
+                       id="editCalId"
+                       name="Id">
 
                 <div class="modal-body">
 
+                    <!-- IDADE -->
                     <div class="mb-3">
-                        <label>Idade</label>
-                        <input type="text" id="editCalIdade" name="Idade" class="form-control">
+                        <label>
+                            Idade
+                        </label>
+
+                        <input type="text"
+                               id="editCalIdade"
+                               name="Idade"
+                               class="form-control">
                     </div>
 
+
+
+                    <!-- VACINAS -->
                     <div class="mb-3">
-                        <label>Vacinas</label>
-                        <input type="text" id="editCalVacinas" name="Vacinas" class="form-control">
+                        <label>
+                            Vacinas
+                        </label>
+
+                        <input type="text"
+                               id="editCalVacinas"
+                               name="Vacinas"
+                               class="form-control">
                     </div>
 
                 </div>
 
+
+
+                <!-- BOTÕES -->
                 <div class="modal-footer">
 
                     <button class="btn btn-secondary"
@@ -612,42 +1073,80 @@
 
         </div>
     </div>
+
 </div>
 
+
+
+<!-- ===================================================== -->
+<!-- MODAL: EDITAR LOCAL DE VACINAÇÃO -->
+<!-- Action: EditarLocal -->
+<!-- ===================================================== -->
+
 <div class="modal fade" id="modalEditarLocal" tabindex="-1">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Editar Local</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <h5 class="modal-title">
+                    Editar Local
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
             </div>
+
+
 
             <form asp-action="EditarLocal"
                   asp-controller="VacinacaoAdmin"
                   method="post">
 
-                <input type="hidden" id="editLocalId" name="Id">
+                <!-- ID DO LOCAL -->
+                <input type="hidden"
+                       id="editLocalId"
+                       name="Id">
 
                 <div class="modal-body">
 
+                    <!-- NOME -->
                     <div class="mb-3">
-                        <label>Nome do local</label>
+
+                        <label>
+                            Nome do local
+                        </label>
+
                         <input type="text"
                                id="editLocalNome"
                                name="Nome"
                                class="form-control">
+
                     </div>
 
+
+
+                    <!-- HORÁRIO -->
                     <div class="mb-3">
-                        <label>Horário</label>
+
+                        <label>
+                            Horário
+                        </label>
+
                         <input type="text"
                                id="editLocalHorario"
                                name="Horario"
                                class="form-control">
+
                     </div>
 
                 </div>
+
+
 
                 <div class="modal-footer">
 
@@ -667,17 +1166,38 @@
 
         </div>
     </div>
+
 </div>
 
+
+
+<!-- ===================================================== -->
+<!-- MODAL: UPLOAD DE DOCUMENTO PDF -->
+<!-- Action: UploadPdfVacina -->
+<!-- Permite enviar arquivos PDF para o sistema -->
+<!-- ===================================================== -->
+
 <div class="modal fade" id="modalNovoPdf">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
+            <!-- CABEÇALHO -->
             <div class="modal-header">
-                <h5>Novo Documento</h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
+
+                <h5>
+                    Novo Documento
+                </h5>
+
+                <button class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
             </div>
 
+
+
+            <!-- FORMULÁRIO -->
             <form asp-action="UploadPdfVacina"
                   asp-controller="VacinacaoAdmin"
                   method="post"
@@ -685,26 +1205,44 @@
 
                 <div class="modal-body">
 
+                    <!-- TÍTULO DO DOCUMENTO -->
                     <div class="mb-3">
-                        <label>Título</label>
+
+                        <label>
+                            Título
+                        </label>
+
                         <input type="text"
                                name="titulo"
                                class="form-control"
                                required>
+
                     </div>
 
+
+
+                    <!-- ARQUIVO PDF -->
                     <div class="mb-3">
-                        <label>PDF</label>
+
+                        <label>
+                            PDF
+                        </label>
+
                         <input type="file"
                                name="arquivo"
                                accept="application/pdf"
                                class="form-control"
                                required>
+
                     </div>
 
                 </div>
 
+
+
+                <!-- BOTÕES -->
                 <div class="modal-footer">
+
                     <button class="btn btn-secondary"
                             data-bs-dismiss="modal">
                         Cancelar
@@ -714,10 +1252,15 @@
                             class="btn btn-primary">
                         Salvar
                     </button>
+
                 </div>
 
             </form>
 
         </div>
     </div>
+
 </div>
+
+
+

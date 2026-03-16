@@ -325,6 +325,8 @@
 
 </div>
 
+<p>Total de documentos: @(ViewBag.Documentos == null ? "NULL" : ViewBag.Documentos.Count)</p>
+
 <div class="modal fade" id="modalDocumentos">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -336,40 +338,49 @@
 
             <div class="modal-body">
 
-                <div class="mb-4">
+                @if (ViewBag.Documentos != null && ViewBag.Documentos.Count > 0)
+                {
+                    foreach (var doc in ViewBag.Documentos)
+                    {
 
-                    <h6>Calendário Vacinal</h6>
+                        <div class="mb-4 p-3 border rounded">
 
-                    <iframe src="/pdf/Vacina/calendario-vacinal.pdf"
-                            width="100%"
-                            height="500">
-                    </iframe>
+                            <h6 class="mb-2">
+                                📄 @doc.Titulo
+                            </h6>
 
-                </div>
+                            <iframe src="@Url.Content(doc.Caminho)"
+                                    width="100%"
+                                    height="320"
+                                    style="border:1px solid #ddd;border-radius:6px">
+                            </iframe>
 
+                            <div class="mt-2">
 
-                <div class="mb-4">
+                                <a href="@Url.Content(doc.Caminho)"
+                                   target="_blank"
+                                   class="btn btn-primary btn-sm">
+                                    Abrir
+                                </a>
 
-                    <h6>Campanha Influenza</h6>
+                                <a href="@Url.Content(doc.Caminho)"
+                                   download
+                                   class="btn btn-success btn-sm">
+                                    Baixar
+                                </a>
 
-                    <iframe src="/pdf/Vacina/campanha-influenza.pdf"
-                            width="100%"
-                            height="500">
-                    </iframe>
+                            </div>
 
-                </div>
+                        </div>
 
-
-                <div class="mb-4">
-
-                    <h6>Orientações de Vacinação</h6>
-
-                    <iframe src="/pdf/Vacina/orientacoes.pdf"
-                            width="100%"
-                            height="500">
-                    </iframe>
-
-                </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">
+                        Nenhum documento disponível.
+                    </p>
+                }
 
             </div>
 

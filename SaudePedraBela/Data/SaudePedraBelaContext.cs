@@ -26,5 +26,7 @@ namespace SaudePedraBela.Data
 
         public DbSet<Escala> Escalas { get; set; }
 
+        public DbSet<DocumentoVacina> DocumentosVacina { get; set; }
+
     }
 }
