@@ -1,5 +1,486 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmácia Municipal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+          font-family: "Poppins", sans-serif;
+          margin: 0;
+          background: #f5f5f5;
+        }
+
+        /* HEADER */
+        .header {
+          background: linear-gradient(90deg, #1e7a3a, #2563eb);
+          color: white;
+          padding: 40px;
+        }
+
+        .header h1 {
+          margin: 0;
+          font-size: 32px;
+        }
+
+        .header p {
+          margin-top: 10px;
+          opacity: 0.9;
+        }
+
+        /* CONTAINER */
+        .container {
+          max-width: 1100px;
+          margin: auto;
+          padding: 30px 20px;
+        }
+
+        /* LINKS */
+        .links {
+          background: white;
+          padding: 25px;
+          border-radius: 10px;
+          margin-bottom: 30px;
+        }
+
+        .links h2 {
+          color: #1e7a3a;
+          margin-bottom: 15px;
+        }
+
+        .links a {
+          display: block;
+          margin: 10px 0;
+          color: #0ea5e9;
+          text-decoration: none;
+          font-size: 18px;
+        }
+
+        .links a.red {
+          color: #e11d48;
+        }
+
+        .links a:hover {
+          text-decoration: underline;
+        }
+
+        /* HORÁRIO */
+        .horario {
+          background: linear-gradient(90deg, #1e7a3a, #2563eb);
+          color: white;
+          padding: 20px;
+          border-radius: 10px;
+          margin-bottom: 40px;
+        }
+
+        .horario h3 {
+          margin-top: 0;
+        }
+
+        .horario-grid {
+          display: flex;
+          justify-content: space-between;
+        }
+
+        /* TIMELINE (ARQUIVOS / ALTO CUSTO) */
+        .timeline {
+          list-style: none;
+          padding: 0;
+        }
+
+        .timeline li {
+          background: white;
+          margin-bottom: 15px;
+          padding: 15px;
+          border-left: 5px solid #1e7a3a;
+          border-radius: 8px;
+        }
+
+        .timeline strong {
+          display: block;
+          margin-bottom: 5px;
+        }
+
+        .timeline a {
+          color: #2563eb;
+        }
+
+        /* RESPONSIVO */
+        <style >
+            @@media (max-width: 700px) {
+            .horario-grid
+
+        {
+            flex-direction: column;
+        }
+
+        }
+
+        /* CARDS DE MEDICAMENTOS */
+        .medicamentos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #eaeaea;
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+            .card::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 10px;
+                bottom: 10px;
+                width: 5px;
+                background: #1e7a3a;
+                border-radius: 10px;
+            }
+
+            .card h3 {
+                margin: 0 0 10px;
+            }
+
+            .card p {
+                margin: 0 0 10px;
+            }
+
+            .card a {
+                color: #2563eb;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+                .card a:hover {
+                    text-decoration: underline;
+                }
+
+        /* RESPONSIVO */
+            @@media (max-width: 700px) {
+            .medicamentos
+
+        {
+            grid-template-columns: 1fr;
+        }
+
+        }
+    </style>
+ 
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Farmácia Municipal</h1>
+        <p>Informações sobre medicamentos disponíveis na rede municipal</p>
+    </div>
+
+    <div class="container">
+
+        <!-- HORÁRIO -->
+        <div class="horario">
+            <h3>Horário de Atendimento - Farmácia Municipal</h3>
+
+            <div class="horario-grid">
+                <div>
+                    <p>Segunda a Sexta</p>
+                    <strong>07h às 17h</strong>
+                </div>
+
+                <div>
+                    <p>Local</p>
+                    <strong>UBS Central - Centro</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARQUIVOS / ALTO CUSTO -->
+        <h2 style="text-align:center;">Relação de Medicamentos</h2>
+
+        <div class="medicamentos">
+
+            <div class="card">
+                <h3>Lista de Medicamentos</h3>
+                <p>Confira todos os medicamentos disponíveis na rede municipal.</p>
+                <a href="#" target="_blank">Clique aqui</a>
+            </div>
+
+            <div class="card">
+                <h3>Formulário</h3>
+                <p>Formulário de solicitação para alto custo.</p>
+                <a href="#" target="_blank">Clique aqui</a>
+            </div>
+
+            <div class="card">
+                <h3>Orientações</h3>
+                <p>Orientações para preenchimento do formulário.</p>
+                <a href="#" target="_blank">Clique aqui</a>
+            </div>
+
+            <div class="card">
+                <h3>Declaração</h3>
+                <p>Declaração Autorizadora para a retirada de Medicamentos do Alto Custo.</p>
+                <a href="#" target="_blank">Clique aqui</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+
+
+
+    <style>
+        @@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap");
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            --color: rgba(30, 30, 30);
+            --bgColor: rgba(245, 245, 245);
+            min-height: 100vh;
+            display: grid;
+            align-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            font-family: "Poppins", sans-serif;
+            color: var(--color);
+            background: var(--bgColor);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            --col-gap: 2rem;
+            --row-gap: 2rem;
+            --line-w: 0.25rem;
+            display: grid;
+            grid-template-columns: var(--line-w) 1fr;
+            grid-auto-columns: max-content;
+            column-gap: var(--col-gap);
+            list-style: none;
+            width: min(60rem, 90%);
+            margin-inline: auto;
+        }
+
+            /* line */
+            ul::before {
+                content: "";
+                grid-column: 1;
+                grid-row: 1 / span 20;
+                background: rgb(225, 225, 225);
+                border-radius: calc(var(--line-w) / 2);
+            }
+
+            /* columns*/
+
+            /* row gaps */
+            ul li:not(:last-child) {
+                margin-bottom: var(--row-gap);
+            }
+
+            /* card */
+            ul li {
+                grid-column: 2;
+                --inlineP: 1.5rem;
+                margin-inline: var(--inlineP);
+                grid-row: span 2;
+                display: grid;
+                grid-template-rows: min-content min-content min-content;
+            }
+
+                /* date */
+                ul li .date {
+                    --dateH: 3rem;
+                    height: var(--dateH);
+                    margin-inline: calc(var(--inlineP) * -1);
+                    text-align: center;
+                    background-color: var(--accent-color);
+                    color: white;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    display: grid;
+                    place-content: center;
+                    position: relative;
+                    border-radius: calc(var(--dateH) / 2) 0 0 calc(var(--dateH) / 2);
+                }
+
+                    /* date flap */
+                    ul li .date::before {
+                        content: "";
+                        width: var(--inlineP);
+                        aspect-ratio: 1;
+                        background: var(--accent-color);
+                        background-image: linear-gradient(rgba(0, 0, 0, 0.2) 100%, transparent);
+                        position: absolute;
+                        top: 100%;
+                        clip-path: polygon(0 0, 100% 0, 0 100%);
+                        right: 0;
+                    }
+
+                    /* circle */
+                    ul li .date::after {
+                        content: "";
+                        position: absolute;
+                        width: 2rem;
+                        aspect-ratio: 1;
+                        background: var(--bgColor);
+                        border: 0.3rem solid var(--accent-color);
+                        border-radius: 50%;
+                        top: 50%;
+                        transform: translate(50%, -50%);
+                        right: calc(100% + var(--col-gap) + var(--line-w) / 2);
+                    }
+
+                /* title descr */
+                ul li .title,
+                ul li .descr {
+                    background: var(--bgColor);
+                    position: relative;
+                    padding-inline: 1.5rem;
+                }
+
+                ul li .title {
+                    overflow: hidden;
+                    padding-block-start: 1.5rem;
+                    padding-block-end: 1rem;
+                    font-weight: 500;
+                }
+
+                ul li .descr {
+                    padding-block-end: 1.5rem;
+                    font-weight: 300;
+                }
+
+                    /* shadows */
+                    ul li .title::before,
+                    ul li .descr::before {
+                        content: "";
+                        position: absolute;
+                        width: 90%;
+                        height: 0.5rem;
+                        background: rgba(0, 0, 0, 0.5);
+                        left: 50%;
+                        border-radius: 50%;
+                        filter: blur(4px);
+                        transform: translate(-50%, 50%);
+                    }
+
+                ul li .title::before {
+                    bottom: calc(100% + 0.125rem);
+                }
+
+                ul li .descr::before {
+                    z-index: -1;
+                    bottom: 0.25rem;
+                }
+
+        @@media (min-width: 40rem) {
+            ul
+
+        {
+            grid-template-columns: 1fr var(--line-w) 1fr;
+        }
+
+        ul::before {
+            grid-column: 2;
+        }
+
+        ul li:nth-child(odd) {
+            grid-column: 1;
+        }
+
+        ul li:nth-child(even) {
+            grid-column: 3;
+        }
+
+        /* start second card */
+        ul li:nth-child(2) {
+            grid-row: 2/4;
+        }
+
+        ul li:nth-child(odd) .date::before {
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+            left: 0;
+        }
+
+        ul li:nth-child(odd) .date::after {
+            transform: translate(-50%, -50%);
+            left: calc(100% + var(--col-gap) + var(--line-w) / 2);
+        }
+
+        ul li:nth-child(odd) .date {
+            border-radius: 0 calc(var(--dateH) / 2) calc(var(--dateH) / 2) 0;
+        }
+
+        }
+
+        .credits {
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+            .credits a {
+                color: var(--color);
+            }
+
+    </style>
+</head>
+<body>
+    <!-- Conteúdo -->
+
+    <h1>Alto Custo</h1>
+    <ul>
+        <li style="--accent-color:#41516C">
+            <div class="date">Protocolo</div>
+            <div class="title">Termo de Solicitação</div>
+            <div class="descr">Preencher formulário com as informações  sobre o medicamento e paciente. O mesmo pode ser consultado (<a href="https://drive.google.com/file/d/1sXpJ_80-1a6VNhIgV9acxuenD-U5-9Ik/view?usp=drive_link" target="_blank">Aqui</a>)</div>
+        </li>
+        <li style="--accent-color:#FBCA3E">
+            <div class="date">Entrega de Documentos</div>
+            <div class="title">Documentos Necessários</div>
+            <div class="descr">Apresentar na farmácia municipal o protocolo preenchido na etapa anterior, uma cópia de seus documetnos pessoais (RG, CPF ...) e um laudo da Equipe de Assitência Social da Saúde.</div>
+        </li>
+        <li style="--accent-color:#E24A68">
+            <div class="date">Aguardar</div>
+            <div class="title">Análise do MS</div>
+            <div class="descr">Aguardar o prazo definido pelo miniéterio de saúde de 60 dias onde sua solicitação será avaliada, para aprovação e continuidade do processo.</div>
+        </li>
+        <li style="--accent-color:#1B5F8C">
+            <div class="date">Aprovado</div>
+            <div class="title">Retirada do Medicamento</div>
+            <div class="descr">Após aprovado, o medicamento solicitado deve ser retirado mensalmente na farmácia municipal conforme o cronograma estabelecido, e disponível para consulta na unidade.</div>
+        </li>
+        <li style="--accent-color:#4CADAD">
+            <div class="date">Representante Legal</div>
+            <div class="title">Termo de Representante</div>
+            <div class="descr">Caso seja possível o paciente estar retirando pessoalmente os medicamentos, deve ser preenchido e encaminhado para a unidade, um termo de retirada para o respectivo representante(s), os mesmo pode ser consultado (<a href="https://drive.google.com/file/d/136-Rbg03gF7Ot4UdmWAIKU_d3b57Vakp/view?usp=drive_link" target="_blank">Aqui</a>).</div>
+        </li>
+    </ul>
+
+
+</body>
+</html>

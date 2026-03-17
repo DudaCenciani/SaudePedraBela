@@ -28,5 +28,8 @@ namespace SaudePedraBela.Data
 
         public DbSet<DocumentoVacina> DocumentosVacina { get; set; }
 
+        public DbSet<FarmaciaConfig> FarmaciaConfigs { get; set; }
+        public DbSet<FarmaciaCard> FarmaciaCards { get; set; }
+
     }
 }
