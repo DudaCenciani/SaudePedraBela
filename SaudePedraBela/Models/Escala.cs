@@ -2,11 +2,11 @@
 {
     public int Id { get; set; }
 
-    public string Categoria { get; set; }
+    public string? Categoria { get; set; }
 
-    public string NomeArquivo { get; set; }
+    public string? NomeArquivo { get; set; }
 
-    public string CaminhoArquivo { get; set; }
+    public string? CaminhoArquivo { get; set; }
 
     public DateTime DataUpload { get; set; }
 

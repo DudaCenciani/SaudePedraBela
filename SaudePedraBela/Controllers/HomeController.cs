@@ -60,6 +60,12 @@ namespace SaudePedraBela.Controllers
 
         public IActionResult Farmacia()
         {
+            var config = _context.FarmaciaConfigs.FirstOrDefault();
+            var cards = _context.FarmaciaCards.OrderBy(c => c.Ordem).ToList();
+
+            ViewBag.Config = config;
+            ViewBag.Cards = cards;
+
             return View();
         }
 
@@ -79,7 +85,13 @@ namespace SaudePedraBela.Controllers
 
         public IActionResult Gestao()
         {
-            return View();
+            var anos = _context.GestaoAnos
+                .Include(a => a.Arquivos)
+                .ToList();
+
+         
+
+            return View(anos);
         }
 
         public IActionResult Pesquisa()

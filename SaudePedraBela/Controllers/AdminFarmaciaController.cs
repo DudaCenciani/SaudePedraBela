@@ -30,7 +30,8 @@ namespace SaudePedraBela.Controllers
             if (config == null)
                 _context.FarmaciaConfigs.Add(model);
             else
-                _context.Entry(config).CurrentValues.SetValues(model);
+                config.Horario = model.Horario;
+                config.Local = model.Local;
 
             _context.SaveChanges();
 
@@ -43,14 +44,62 @@ namespace SaudePedraBela.Controllers
         }
 
         [HttpPost]
-        public IActionResult CriarCard(FarmaciaCard card)
+        public async Task<IActionResult> CriarCard(FarmaciaCard card, IFormFile arquivoPdf)
         {
+            if (arquivoPdf != null && arquivoPdf.Length > 0)
+            {
+                var nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(arquivoPdf.FileName);
+
+                var caminho = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/pdf/farmacia", nomeArquivo);
+
+                using (var stream = new FileStream(caminho, FileMode.Create))
+                {
+                    await arquivoPdf.CopyToAsync(stream);
+                }
+
+                card.Arquivo = nomeArquivo;
+                card.Link = null; // garante que não usa os dois
+            }
+
             _context.FarmaciaCards.Add(card);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
 
+        // EDITAR CARD
+        [HttpPost]
+        public IActionResult EditarCard(FarmaciaCard card)
+        {
+            var cardDb = _context.FarmaciaCards.Find(card.Id);
+
+            if (cardDb != null)
+            {
+                cardDb.Titulo = card.Titulo;
+                cardDb.Descricao = card.Descricao;
+                cardDb.Link = card.Link ?? cardDb.Link;
+                cardDb.Ordem = card.Ordem;
+
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // EXCLUIR CARD
+
+        public IActionResult ExcluirCard(int id)
+        {
+            var card = _context.FarmaciaCards.Find(id);
+
+            if (card != null)
+            {
+                _context.FarmaciaCards.Remove(card);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
 
     }
 }

@@ -2,7 +2,7 @@
 {
     public int Id { get; set; }
 
-    public string Idade { get; set; }
+    public string? Idade { get; set; }
 
-    public string Vacinas { get; set; }
+    public string? Vacinas { get; set; }
 }

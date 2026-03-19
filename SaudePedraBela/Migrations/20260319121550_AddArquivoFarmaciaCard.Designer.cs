@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaudePedraBela.Data;
 
@@ -11,9 +12,11 @@ using SaudePedraBela.Data;
 namespace SaudePedraBela.Migrations
 {
     [DbContext(typeof(SaudePedraBelaContext))]
-    partial class SaudePedraBelaContextModelSnapshot : ModelSnapshot
+    [Migration("20260319121550_AddArquivoFarmaciaCard")]
+    partial class AddArquivoFarmaciaCard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +34,11 @@ namespace SaudePedraBela.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Idade")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Vacinas")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -53,9 +58,11 @@ namespace SaudePedraBela.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CaminhoArquivo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Categoria")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DataUpload")
@@ -65,6 +72,7 @@ namespace SaudePedraBela.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("NomeArquivo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -90,12 +98,15 @@ namespace SaudePedraBela.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PublicoAlvo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -155,9 +166,11 @@ namespace SaudePedraBela.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Caminho")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -174,18 +187,22 @@ namespace SaudePedraBela.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Arquivo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Descricao")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Link")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Ordem")
+                    b.Property<int>("Ordem")
                         .HasColumnType("int");
 
                     b.Property<string>("Titulo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -202,57 +219,16 @@ namespace SaudePedraBela.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Horario")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Local")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("FarmaciaConfigs");
-                });
-
-            modelBuilder.Entity("SaudePedraBela.Models.GestaoAno", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Ano")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GestaoAnos");
-                });
-
-            modelBuilder.Entity("SaudePedraBela.Models.GestaoArquivo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Arquivo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GestaoAnoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GestaoAnoId");
-
-                    b.ToTable("GestaoArquivos");
                 });
 
             modelBuilder.Entity("SaudePedraBela.Models.LocalVacinacao", b =>
@@ -264,9 +240,11 @@ namespace SaudePedraBela.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Horario")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -306,25 +284,9 @@ namespace SaudePedraBela.Migrations
                     b.Navigation("Categorias");
                 });
 
-            modelBuilder.Entity("SaudePedraBela.Models.GestaoArquivo", b =>
-                {
-                    b.HasOne("SaudePedraBela.Models.GestaoAno", "GestaoAno")
-                        .WithMany("Arquivos")
-                        .HasForeignKey("GestaoAnoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GestaoAno");
-                });
-
             modelBuilder.Entity("SaudePedraBela.Models.Categorias", b =>
                 {
                     b.Navigation("Documentos");
-                });
-
-            modelBuilder.Entity("SaudePedraBela.Models.GestaoAno", b =>
-                {
-                    b.Navigation("Arquivos");
                 });
 #pragma warning restore 612, 618
         }

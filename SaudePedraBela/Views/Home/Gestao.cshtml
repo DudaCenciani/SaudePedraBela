@@ -1,5 +1,181 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model List<GestaoAno>
+
+<div class="header">
+    <h1>Gestão</h1>
+    <p>Acesse relatórios e documentos da saúde</p>
+</div>
+
+<div class="container">
+
+    <h2>Relatórios de Gestão</h2>
+
+    <div class="grid">
+
+        @foreach (var ano in Model)
+        {
+            <!-- SE FOR PLANO MUNICIPAL -->
+            @if (ano.Ano.ToLower().Contains("plano"))
+            {
+                <div class="plano">
+
+                    <h2>@ano.Ano</h2>
+
+                    <p>
+                        Plano Municipal de Saúde disponível para consulta pública.
+                    </p>
+
+                    @foreach (var arq in ano.Arquivos)
+                    {
+                        <a href="/pdf/gestao/@arq.Arquivo" target="_blank">
+                            Acessar Plano
+                        </a>
+                    }
+
+                </div>
+            }
+            else
+            {
+                <div class="item">
+
+                    <div class="d-flex align-items-center">
+
+                        <div style="background:#ffe5e5; padding:10px; border-radius:10px; margin-right:10px;">
+                            📄
+                        </div>
+
+                        <div>
+                            <strong>@@arq.Titulo</strong><br />
+                            <small class="text-muted">@ano.Ano</small>
+                        </div>
+
+                    </div>
+
+                    <a href="/pdf/gestao/@@arq.Arquivo"
+                       target="_blank"
+                       class="btn-doc">
+                        Ver Documento
+                    </a>
+
+                </div>
+                <!-- MODAL -->
+                <div id="modal_@ano.Id" class="modal">
+
+                    <div class="modal-content">
+
+                        <span onclick="fecharModal(@ano.Id)" class="close">&times;</span>
+
+                        <h3>Arquivos - @ano.Ano</h3>
+
+                        @foreach (var arq in ano.Arquivos)
+                        {
+                            <div class="arquivo">
+
+                                <div>
+                                    <strong>@arq.Titulo</strong>
+                                </div>
+
+                                <a href="/pdf/gestao/@arq.Arquivo" target="_blank">
+                                    Ver Documento
+                                </a>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+
+</div>
+
+@@model List<GestaoAno>
+
+<style>
+/* HEADER */
+.header {
+    background: linear-gradient(90deg, #1e7a3a, #2563eb);
+    color: white;
+    padding: 50px;
+    text-align: center;
 }
+
+/* CONTAINER */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+}
+
+/* INDICADORES */
+.indicadores {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: -40px;
+    margin-bottom: 40px;
+}
+
+.ind-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* BLOCO ANO */
+.bloco {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.bloco h3 {
+    margin-bottom: 15px;
+}
+
+/* ITEM PDF */
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.item:hover {
+    border-color: #1e7a3a;
+    background: #f9f9f9;
+}
+
+.btn-doc {
+    background: #1e7a3a;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+/* RESPONSIVO */
+@@media(max-width: 800px){
+    .indicadores{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+</style>
+
+    <script>
+        function abrirModal(id){
+            document.getElementById("modal_" + id).style.display = "block";
+        }
+
+        function fecharModal(id){
+            document.getElementById("modal_" + id).style.display = "none";
+        }
+    </script>

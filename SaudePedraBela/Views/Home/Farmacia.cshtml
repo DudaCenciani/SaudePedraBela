@@ -109,13 +109,13 @@
         /* RESPONSIVO */
         <style >
             @@media (max-width: 700px) {
-            .horario-grid
+            .horario-grid}
 
         {
             flex-direction: column;
         }
 
-        }
+        
 
         /* CARDS DE MEDICAMENTOS */
         .medicamentos {
@@ -191,12 +191,12 @@
             <div class="horario-grid">
                 <div>
                     <p>Segunda a Sexta</p>
-                    <strong>07h às 17h</strong>
+                    <strong>@ViewBag.Config?.Horario</strong>
                 </div>
 
                 <div>
                     <p>Local</p>
-                    <strong>UBS Central - Centro</strong>
+                    <strong>@ViewBag.Config?.Local</strong>
                 </div>
             </div>
         </div>
@@ -206,29 +206,24 @@
 
         <div class="medicamentos">
 
-            <div class="card">
-                <h3>Lista de Medicamentos</h3>
-                <p>Confira todos os medicamentos disponíveis na rede municipal.</p>
-                <a href="#" target="_blank">Clique aqui</a>
+            <div class="medicamentos">
+                @foreach (var card in ViewBag.Cards)
+                {
+                    <div class="card">
+                        <h3>@card.Titulo</h3>
+                        <p>@card.Descricao</p>
+                        @if (!string.IsNullOrEmpty(card.Arquivo))
+                        {
+                            <a href="/pdf/farmacia/@card.Arquivo" target="_blank">Clique aqui</a>
+                        }
+                        else if (!string.IsNullOrEmpty(card.Link))
+                        {
+                            <a href="@card.Link" target="_blank">Clique aqui</a>
+                        }
+                    </div>
+                }
             </div>
 
-            <div class="card">
-                <h3>Formulário</h3>
-                <p>Formulário de solicitação para alto custo.</p>
-                <a href="#" target="_blank">Clique aqui</a>
-            </div>
-
-            <div class="card">
-                <h3>Orientações</h3>
-                <p>Orientações para preenchimento do formulário.</p>
-                <a href="#" target="_blank">Clique aqui</a>
-            </div>
-
-            <div class="card">
-                <h3>Declaração</h3>
-                <p>Declaração Autorizadora para a retirada de Medicamentos do Alto Custo.</p>
-                <a href="#" target="_blank">Clique aqui</a>
-            </div>
 
         </div>
 

@@ -22,6 +22,8 @@
     <Folder Include="wwwroot\pdf\escalas\samu\" />
     <Folder Include="wwwroot\pdf\escalas\papi\" />
     <Folder Include="wwwroot\pdf\escalas\ubs\" />
+    <Folder Include="wwwroot\pdf\farmacia\" />
+    <Folder Include="wwwroot\pdf\gestao\" />
     <Folder Include="wwwroot\pdf\Vacina\" />
   </ItemGroup>
 

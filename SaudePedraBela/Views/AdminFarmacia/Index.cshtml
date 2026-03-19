@@ -12,13 +12,185 @@
 
 <h2>Cards</h2>
 
-<a href="/AdminFarmacia/CriarCard">+ Novo Card</a>
+<button class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#modalNovoCard">
+    + Novo Card
+</button>
 
 @foreach (var card in ViewBag.Cards)
 {
-    <div style="margin-top:10px; padding:10px; border:1px solid #ccc;">
+    <div class="card p-3 mb-2">
+
         <strong>@card.Titulo</strong>
         <p>@card.Descricao</p>
+
         <a href="@card.Link" target="_blank">Abrir</a>
+
+        <br />
+
+        <!-- BOTÕES -->
+        <button class="btn btn-warning btn-sm"
+                onclick="abrirModalEditar(@card.Id, '@card.Titulo', '@card.Descricao', '@card.Link', @card.Ordem)">
+            Editar
+        </button>
+
+        <button class="btn btn-danger btn-sm"
+                onclick="confirmarExclusao(@card.Id)">
+            Excluir
+        </button>
+
     </div>
 }
+
+<div class="modal fade" id="modalNovoCard" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Card</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="CriarCard"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Título</label>
+                        <input name="Titulo" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Descrição</label>
+                        <input name="Descricao" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Link</label>
+                        <input name="Link" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>OU PDF</label>
+                        <input type="file" name="arquivoPdf" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ordem</label>
+                        <input name="Ordem" type="number" class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarCard">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Card</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="EditarCard" method="post">
+
+                <input type="hidden" name="Id" id="editId" />
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Título</label>
+                        <input name="Titulo" id="editTitulo" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Descrição</label>
+                        <input name="Descricao" id="editDescricao" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Link</label>
+                        <input name="Link" id="editLink" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ordem</label>
+                        <input name="Ordem" id="editOrdem" type="number" class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExcluir">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Confirmar Exclusão</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                Tem certeza que deseja excluir este card?
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                <a id="btnConfirmarExcluir"
+                   class="btn btn-danger">
+                    Excluir
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModalEditar(id, titulo, descricao, link, ordem) {
+
+        document.getElementById("editId").value = id;
+        document.getElementById("editTitulo").value = titulo;
+        document.getElementById("editDescricao").value = descricao;
+        document.getElementById("editLink").value = link;
+        document.getElementById("editOrdem").value = ordem;
+
+        var modal = new bootstrap.Modal(document.getElementById('modalEditarCard'));
+        modal.show();
+    }
+</script>
+
+<script>
+    function confirmarExclusao(id) {
+
+        document.getElementById("btnConfirmarExcluir").href =
+            "/AdminFarmacia/ExcluirCard/" + id;
+
+        var modal = new bootstrap.Modal(document.getElementById('modalExcluir'));
+        modal.show();
+    }
+</script>

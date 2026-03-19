@@ -1,0 +1,134 @@
+﻿@model List<GestaoAno>
+
+<h2>Gestão</h2>
+
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAno">
+    + Novo Ano
+</button>
+
+<hr />
+
+@foreach (var ano in Model)
+{
+    <div class="card p-3 mb-3">
+
+        <h4>@ano.Ano</h4>
+
+        <button class="btn btn-success btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#modalArquivo_@ano.Id">
+            + Adicionar PDF
+        </button>
+
+        <a href="/AdminGestao/ExcluirAno/@ano.Id"
+           class="btn btn-danger btn-sm">
+            Excluir Ano
+        </a>
+
+        <hr />
+
+        @foreach (var arq in ano.Arquivos)
+        {
+            <div style="margin-bottom:10px;">
+
+                <strong>@arq.Titulo</strong>
+
+                <a href="/pdf/gestao/@arq.Arquivo"
+                   target="_blank"
+                   class="btn btn-sm btn-primary">
+                    Abrir
+                </a>
+
+                <a href="/AdminGestao/ExcluirArquivo/@arq.Id"
+                   class="btn btn-sm btn-danger">
+                    Excluir
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+    <!-- MODAL PDF -->
+    <div class="modal fade" id="modalArquivo_@ano.Id">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5>Novo PDF - @ano.Ano</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form asp-action="UploadArquivo"
+                      method="post"
+                      enctype="multipart/form-data">
+
+                    <div class="modal-body">
+
+                        <input type="hidden" name="anoId" value="@ano.Id" />
+
+                        <div class="mb-3">
+                            <label>Título</label>
+                            <input type="text" name="titulo" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>PDF</label>
+                            <input type="file" name="arquivo" accept="application/pdf" class="form-control" required />
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Salvar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+}
+<div class="modal fade" id="modalAno">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>Novo Ano</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="CriarAno" method="post">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Ano</label>
+                        <input type="text" name="ano" class="form-control" required />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        Salvar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

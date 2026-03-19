@@ -31,5 +31,8 @@ namespace SaudePedraBela.Data
         public DbSet<FarmaciaConfig> FarmaciaConfigs { get; set; }
         public DbSet<FarmaciaCard> FarmaciaCards { get; set; }
 
+        public DbSet<GestaoAno> GestaoAnos { get; set; }
+        public DbSet<GestaoArquivo> GestaoArquivos { get; set; }
+
     }
 }
