@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SaudePedraBela.Data;
 using SaudePedraBela.Models;
+using SaudePedraBela.Filters; // ADICIONE ESSE USING
 
 namespace SaudePedraBela.Controllers
 {
+    [LoginFilter]
     public class AdminFarmaciaController : Controller
     {
         private readonly SaudePedraBelaContext _context;

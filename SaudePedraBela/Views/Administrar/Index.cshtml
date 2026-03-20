@@ -1,62 +1,159 @@
 ﻿@{
     ViewData["Title"] = "Área Administrativa";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="container mt-5">
+<style>
+    .painel-header {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        padding: 36px 40px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border-radius: 16px;
+        margin-bottom: 36px;
+    }
 
-    <h2 class="text-center mb-5">Área Administrativa</h2>
+    .painel-header-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
 
-    <div class="row text-center">
+    .painel-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+    }
 
-        <div class="col-md-4 mb-4">
-            <a href="/Documentos" class="btn btn-primary btn-lg w-100 p-4">
-                📄 Documentos
-            </a>
-        </div>
+    .painel-header p {
+        margin: 0;
+        opacity: 0.85;
+        font-size: 0.95rem;
+    }
 
-        <div class="col-md-4 mb-4">
-            <a href="/Categorias" class="btn btn-success btn-lg w-100 p-4">
-                🏷️ Categorias
-            </a>
-        </div>
+    .modulos-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
 
-        <div class="col-md-4 mb-4">
-            <a href="/Usuarios" class="btn btn-warning btn-lg w-100 p-4">
-                👤 Usuários
-            </a>
-        </div>
+    .modulo-card {
+        background: white;
+        border-radius: 16px;
+        padding: 28px 24px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        border: 2px solid #e2e8f0;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 14px;
+        transition: all 0.2s ease;
+    }
 
-        <div class="col-md-4 mb-4">
-            <a href="/EscalasAdmin" class="btn btn-warning btn-lg w-100 p-4">
-                📅 Escalas
-            </a>
-        </div>
+        .modulo-card:hover {
+            border-color: #1e7a3a;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(30,122,58,0.13);
+            color: inherit;
+            text-decoration: none;
+        }
 
-        <div class="col-md-4 mb-4">
-            <a asp-controller="VacinacaoAdmin"
-               asp-action="Index"
-               class="btn btn-primary btn-lg w-100 p-4">
-                💉 Vacinação
-            </a>
-        </div>
+    .modulo-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+    }
 
-        <div class="col-md-4 mb-4">
-            <a asp-controller="AdminFarmacia"
-               asp-action="Index"
-               class="btn btn-primary btn-lg w-100 p-4">
-                💊 Farmácia
-            </a>
-        </div>
+    .modulo-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0;
+    }
 
-        <div class="col-md-4 mb-4">
-            <a asp-controller="AdminGestao"
-               asp-action="Index"
-               class="btn btn-primary btn-lg w-100 p-4">
-                 Gestão
-            </a>
-        </div>
+    .modulo-card span {
+        font-size: 0.82rem;
+        color: #64748b;
+    }
 
+    @@media (max-width: 768px) {
+        .modulos-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .modulos-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="painel-header">
+    <div class="painel-header-icon">⚙️</div>
+    <div>
+        <h1>Área Administrativa</h1>
+        <p>Selecione o módulo que deseja gerenciar</p>
     </div>
+</div>
+
+<div class="modulos-grid">
+
+    <a href="/Documentos" class="modulo-card">
+        <div class="modulo-icon" style="background:#dbeafe; color:#2563eb;">📄</div>
+        <h3>Documentos</h3>
+        <span>Gerenciar documentos gerais</span>
+    </a>
+
+    <a href="/Categorias" class="modulo-card">
+        <div class="modulo-icon" style="background:#dcfce7; color:#16a34a;">🏷️</div>
+        <h3>Categorias</h3>
+        <span>Gerenciar categorias de documentos</span>
+    </a>
+
+    <a href="/Usuarios" class="modulo-card">
+        <div class="modulo-icon" style="background:#fef3c7; color:#92400e;">👤</div>
+        <h3>Usuários</h3>
+        <span>Gerenciar usuários do sistema</span>
+    </a>
+
+    <a href="/EscalasAdmin" class="modulo-card">
+        <div class="modulo-icon" style="background:#ede9fe; color:#7c3aed;">📅</div>
+        <h3>Escalas</h3>
+        <span>Gerenciar escalas dos profissionais</span>
+    </a>
+
+    <a asp-controller="VacinacaoAdmin" asp-action="Index" class="modulo-card">
+        <div class="modulo-icon" style="background:#fee2e2; color:#dc2626;">💉</div>
+        <h3>Vacinação</h3>
+        <span>Campanhas, calendário e locais</span>
+    </a>
+
+    <a asp-controller="AdminFarmacia" asp-action="Index" class="modulo-card">
+        <div class="modulo-icon" style="background:#dcfce7; color:#16a34a;">💊</div>
+        <h3>Farmácia</h3>
+        <span>Medicamentos e horários</span>
+    </a>
+
+    <a asp-controller="AdminGestao" asp-action="Index" class="modulo-card">
+        <div class="modulo-icon" style="background:#ffedd5; color:#ea580c;">📊</div>
+        <h3>Gestão</h3>
+        <span>Relatórios e documentos de gestão</span>
+    </a>
 
 </div>

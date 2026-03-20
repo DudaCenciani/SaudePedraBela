@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SaudePedraBela.Data;
 using SaudePedraBela.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Http;
-using System.IO;
+using SaudePedraBela.Filters;
+
 
 namespace SaudePedraBela.Controllers
+
+
 {
+    [LoginFilter]
     public class DocumentosController : Controller
     {
         private readonly SaudePedraBelaContext _context;
@@ -22,18 +28,7 @@ namespace SaudePedraBela.Controllers
         {
             _context = context;
         }
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            var action = context.RouteData.Values["action"]?.ToString();
-
-            if (action != "ListaPublica" &&
-                HttpContext.Session.GetString("UsuarioLogado") == null)
-            {
-                context.Result = RedirectToAction("Login", "Account");
-            }
-
-            base.OnActionExecuting(context);
-        }
+       
 
         // GET: Documentos
         public async Task<IActionResult> Index()

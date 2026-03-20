@@ -1,196 +1,308 @@
 ﻿@model FarmaciaConfig
 
-<h2>Configuração</h2>
-
-<form asp-action="SalvarConfig" method="post">
-    <input asp-for="Horario" placeholder="Horário" />
-    <input asp-for="Local" placeholder="Local" />
-    <button type="submit">Salvar</button>
-</form>
-
-<hr />
-
-<h2>Cards</h2>
-
-<button class="btn btn-success"
-        data-bs-toggle="modal"
-        data-bs-target="#modalNovoCard">
-    + Novo Card
-</button>
-
-@foreach (var card in ViewBag.Cards)
-{
-    <div class="card p-3 mb-2">
-
-        <strong>@card.Titulo</strong>
-        <p>@card.Descricao</p>
-
-        <a href="@card.Link" target="_blank">Abrir</a>
-
-        <br />
-
-        <!-- BOTÕES -->
-        <button class="btn btn-warning btn-sm"
-                onclick="abrirModalEditar(@card.Id, '@card.Titulo', '@card.Descricao', '@card.Link', @card.Ordem)">
-            Editar
-        </button>
-
-        <button class="btn btn-danger btn-sm"
-                onclick="confirmarExclusao(@card.Id)">
-            Excluir
-        </button>
-
-    </div>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Admin - Farmácia";
 }
 
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        padding: 36px 40px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border-radius: 16px;
+        margin-bottom: 32px;
+    }
+
+    .admin-header-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .admin-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+    }
+
+    .admin-header p {
+        margin: 0;
+        opacity: 0.85;
+        font-size: 0.95rem;
+    }
+
+    .secao-card {
+        background: white;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        border: 1.5px solid #e2e8f0;
+        margin-bottom: 28px;
+    }
+
+        .secao-card h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    .btn-novo {
+        background: #1e7a3a;
+        color: white;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.2s;
+        margin-bottom: 20px;
+    }
+
+        .btn-novo:hover {
+            background: #15612e;
+            color: white;
+        }
+
+    .card-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 18px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        transition: border-color 0.2s;
+    }
+
+        .card-item:hover {
+            border-color: #1e7a3a;
+        }
+
+    .card-item-info strong {
+        display: block;
+        font-size: 0.92rem;
+        color: #1a1a2e;
+    }
+
+    .card-item-info span {
+        font-size: 0.82rem;
+        color: #64748b;
+    }
+
+    .card-item-btns {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-editar {
+        background: #fef3c7;
+        color: #92400e;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.82rem;
+        cursor: pointer;
+    }
+
+        .btn-editar:hover {
+            background: #fde68a;
+        }
+
+    .btn-del {
+        background: #fee2e2;
+        color: #dc2626;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.82rem;
+        cursor: pointer;
+    }
+
+        .btn-del:hover {
+            background: #fecaca;
+        }
+</style>
+
+
+<div class="admin-header">
+    <div class="admin-header-icon">💊</div>
+    <div>
+        <h1>Farmácia Municipal</h1>
+        <p>Configure horários e gerencie os cards de medicamentos</p>
+    </div>
+</div>
+
+{{-- CONFIGURAÇÃO HORÁRIO/LOCAL --}}
+<div class="secao-card">
+    <h3>🕐 Configuração de Atendimento</h3>
+    <form asp-action="SalvarConfig" method="post">
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Horário</label>
+            <input asp-for="Horario" class="form-control" placeholder="Ex: 7h às 17h" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Local</label>
+            <input asp-for="Local" class="form-control" placeholder="Ex: Rua Bernardino de Lima Paes, 45" />
+        </div>
+        <button type="submit" class="btn btn-success">💾 Salvar Configuração</button>
+    </form>
+</div>
+
+{{-- CARDS DE MEDICAMENTOS --}}
+<div class="secao-card">
+    <h3>💊 Cards de Medicamentos</h3>
+
+    <button class="btn-novo" data-bs-toggle="modal" data-bs-target="#modalNovoCard">
+        ➕ Novo Card
+    </button>
+
+    @foreach (var card in ViewBag.Cards)
+    {
+        <div class="card-item">
+            <div class="card-item-info">
+                <strong>@card.Titulo</strong>
+                <span>@card.Descricao</span>
+            </div>
+            <div class="card-item-btns">
+                <button class="btn-editar"
+                        onclick="abrirModalEditar(@card.Id, '@card.Titulo', '@card.Descricao', '@card.Link', @card.Ordem)">
+                    ✏️ Editar
+                </button>
+                <button class="btn-del" onclick="confirmarExclusao(@card.Id)">
+                    🗑 Excluir
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+
+<!-- MODAL NOVO CARD -->
 <div class="modal fade" id="modalNovoCard" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Novo Card</h5>
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="fw-bold">➕ Novo Card</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
-            <form asp-action="CriarCard"
-                  method="post"
-                  enctype="multipart/form-data">
-
+            <form asp-action="CriarCard" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-
                     <div class="mb-3">
-                        <label>Título</label>
+                        <label class="form-label fw-semibold">Título</label>
                         <input name="Titulo" class="form-control" required>
                     </div>
-
                     <div class="mb-3">
-                        <label>Descrição</label>
+                        <label class="form-label fw-semibold">Descrição</label>
                         <input name="Descricao" class="form-control" required>
                     </div>
-
                     <div class="mb-3">
-                        <label>Link</label>
+                        <label class="form-label fw-semibold">Link (opcional)</label>
                         <input name="Link" class="form-control">
                     </div>
-
                     <div class="mb-3">
-                        <label>OU PDF</label>
+                        <label class="form-label fw-semibold">OU PDF</label>
                         <input type="file" name="arquivoPdf" class="form-control">
                     </div>
-
                     <div class="mb-3">
-                        <label>Ordem</label>
+                        <label class="form-label fw-semibold">Ordem</label>
                         <input name="Ordem" type="number" class="form-control">
                     </div>
-
                 </div>
-
-                <div class="modal-footer">
+                <div class="modal-footer border-0">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>
 
+<!-- MODAL EDITAR CARD -->
 <div class="modal fade" id="modalEditarCard">
     <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Card</h5>
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="fw-bold">✏️ Editar Card</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <form asp-action="EditarCard" method="post">
-
                 <input type="hidden" name="Id" id="editId" />
-
                 <div class="modal-body">
-
                     <div class="mb-3">
-                        <label>Título</label>
+                        <label class="form-label fw-semibold">Título</label>
                         <input name="Titulo" id="editTitulo" class="form-control" />
                     </div>
-
                     <div class="mb-3">
-                        <label>Descrição</label>
+                        <label class="form-label fw-semibold">Descrição</label>
                         <input name="Descricao" id="editDescricao" class="form-control" />
                     </div>
-
                     <div class="mb-3">
-                        <label>Link</label>
+                        <label class="form-label fw-semibold">Link</label>
                         <input name="Link" id="editLink" class="form-control" />
                     </div>
-
                     <div class="mb-3">
-                        <label>Ordem</label>
+                        <label class="form-label fw-semibold">Ordem</label>
                         <input name="Ordem" id="editOrdem" type="number" class="form-control" />
                     </div>
-
                 </div>
-
-                <div class="modal-footer">
+                <div class="modal-footer border-0">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>
 
+<!-- MODAL CONFIRMAR EXCLUSÃO -->
 <div class="modal fade" id="modalExcluir">
     <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title text-danger">Confirmar Exclusão</h5>
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="fw-bold text-danger">🗑 Confirmar Exclusão</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
-            <div class="modal-body">
-                Tem certeza que deseja excluir este card?
-            </div>
-
-            <div class="modal-footer">
+            <div class="modal-body">Tem certeza que deseja excluir este card?</div>
+            <div class="modal-footer border-0">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-
-                <a id="btnConfirmarExcluir"
-                   class="btn btn-danger">
-                    Excluir
-                </a>
+                <a id="btnConfirmarExcluir" class="btn btn-danger">Excluir</a>
             </div>
-
         </div>
     </div>
 </div>
 
 <script>
     function abrirModalEditar(id, titulo, descricao, link, ordem) {
-
         document.getElementById("editId").value = id;
         document.getElementById("editTitulo").value = titulo;
         document.getElementById("editDescricao").value = descricao;
         document.getElementById("editLink").value = link;
         document.getElementById("editOrdem").value = ordem;
-
-        var modal = new bootstrap.Modal(document.getElementById('modalEditarCard'));
-        modal.show();
+        new bootstrap.Modal(document.getElementById('modalEditarCard')).show();
     }
-</script>
 
-<script>
     function confirmarExclusao(id) {
-
-        document.getElementById("btnConfirmarExcluir").href =
-            "/AdminFarmacia/ExcluirCard/" + id;
-
-        var modal = new bootstrap.Modal(document.getElementById('modalExcluir'));
-        modal.show();
+        document.getElementById("btnConfirmarExcluir").href = "/AdminFarmacia/ExcluirCard/" + id;
+        new bootstrap.Modal(document.getElementById('modalExcluir')).show();
     }
 </script>

@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SaudePedraBela.Data;
 using SaudePedraBela.Models;
+using SaudePedraBela.Filters;
 
+
+[LoginFilter]
 public class VacinacaoAdminController : Controller
 {
     private readonly SaudePedraBelaContext _context;

@@ -1,95 +1,225 @@
 ﻿@model List<Escala>
 
-<h2>Gerenciar Escalas</h2>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Admin - Escalas";
+}
 
-<form asp-controller="EscalasAdmin"
-      asp-action="Upload"
-      method="post"
-      enctype="multipart/form-data">
-    <select name="categoria">
-
-        <option value="clinicos">Clínicos e Especialistas</option>
-
-        <option value="centro-saude">
-            C.S Angelina Santana Schievenin
-        </option>
-
-        <option value="ubs">
-            UBS Dr. Jorge Hirodi Orita
-        </option>
-
-        <option value="papi">
-            Academia de Saúde (PAPI)
-        </option>
-
-        <option value="samu">
-            Base Descentralizada do SAMU 192
-        </option>
-
-    </select>
-
-    <select name="mes" class="form-control mb-2">
-
-        <option value="1">Janeiro</option>
-        <option value="2">Fevereiro</option>
-        <option value="3">Março</option>
-        <option value="4">Abril</option>
-        <option value="5">Maio</option>
-        <option value="6">Junho</option>
-        <option value="7">Julho</option>
-        <option value="8">Agosto</option>
-        <option value="9">Setembro</option>
-        <option value="10">Outubro</option>
-        <option value="11">Novembro</option>
-        <option value="12">Dezembro</option>
-
-    </select>
-
-    <input type="number" name="ano" class="form-control mb-2" placeholder="Ano" />
-
-    <input type="file" name="arquivo" class="form-control mb-3" required />
-
-    <button type="submit" class="btn btn-success">
-        Salvar PDF
-    </button>
-
-</form>
-
-
-<hr>
-
-<h3>Arquivos enviados</h3>
-
-<table class="table">
-
-    <tr>
-        <th>Categoria</th>
-        <th>Arquivo</th>
-        <th>Ação</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-
-            <td>@item.Categoria</td>
-
-            <td>
-                <a href="@item.CaminhoArquivo" target="_blank">
-                    @item.NomeArquivo
-                </a>
-            </td>
-
-            <td>
-
-                <a asp-action="Excluir" asp-route-id="@item.Id"
-                   class="btn btn-danger btn-sm">
-                    Excluir
-                </a>
-
-            </td>
-
-        </tr>
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        padding: 36px 40px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border-radius: 16px;
+        margin-bottom: 32px;
     }
 
-</table>
+    .admin-header-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .admin-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+    }
+
+    .admin-header p {
+        margin: 0;
+        opacity: 0.85;
+    }
+
+    .secao-card {
+        background: white;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        border: 1.5px solid #e2e8f0;
+        margin-bottom: 28px;
+    }
+
+        .secao-card h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) auto;
+        gap: 12px;
+        align-items: end;
+    }
+
+    .btn-salvar {
+        background: #1e7a3a;
+        color: white;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+        .btn-salvar:hover {
+            background: #15612e;
+        }
+
+    .arq-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+    }
+
+        .arq-table thead tr {
+            background: linear-gradient(90deg, #1e7a3a, #2563eb);
+            color: white;
+        }
+
+        .arq-table thead th {
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            text-align: left;
+        }
+
+        .arq-table tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+            .arq-table tbody tr:hover {
+                background: #f8fafc;
+            }
+
+        .arq-table tbody td {
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            color: #374151;
+        }
+
+    .btn-abrir {
+        background: #dbeafe;
+        color: #2563eb;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 7px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .btn-del {
+        background: #fee2e2;
+        color: #dc2626;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 7px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+</style>
+
+
+<div class="admin-header">
+    <div class="admin-header-icon">📄</div>
+    <div>
+        <h1>Escalas</h1>
+        <p>Faça upload e gerencie as escalas dos profissionais de saúde</p>
+    </div>
+</div>
+
+<!-- FORMULÁRIO DE UPLOAD -->
+<div class="secao-card">
+    <h3>⬆️ Enviar Nova Escala</h3>
+    <form asp-controller="EscalasAdmin" asp-action="Upload" method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            <div>
+                <label class="form-label fw-semibold">Unidade</label>
+                <select name="categoria" class="form-control">
+                    <option value="clinicos">Clínicos e Especialistas</option>
+                    <option value="centro-saude">C.S Angelina Santana Schievenin</option>
+                    <option value="ubs">UBS Dr. Jorge Hirodi Orita</option>
+                    <option value="papi">Academia de Saúde (PAPI)</option>
+                    <option value="samu">Base Descentralizada do SAMU 192</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label fw-semibold">Mês</label>
+                <select name="mes" class="form-control">
+                    <option value="1">Janeiro</option>
+                    <option value="2">Fevereiro</option>
+                    <option value="3">Março</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Maio</option>
+                    <option value="6">Junho</option>
+                    <option value="7">Julho</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label fw-semibold">Ano</label>
+                <input type="number" name="ano" class="form-control" placeholder="Ex: 2026" />
+            </div>
+            <div>
+                <label class="form-label fw-semibold">Arquivo PDF</label>
+                <input type="file" name="arquivo" class="form-control" required />
+            </div>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn-salvar">💾 Salvar PDF</button>
+        </div>
+    </form>
+</div>
+
+<!-- TABELA DE ARQUIVOS -->
+<div class="secao-card">
+    <h3>📁 Arquivos Enviados</h3>
+    <table class="arq-table">
+        <thead>
+            <tr>
+                <th>Unidade</th>
+                <th>Arquivo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Categoria</td>
+                    <td>
+                        <a href="@item.CaminhoArquivo" target="_blank" class="btn-abrir">
+                            📄 @item.NomeArquivo
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Excluir" asp-route-id="@item.Id" class="btn-del">
+                            🗑 Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

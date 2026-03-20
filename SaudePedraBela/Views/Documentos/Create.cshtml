@@ -1,45 +1,132 @@
 ﻿@model SaudePedraBela.Models.Documento
-
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Novo Documento";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Create</h1>
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        padding: 36px 40px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border-radius: 16px;
+        margin-bottom: 32px;
+    }
 
-<h4>Documento</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
+    .admin-header-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
 
-            <div class="form-group">
-                <label asp-for="NomeDocumento" class="control-label"></label>
-                <input asp-for="NomeDocumento" class="form-control" />
-            </div>
+    .admin-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+    }
 
-            <div class="form-group">
-                <label>Arquivo PDF</label>
-                <input type="file" name="arquivoPdf" class="form-control" />
-            </div>
+    .admin-header p {
+        margin: 0;
+        opacity: 0.85;
+    }
 
-            <div class="form-group">
-                <label asp-for="IdCategoria" class="control-label"></label>
-                <select asp-for="IdCategoria" class="form-control" asp-items="ViewBag.IdCategoria"></select>
-            </div>
+    .form-card {
+        background: white;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        border: 1.5px solid #e2e8f0;
+        max-width: 560px;
+    }
 
-            <br />
+        .form-card label {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #374151;
+            margin-bottom: 6px;
+            display: block;
+        }
 
-            <input type="submit" value="Salvar" class="btn btn-primary" />
+        .form-card .form-control {
+            border-radius: 10px;
+            border: 1.5px solid #e2e8f0;
+            padding: 10px 14px;
+        }
 
-        </form>
+            .form-card .form-control:focus {
+                border-color: #1e7a3a;
+                box-shadow: 0 0 0 3px rgba(30,122,58,0.1);
+            }
+
+    .btn-salvar {
+        background: #1e7a3a;
+        color: white;
+        border: none;
+        padding: 11px 28px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+        .btn-salvar:hover {
+            background: #15612e;
+        }
+
+    .btn-voltar {
+        color: #64748b;
+        text-decoration: none;
+        font-size: 0.88rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 16px;
+    }
+
+        .btn-voltar:hover {
+            color: #1e7a3a;
+        }
+</style>
+
+<div class="admin-header">
+    <div class="admin-header-icon">📄</div>
+    <div>
+        <h1>Novo Documento</h1>
+        <p>Adicione um novo documento ao sistema</p>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="form-card">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label asp-for="NomeDocumento">Nome do Documento</label>
+            <input asp-for="NomeDocumento" class="form-control" placeholder="Ex: Relatório Anual 2026" />
+        </div>
+        <div class="mb-3">
+            <label>Arquivo PDF</label>
+            <input type="file" name="arquivoPdf" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="IdCategoria">Categoria</label>
+            <select asp-for="IdCategoria" class="form-control" asp-items="ViewBag.IdCategoria"></select>
+        </div>
+        <button type="submit" class="btn-salvar">💾 Salvar</button>
+    </form>
+    <a asp-action="Index" class="btn-voltar">← Voltar para lista</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

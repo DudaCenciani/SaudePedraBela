@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SaudePedraBela.Data;
-using SaudePedraBela.Models;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SaudePedraBela.Data;
+using SaudePedraBela.Models;
+using SaudePedraBela.Filters;
+
+
+
 
 public class EscalasAdminController : Controller
 {

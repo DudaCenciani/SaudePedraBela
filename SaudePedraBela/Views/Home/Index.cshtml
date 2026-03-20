@@ -1,332 +1,481 @@
-﻿<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<meta charset="UTF-8">
-	<title>Info-Saúde Pedra Bela</title>
-
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css">
-
-</head>
-<body>
-
-	<!-- HEADER -->
-	<header class="bg-white shadow-md sticky top-0 z-50">
-		<div class="max-w-7xl mx-auto px-4 flex justify-between items-center py-4">
-
-			<div class="flex items-center gap-4">
-				<img src="~/Images/logo.png" class="h-14">
-				<div>
-					<h1 class="text-xl text-green-700 font-bold">Info-Saúde Pedra Bela</h1>
-					<p class="text-xs text-gray-600">Transparência na Saúde Pública</p>
-				</div>
-			</div>
-
-			<nav class="flex gap-6">
-				<a href="#hero" class="text-gray-700 hover:text-green-700">Início</a>
-				<a href="#services" class="text-gray-700 hover:text-green-700">Serviços</a>
-				<a href="#contact" class="text-gray-700 hover:text-green-700">Contato</a>
-
-				<button onclick="openDocuments()" class="bg-green-700 text-white px-4 py-2 rounded">
-					Documentos
-				</button>
-			</nav>
-
-		</div>
-	</header>
-
-
-	<!-- HERO -->
-	<section id="hero" class="bg-gradient-to-r from-green-700 to-blue-600 text-white py-20">
-
-		<div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
-
-			<div>
-				<h1 class="text-5xl mb-4">Saúde Transparente</h1>
-				<h2 class="text-3xl mb-6">Olá, Seja Bem Vindo(a)!</h2>
-
-				<p class="text-lg">
-					O portal Info-Saúde contém informações relevantes na área da saúde no município de Pedra Bela, promovendo transparência e acesso público às informações.
-				</p>
-			</div>
-
-			<div class="flex justify-center">
-				<div class="bg-white/10 rounded-full p-16">
-					❤️
-				</div>
-			</div>
-
-		</div>
-	</section>
-
-	<!-- SERVIÇOS -->
-	<section id="services" class="py-20 bg-gray-50">
-
-		<div class="max-w-7xl mx-auto px-4">
-
-			<h2 class="text-4xl text-center mb-12">
-				Informações Importantes
-			</h2>
-
-			<div class="grid md:grid-cols-3 gap-6">
-
-				<!-- LOCAL E HORÁRIOS -->
-				<a href="/Home/LocalHorarios" class="bg-white p-6 rounded-xl shadow block">
-					<h3 class="text-xl mb-3">Local e Horários</h3>
-					<p class="text-gray-600 mb-4">
-						Conheça os endereços das unidades de saúde e os horários de atendimento.
-					</p>
-
-					<ul class="text-sm space-y-2">
-						<li>• Endereços das unidades</li>
-						<li>• Horários de atendimento</li>
-					</ul>
-				</a>
-
-
-				<!-- FARMÁCIA -->
-				<a href="/Home/Farmacia" class="bg-white p-6 rounded-xl shadow block">
-					<h3 class="text-xl mb-3">Farmácia Municipal</h3>
-					<p class="text-gray-600 mb-4">
-						Informações sobre medicamentos disponíveis na rede municipal.
-					</p>
-
-					<ul class="text-sm space-y-2">
-						<li>• Relação de medicamentos disponíveis</li>
-						<li>• Medicamentos de alto custo</li>
-					</ul>
-				</a>
-
-				<!-- ESCALAS -->
-				<a href="/Home/Escalas" class="bg-white p-6 rounded-xl shadow block">
-					<h3 class="text-xl mb-3">Escalas</h3>
-
-					<p class="text-gray-600 mb-4">
-						Aqui você consegue visualizar as escalas dos profissionais de saúde e plantões médicos realizados nas unidades de saúde..
-					</p>
-
-					<ul class="text-sm space-y-2">
-						<li>• Escalas</li>
-						<li>• Plantões</li>
-					</ul>
-				</a>
-
-
-				<!-- VACINAÇÃO -->
-				<a href="/Home/Vacinacao" class="bg-white p-6 rounded-xl shadow block">
-					<h3 class="text-xl mb-3">Vacinação</h3>
-
-					<p class="text-gray-600 mb-4">
-						Informações sobre campanhas e imunização.
-					</p>
-
-					<ul class="text-sm space-y-2">
-						<li>• Campanhas de vacinação</li>
-						<li>• Calendário vacinal</li>
-					</ul>
-				</a>
-				
-
-				<!-- GESTÃO -->
-				<a href="/Home/Gestao" class="bg-white p-6 rounded-xl shadow block">
-					<h3 class="text-xl mb-3">Gestão</h3>
-
-					<p class="text-gray-600 mb-4">
-						Relatórios e indicadores da saúde.
-					</p>
-
-					<ul class="text-sm space-y-2">
-						<li>• Relatórios de gestão</li>
-						<li>• Plano Municipal de Saúde</li>
-					</ul>
-				</a>
-
-				<!-- PESQUISA -->
-				<div class="bg-gradient-to-r from-green-700 to-blue-600 text-white p-6 rounded-xl">
-
-					<h3 class="text-xl mb-3">
-						Pesquisa de Satisfação
-					</h3>
-
-					<p class="mb-6">
-						Sua opinião é muito importante para melhorar a saúde pública.
-					</p>
-
-					<a href="https://docs.google.com/forms/d/e/1FAIpQLScDA4-c4KW2v3VJbhu-WKsuiE-ptexZjQfCD-_QFNcqIrIqpg/viewform"
-					   target="_blank"
-					   class="block text-center bg-white text-green-700 px-6 py-3 rounded w-full">
-						Responder Pesquisa
-					</a>
-
-				</div>
-
-
-			</div>
-
-		</div>
-	</section>
-	
-
-	<!-- CONTATO -->
-	<section id="contact" class="py-20">
-
-		<div class="max-w-4xl mx-auto px-4">
-
-			<h2 class="text-4xl text-center mb-12">
-				Fale Conosco
-			</h2>
-
-			<div class="bg-gradient-to-r from-green-700 to-blue-600 text-white p-10 rounded-xl">
-
-				<h3 class="text-2xl mb-6">
-					Info-Saúde Pedra Bela
-				</h3>
-
-				<p>Telefone: (11) 4037-1277 ramal 112</p>
-				<p>WhatsApp: (11) 94322-6381</p>
-				<p>Email: secretariasaude@pedrabela.sp.gov.br</p>
-
-				<p class="mt-4">
-					Rua Bernardino de Lima Paes, nº45
-					Centro - Pedra Bela SP
-				</p>
-
-			</div>
-
-		</div>
-	</section>
-
-
-	<!-- FOOTER -->
-	<footer class="bg-gray-800 text-white py-8">
-
-		<div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-6">
-
-			<div>
-				<img src="~/Images/logo.png" class="h-16 mb-4">
-				<p class="text-gray-400 text-sm">
-					Prefeitura Municipal de Pedra Bela
-				</p>
-			</div>
-
-			<div>
-				<h3 class="mb-3">Links</h3>
-
-				<ul class="text-gray-400 text-sm space-y-2">
-					<li><a href="#hero">Início</a></li>
-					<li><a href="#services">Serviços</a></li>
-					<li><a href="#contact">Contato</a></li>
-				</ul>
-
-			</div>
-
-			<div>
-
-				<h3 class="mb-3">Contato</h3>
-
-				<p class="text-gray-400 text-sm">
-					(11) 4037-1277
-				</p>
-
-				<p class="text-gray-400 text-sm">
-					secretariasaude@pedrabela.sp.gov.br
-				</p>
-
-			</div>
-
-		</div>
-
-		<div class="text-center text-gray-400 text-sm mt-6">
-			© 2026 Prefeitura de Pedra Bela
-		</div>
-
-	</footer>
-
-	<!-- MODAL DOCUMENTOS -->
-	<div id="modalDocumentos" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-
-		<div class="bg-white w-3/4 max-h-[80vh] overflow-auto rounded-xl p-8">
-
-			<div class="flex justify-between mb-6">
-				<h2 class="text-2xl font-bold text-green-700">Documentos</h2>
-
-				<button onclick="closeDocuments()" class="text-red-500 text-xl">
-					✖
-				</button>
-			</div>
-
-			<div id="listaDocumentos"></div>
-
-		</div>
-
-	</div>
-
-	
-
-	<script>
-
-function openDocuments() {
-
-    document.getElementById("modalDocumentos").classList.remove("hidden");
-
-    fetch("/Documentos/ListaPublica")
-    .then(response => response.json())
-    .then(data => {
-
-        let html = "";
-
-        data.forEach(categoria => {
-
-            html += `
-                <div style="margin-bottom:25px">
-
-                    <h3 style="font-size:20px;font-weight:bold;color:#166534;margin-bottom:10px">
-                        📂 ${categoria.nomeCategoria}
-                    </h3>
-
-                    <ul style="padding-left:20px">
-            `;
-
-            categoria.documentos.forEach(doc => {
-
-                html += `
-                    <li style="margin-bottom:8px">
-
-                        📄 ${doc.nomeDocumento}
-
-                        <a href="${doc.caminhoDocumento}" 
-                           target="_blank"
-                           style="margin-left:10px;color:blue">
-                           Visualizar
-                        </a>
-
-                        <a href="${doc.caminhoDocumento}" 
-                           download
-                           style="margin-left:10px;color:green">
-                           Baixar
-                        </a>
-
-                    </li>
-                `;
-            });
-
-            html += `
-                    </ul>
+﻿@* =====================================================
+   HOME - Info-Saúde Pedra Bela
+   Seções: Hero | Serviços | Contato
+   ===================================================== *@
+
+<style>
+    /* ---------- HERO ---------- */
+    .hero {
+        background: linear-gradient(135deg, #1e7a3a 0%, #2563eb 100%);
+        color: white;
+        padding: 80px 24px;
+    }
+
+    .hero-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        line-height: 1.1;
+    }
+
+    .hero h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        opacity: 0.95;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        line-height: 1.7;
+        opacity: 0.9;
+        max-width: 480px;
+    }
+
+    /* Círculo com coração à direita */
+    .hero-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-circle {
+        background: rgba(255,255,255,0.15);
+        border-radius: 50%;
+        width: 220px;
+        height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .hero-circle svg {
+            width: 100px;
+            height: 100px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+        }
+
+    /* ---------- SERVIÇOS ---------- */
+    .servicos {
+        background: #f4f6f9;
+        padding: 70px 24px;
+    }
+
+    .servicos-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .servicos h2 {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 50px;
+    }
+
+    /* Grid 3 colunas */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    /* Card padrão */
+    .card {
+        background: white;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        border: 2px solid transparent;
+        transition: all 0.25s ease;
+    }
+
+        .card:hover {
+            border-color: #1e7a3a;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(30,122,58,0.12);
+            color: inherit;
+            text-decoration: none;
+        }
+
+    /* Ícone colorido no topo do card */
+    .card-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+    }
+
+    .card h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1e7a3a;
+        margin-bottom: 10px;
+    }
+
+    .card p {
+        font-size: 0.88rem;
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 14px;
+    }
+
+    .card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .card ul li {
+            font-size: 0.82rem;
+            color: #374151;
+            padding: 3px 0;
+        }
+
+            .card ul li::before {
+                content: "• ";
+                color: #1e7a3a;
+            }
+
+    /* Card de pesquisa (gradiente) */
+    .card-pesquisa {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .card-pesquisa .card-icon {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .card-pesquisa h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .card-pesquisa p {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+    .btn-pesquisa {
+        display: block;
+        text-align: center;
+        background: white;
+        color: #1e7a3a;
+        font-weight: 700;
+        padding: 12px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 0.92rem;
+        transition: opacity 0.2s;
+    }
+
+        .btn-pesquisa:hover {
+            opacity: 0.9;
+            color: #1e7a3a;
+            text-decoration: none;
+        }
+
+    /* ---------- CONTATO ---------- */
+    .contato {
+        background: white;
+        padding: 70px 24px;
+    }
+
+    .contato-inner {
+        max-width: 860px;
+        margin: 0 auto;
+    }
+
+    .contato h2 {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 40px;
+    }
+
+    /* Card de contato com gradiente */
+    .contato-card {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        border-radius: 20px;
+        padding: 40px;
+        color: white;
+        box-shadow: 0 10px 40px rgba(37,99,235,0.2);
+    }
+
+        .contato-card h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 28px;
+        }
+
+    /* Grid 2 colunas para os itens de contato */
+    .contato-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .contato-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    /* Ícone de contato */
+    .contato-item-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 10px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .contato-item-text small {
+        display: block;
+        font-size: 0.75rem;
+        opacity: 0.75;
+        margin-bottom: 2px;
+    }
+
+    .contato-item-text strong {
+        font-size: 0.95rem;
+    }
+
+    .contato-item-text span {
+        display: block;
+        font-size: 0.82rem;
+        opacity: 0.8;
+        margin-top: 2px;
+    }
+
+    /* ---------- RESPONSIVO ---------- */
+    @@media (max-width: 900px) {
+        .cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .hero-inner {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-icon {
+            display: none;
+        }
+
+        .contato-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+
+@* ===== HERO ===== *@
+<section class="hero">
+    <div class="hero-inner">
+
+        <div>
+            <h1>Saúde Transparente</h1>
+            <h2>Olá, Seja Bem Vindo(a)!</h2>
+            <p>
+                O portal Info-Saúde contém informações relevantes na área da saúde
+                no município de Pedra Bela, promovendo transparência e acesso
+                público às informações.
+            </p>
+        </div>
+
+        @* Círculo com ícone de coração (SVG puro, sem dependência) *@
+        <div class="hero-icon">
+            <div class="hero-circle">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21C12 21 3 13.5 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.5-9 13-9 13z" />
+                </svg>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+@* ===== SERVIÇOS ===== *@
+<section class="servicos" id="services">
+    <div class="servicos-inner">
+
+        <h2>Informações Importantes</h2>
+
+        <div class="cards-grid">
+
+            @* --- Local e Horários --- *@
+            <a href="/Home/LocalHorarios" class="card">
+                <div class="card-icon" style="background:#dbeafe; color:#2563eb;">📍</div>
+                <h3>Local e Horários</h3>
+                <p>Conheça os endereços das unidades de saúde e os horários de atendimento.</p>
+                <ul>
+                    <li>Endereços das unidades</li>
+                    <li>Horários de atendimento</li>
+                </ul>
+            </a>
+
+            @* --- Farmácia --- *@
+            <a href="/Home/Farmacia" class="card">
+                <div class="card-icon" style="background:#dcfce7; color:#16a34a;">💊</div>
+                <h3>Farmácia Municipal</h3>
+                <p>Informações sobre medicamentos disponíveis na rede municipal.</p>
+                <ul>
+                    <li>Relação de medicamentos disponíveis</li>
+                    <li>Medicamentos de alto custo</li>
+                </ul>
+            </a>
+
+            @* --- Escalas --- *@
+            <a href="/Home/Escalas" class="card">
+                <div class="card-icon" style="background:#ede9fe; color:#7c3aed;">📅</div>
+                <h3>Escalas</h3>
+                <p>Visualize as escalas dos profissionais de saúde e plantões médicos.</p>
+                <ul>
+                    <li>Escalas médicas</li>
+                    <li>Plantões realizados nas unidades</li>
+                </ul>
+            </a>
+
+            @* --- Vacinação --- *@
+            <a href="/Home/Vacinacao" class="card">
+                <div class="card-icon" style="background:#fee2e2; color:#dc2626;">💉</div>
+                <h3>Vacinação</h3>
+                <p>Informações sobre campanhas e imunização no município.</p>
+                <ul>
+                    <li>Campanhas de vacinação</li>
+                    <li>Calendário vacinal</li>
+                </ul>
+            </a>
+
+            @* --- Gestão --- *@
+            <a href="/Home/Gestao" class="card">
+                <div class="card-icon" style="background:#ffedd5; color:#ea580c;">📊</div>
+                <h3>Gestão</h3>
+                <p>Acesse relatórios e indicadores de gestão da saúde.</p>
+                <ul>
+                    <li>Relatórios de gestão</li>
+                    <li>Indicadores de saúde</li>
+                    <li>Plano Municipal de Saúde</li>
+                </ul>
+            </a>
+
+            @* --- Pesquisa de Satisfação (card especial com gradiente) --- *@
+            <div class="card-pesquisa">
+                <div>
+                    <div class="card-icon">💬</div>
+                    <h3>Pesquisa de Satisfação</h3>
+                    <p>Sua opinião é muito importante para estarmos sempre melhorando o atendimento da saúde pública.</p>
                 </div>
-            `;
-        });
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScDA4-c4KW2v3VJbhu-WKsuiE-ptexZjQfCD-_QFNcqIrIqpg/viewform"
+                   target="_blank"
+                   class="btn-pesquisa">
+                    Responder Pesquisa
+                </a>
+            </div>
 
-        document.getElementById("listaDocumentos").innerHTML = html;
+        </div>
+    </div>
+</section>
 
-    });
 
-}
+@* ===== CONTATO ===== *@
+<section class="contato" id="contact">
+    <div class="contato-inner">
 
-function closeDocuments() {
-    document.getElementById("modalDocumentos").classList.add("hidden");
-}
+        <h2>Fale Conosco</h2>
 
-</script>
+        <div class="contato-card">
 
-</body>
-</html>
+            <h3>Info-Saúde Pedra Bela</h3>
 
+            <div class="contato-grid">
+
+                @* Telefone *@
+                <div class="contato-item">
+                    <div class="contato-item-icon">📞</div>
+                    <div class="contato-item-text">
+                        <small>Telefone</small>
+                        <strong>(11) 4037-1277</strong>
+                        <span>ramal 112</span>
+                    </div>
+                </div>
+
+                @* WhatsApp *@
+                <div class="contato-item">
+                    <div class="contato-item-icon">📱</div>
+                    <div class="contato-item-text">
+                        <small>WhatsApp</small>
+                        <strong>(11) 94322-6381</strong>
+                    </div>
+                </div>
+
+                @* E-mail *@
+                <div class="contato-item">
+                    <div class="contato-item-icon">✉️</div>
+                    <div class="contato-item-text">
+                        <small>E-mail</small>
+                        <strong>secretariasaude@pedrabela.sp.gov.br</strong>
+                    </div>
+                </div>
+
+                @* Endereço *@
+                <div class="contato-item">
+                    <div class="contato-item-icon">📍</div>
+                    <div class="contato-item-text">
+                        <small>Endereço</small>
+                        <strong>Rua Bernardino de Lima Paes, nº45</strong>
+                        <span>Centro - Pedra Bela, SP</span>
+                        <span>12990-000 – Brasil</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

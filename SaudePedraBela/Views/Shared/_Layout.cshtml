@@ -1,52 +1,478 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SaudePedraBela</title>
+    <title>@ViewData["Title"] - Info-Saúde Pedra Bela</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SaudePedraBela.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+            .header-brand img {
+                height: 52px;
+            }
+
+        .header-brand-text h1 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #1e7a3a;
+            line-height: 1.2;
+        }
+
+        .header-brand-text span {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .header-nav a {
+                color: #374151;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 0.92rem;
+                padding: 8px 14px;
+                border-radius: 8px;
+                transition: all 0.2s;
+            }
+
+                .header-nav a:hover {
+                    background: #f0faf4;
+                    color: #1e7a3a;
+                }
+
+            /* Botão verde Documentos */
+            .header-nav .btn-documentos {
+                background: #1e7a3a;
+                color: white !important;
+                padding: 9px 18px;
+                border-radius: 9px;
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 0.92rem;
+            }
+
+                .header-nav .btn-documentos:hover {
+                    background: #15612e;
+                }
+
+        /* HAMBURGER MOBILE */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #374151;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 10px 24px 16px;
+        }
+
+            .mobile-menu.aberto {
+                display: flex;
+            }
+
+            .mobile-menu a {
+                color: #374151;
+                text-decoration: none;
+                font-weight: 600;
+                padding: 10px 0;
+                border-bottom: 1px solid #f1f5f9;
+                font-size: 0.95rem;
+            }
+
+                .mobile-menu a:last-child {
+                    border-bottom: none;
+                }
+
+        /* ===== CONTEÚDO ===== */
+        .site-content {
+            min-height: calc(100vh - 160px);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 50px 0 0;
+            margin-top: 60px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand img {
+            height: 70px;
+            background: white;
+            border-radius: 10px;
+            padding: 6px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .footer-brand p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+            .footer-col ul li {
+                margin-bottom: 10px;
+            }
+
+                .footer-col ul li a {
+                    color: #94a3b8;
+                    text-decoration: none;
+                    font-size: 0.88rem;
+                    transition: color 0.2s;
+                }
+
+                    .footer-col ul li a:hover {
+                        color: #4ade80;
+                    }
+
+        .footer-col .contato-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+            color: #94a3b8;
+        }
+
+            .footer-col .contato-item i {
+                color: #4ade80;
+                margin-top: 2px;
+            }
+
+        .footer-bottom {
+            border-top: 1px solid #1e293b;
+            padding: 18px 24px;
+            text-align: center;
+            font-size: 0.82rem;
+            color: #64748b;
+        }
+
+        @@media (max-width: 768px) {
+            .header-nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* ===== MODAL DOCUMENTOS ===== */
+        #modalDocumentos {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+            #modalDocumentos.aberto {
+                display: flex;
+            }
+
+        .modal-doc-box {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .modal-doc-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+            .modal-doc-top h2 {
+                font-size: 1.3rem;
+                font-weight: 800;
+                color: #1e7a3a;
+            }
+
+            .modal-doc-top button {
+                background: none;
+                border: none;
+                font-size: 1.3rem;
+                color: #dc2626;
+                cursor: pointer;
+            }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/logo.png" alt="Logo Pedra Bela" style="height:40px; margin-right:10px;">
-                    Info-Saúde Pedra Bela
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="header-inner">
+
+            @* Logo + nome — leva sempre para a Home *@
+            <a class="header-brand" asp-controller="Home" asp-action="Index">
+                <img src="~/images/logo.png" alt="Logo Pedra Bela" />
+                <div class="header-brand-text">
+                    <h1>Info-Saúde Pedra Bela</h1>
+                    <span>Transparência na Saúde Pública</span>
                 </div>
-            </div>
-        </nav>
+            </a>
+
+            <nav class="header-nav">
+                @* Início → Home *@
+                <a asp-controller="Home" asp-action="Index">Início</a>
+
+                @* Serviços → Home com âncora #services *@
+                <a href="/Home/Index#services">Serviços</a>
+                @* Contato → Home com âncora #contact *@
+                <a href="/Home/Index#contact">Contato</a>
+
+                @* Documentos → abre modal com fetch em /Documentos/ListaPublica *@
+                <button class="btn-documentos" onclick="openDocuments()">
+                    <i class="fa fa-file-alt"></i> Documentos
+                </button>
+            </nav>
+
+            <button class="hamburger" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- MENU MOBILE -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a asp-controller="Home" asp-action="Index">Início</a>
+            <a href="/Home/Index#services">Serviços</a>
+            <a href="/Home/Index#contact">Contato</a>
+            <a href="#" onclick="openDocuments(); toggleMenu();">Documentos</a>
+        </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <!-- ===== CONTEÚDO DAS PÁGINAS ===== -->
+    <div class="site-content">
+        @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - SaudePedraBela - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+
+            <!-- Coluna 1 - Logo -->
+            <div class="footer-brand">
+                <img src="~/images/logo.png" alt="Logo Pedra Bela" />
+                <p>Prefeitura Municipal de Pedra Bela</p>
+            </div>
+
+            <!-- Coluna 2 - Links rápidos -->
+            <div class="footer-col">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index">Início</a></li>
+                    <li><a href="/Home/Index#services">Serviços</a></a></li>
+                    <li><a href="/Home/Index#contact">Contato</a>Contato</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna 3 - Contato -->
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <div class="contato-item">
+                    <i class="fa fa-phone"></i>
+                    <span>(11) 4037-1277 ramal 112</span>
+                </div>
+                <div class="contato-item">
+                    <i class="fa fa-envelope"></i>
+                    <span>secretariasaude@pedrabela.sp.gov.br</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Prefeitura Municipal de Pedra Bela. Todos os direitos reservados.
         </div>
     </footer>
+
+    <!-- ===== MODAL DOCUMENTOS GERAIS ===== -->
+    @* Modal que busca os documentos em /Documentos/ListaPublica *@
+    <div id="modalDocumentos">
+        <div class="modal-doc-box">
+
+            <div class="modal-doc-top">
+                <h2>📂 Documentos</h2>
+                <button onclick="closeDocuments()">✖</button>
+            </div>
+
+            <div id="listaDocumentos">
+                <p style="color:#94a3b8;">Carregando...</p>
+            </div>
+
+        </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+        // Menu hamburguer mobile
+        function toggleMenu() {
+            document.getElementById("mobileMenu").classList.toggle("aberto");
+        }
+
+        // Abre o modal e busca os documentos na API
+        function openDocuments() {
+            document.getElementById("modalDocumentos").classList.add("aberto");
+            document.body.style.overflow = "hidden";
+
+            fetch("/Documentos/ListaPublica")
+                .then(response => response.json())
+                .then(data => {
+
+                    let html = "";
+
+                    data.forEach(categoria => {
+                        html += `
+                            <div style="margin-bottom:25px">
+                                <h3 style="font-size:18px;font-weight:700;color:#1e7a3a;margin-bottom:12px">
+                                    📂 ${categoria.nomeCategoria}
+                                </h3>
+                                <ul style="padding-left:0;list-style:none">
+                        `;
+
+                        categoria.documentos.forEach(doc => {
+                            html += `
+                                <li style="display:flex;justify-content:space-between;align-items:center;
+                                           padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:10px;
+                                           margin-bottom:8px;background:white">
+                                    <span style="font-size:0.9rem;color:#374151">📄 ${doc.nomeDocumento}</span>
+                                    <div style="display:flex;gap:8px">
+                                        <a href="${doc.caminhoDocumento}" target="_blank"
+                                           style="background:#2563eb;color:white;padding:6px 14px;
+                                                  border-radius:7px;text-decoration:none;font-size:0.82rem;font-weight:600">
+                                            Visualizar
+                                        </a>
+                                        <a href="${doc.caminhoDocumento}" download
+                                           style="background:#1e7a3a;color:white;padding:6px 14px;
+                                                  border-radius:7px;text-decoration:none;font-size:0.82rem;font-weight:600">
+                                            Baixar
+                                        </a>
+                                    </div>
+                                </li>
+                            `;
+                        });
+
+                        html += `</ul></div>`;
+                    });
+
+                    document.getElementById("listaDocumentos").innerHTML = html || "<p style='color:#94a3b8'>Nenhum documento disponível.</p>";
+                })
+                .catch(() => {
+                    document.getElementById("listaDocumentos").innerHTML =
+                        "<p style='color:#dc2626'>Erro ao carregar documentos.</p>";
+                });
+        }
+
+        // Fecha o modal
+        function closeDocuments() {
+            document.getElementById("modalDocumentos").classList.remove("aberto");
+            document.body.style.overflow = "";
+        }
+
+        // Fechar clicando fora do modal
+        document.getElementById("modalDocumentos").addEventListener("click", function(e) {
+            if (e.target === this) closeDocuments();
+        });
+
+        // Fechar com ESC
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") closeDocuments();
+        });
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

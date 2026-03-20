@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SaudePedraBela.Data;
 using SaudePedraBela.Models;
-using Microsoft.EntityFrameworkCore;
+using SaudePedraBela.Filters;
 
 namespace SaudePedraBela.Controllers
 {
+    [LoginFilter]
     public class AdminGestaoController : Controller
     {
         private readonly SaudePedraBelaContext _context;

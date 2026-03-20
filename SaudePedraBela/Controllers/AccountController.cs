@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SaudePedraBela.Data;
-using System.Linq;
+
 
 namespace SaudePedraBela.Controllers
+
 {
     public class AccountController : Controller
     {
@@ -12,7 +15,9 @@ namespace SaudePedraBela.Controllers
         {
             _context = context;
         }
-
+        // AllowAnonymous garante que a página de login seja acessível sem estar logado
+        [AllowAnonymous]
+    
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
@@ -20,6 +25,7 @@ namespace SaudePedraBela.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Login(string usuarioLogin, string senha, string returnUrl)
         {

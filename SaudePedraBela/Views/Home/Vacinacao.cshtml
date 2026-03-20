@@ -1,338 +1,521 @@
 ﻿@model IEnumerable<CampanhaVacinacao>
 
+@* =====================================================
+   VACINAÇÃO - Info-Saúde Pedra Bela
+   Seções: Header | Campanhas | Calendário | Locais | Documentos
+   ===================================================== *@
+
 <style>
 
-    .bg-gradient {
-        background: linear-gradient(90deg,#1b7a60,#2c63d6);
-    }
-
-    .section-title {
-        font-size: 28px;
-        font-weight: 600;
-    }
-
-    .card {
-        border-radius: 12px;
-    }
-
-    .badge {
-        font-size: 12px;
-    }
-
-    .icon-box {
-        background: #ede9fe;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .table thead {
-        background: linear-gradient(90deg,#1b7a60,#2c63d6);
+    /* ---------- HEADER ---------- */
+    .vac-header {
+        background: linear-gradient(135deg, #1e7a3a 0%, #2563eb 100%);
         color: white;
+        padding: 50px 40px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .vac-header-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 16px;
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        flex-shrink: 0;
+    }
+
+    .vac-header h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin: 0 0 6px 0;
+    }
+
+    .vac-header p {
+        margin: 0;
+        opacity: 0.88;
+        font-size: 1rem;
+    }
+
+    /* ---------- CONTAINER GERAL ---------- */
+    .vac-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 50px 24px 60px;
+    }
+
+    /* ---------- TÍTULO DE SEÇÃO ---------- */
+    .secao-titulo {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+
+        .secao-titulo .icone {
+            background: #ede9fe;
+            color: #7c3aed;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+            /* ícone azul para calendário */
+            .secao-titulo .icone.azul {
+                background: #dbeafe;
+                color: #2563eb;
+            }
+
+        .secao-titulo h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin: 0;
+        }
+
+    /* ---------- CARDS DE CAMPANHA ---------- */
+    .campanhas-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 60px;
+    }
+
+    .campanha-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        border: 1.5px solid #e2e8f0;
+    }
+
+        /* Linha do topo: título + badge */
+        .campanha-card .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .campanha-card h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 0;
+        }
+
+    /* Badge de status */
+    .status-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .status-verde {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status-cinza {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .status-azul {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    /* Item de detalhe dentro do card (período, público-alvo) */
+    .card-detalhe {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+        .card-detalhe .det-icon {
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .card-detalhe .det-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 2px;
+        }
+
+        .card-detalhe .det-valor {
+            font-size: 0.88rem;
+            color: #374151;
+        }
+
+    /* ---------- TABELA CALENDÁRIO ---------- */
+    .cal-tabela {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        margin-bottom: 60px;
+    }
+
+        .cal-tabela thead tr {
+            background: linear-gradient(90deg, #1e7a3a, #2563eb);
+            color: white;
+        }
+
+        .cal-tabela thead th {
+            padding: 16px 20px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .cal-tabela tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            background: white;
+            transition: background 0.15s;
+        }
+
+            .cal-tabela tbody tr:hover {
+                background: #f8fafc;
+            }
+
+        .cal-tabela tbody td {
+            padding: 14px 20px;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+
+            /* Coluna idade (negrito suave) */
+            .cal-tabela tbody td:first-child {
+                font-weight: 600;
+                color: #1a1a2e;
+                width: 200px;
+            }
+
+    /* ---------- LOCAIS + DOCUMENTOS ---------- */
+    .bottom-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    /* Card "Onde se Vacinar" com gradiente */
+    .card-locais {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        border-radius: 16px;
+        padding: 28px;
+        color: white;
+    }
+
+        .card-locais h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+    .local-item {
+        margin-bottom: 14px;
+    }
+
+        .local-item strong {
+            display: block;
+            font-size: 0.92rem;
+            margin-bottom: 2px;
+        }
+
+        .local-item span {
+            font-size: 0.83rem;
+            opacity: 0.85;
+        }
+
+    /* Card "Documentos Necessários" amarelo suave */
+    .card-docs-necessarios {
+        background: #fefce8;
+        border: 1.5px solid #fde68a;
+        border-radius: 16px;
+        padding: 28px;
+    }
+
+        .card-docs-necessarios h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #92400e;
+            margin-bottom: 18px;
+        }
+
+        .card-docs-necessarios ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .card-docs-necessarios ul li {
+                font-size: 0.9rem;
+                color: #78350f;
+                padding: 6px 0;
+                border-bottom: 1px solid #fde68a;
+            }
+
+                .card-docs-necessarios ul li:last-child {
+                    border-bottom: none;
+                }
+
+                .card-docs-necessarios ul li::before {
+                    content: "• ";
+                    color: #d97706;
+                    font-weight: bold;
+                }
+
+    /* ---------- BOTÃO VER ANEXOS ---------- */
+    .btn-anexos {
+        background: #1e7a3a;
+        color: white;
+        border: none;
+        padding: 11px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 50px;
+        transition: background 0.2s;
+    }
+
+        .btn-anexos:hover {
+            background: #15612e;
+            color: white;
+        }
+
+    /* ---------- RESPONSIVO ---------- */
+    @@media (max-width: 900px) {
+        .campanhas-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .bottom-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .campanhas-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .vac-header {
+            flex-direction: column;
+            text-align: center;
+        }
     }
 
 </style>
 
 
-<!-- HEADER -->
-<section class="bg-gradient text-white p-5 mb-5">
-
-    <h1>Vacinação</h1>
-
-    <p>Informações sobre campanhas e imunização no município</p>
-
-</section>
-
-<div class="card mt-4">
-    <div class="card-body">
-
-        <h4>📄 Documentos</h4>
-
-        <button class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#modalDocumentos">
-            Ver anexos
-        </button>
-
+@* ===== HEADER ===== *@
+<div class="vac-header">
+    <div class="vac-header-icon">💉</div>
+    <div>
+        <h1>Vacinação</h1>
+        <p>Informações sobre campanhas e imunização no município</p>
     </div>
 </div>
 
 
-<div class="container">
+<div class="vac-container">
+
+    @* ===== BOTÃO DOCUMENTOS (abre modal) ===== *@
+    <button class="btn-anexos"
+            data-bs-toggle="modal"
+            data-bs-target="#modalDocumentos">
+        📄 Ver Anexos
+    </button>
 
 
-    <!-- CAMPANHAS -->
-    <div class="mb-5">
+    @* ===== CAMPANHAS DE VACINAÇÃO ===== *@
+    <div class="secao-titulo">
+        <div class="icone">💉</div>
+        <h2>Campanhas de Vacinação</h2>
+    </div>
 
-        <div class="d-flex align-items-center mb-4">
+    <div class="campanhas-grid">
 
-            <div class="icon-box me-3">
-                💉
-            </div>
-
-            <h2 class="section-title">Campanhas de Vacinação</h2>
-
-        </div>
-
-
-        <div class="row">
-
-            @if (Model != null && Model.Any())
+        @if (Model != null && Model.Any())
+        {
+            @* Itera cada campanha cadastrada no banco *@
+            foreach (var campanha in Model)
             {
-                foreach (var campanha in Model)
+                @* Define a cor do badge conforme o status *@
+                var badgeClass = campanha.Status?.ToLower() switch
                 {
+                    "em andamento" => "status-verde",
+                    "disponível" => "status-azul",
+                    _ => "status-cinza"
+                };
 
-                    <div class="col-md-4">
+                <div class="campanha-card">
 
-                        <div class="card shadow-sm p-4 mb-4">
-
-                            <div class="d-flex justify-content-between">
-
-                                <h5>@campanha.Titulo</h5>
-
-                                <span class="badge bg-success">
-                                    @campanha.Status
-                                </span>
-
-                            </div>
-
-                            <div class="mt-3">
-
-                                <p class="text-muted mb-1">
-                                    📅 Período
-                                </p>
-
-                                <p>
-                                    @campanha.DataInicio.ToShortDateString()
-                                    até
-                                    @campanha.DataFim.ToShortDateString()
-                                </p>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-muted mb-1">
-                                    ℹ Público-alvo
-                                </p>
-
-                                <p>
-                                    @campanha.PublicoAlvo
-                                </p>
-
-                            </div>
-
-                        </div>
-
+                    <div class="card-top">
+                        <h5>@campanha.Titulo</h5>
+                        <span class="status-badge @badgeClass">@campanha.Status</span>
                     </div>
 
+                    @* Período *@
+                    <div class="card-detalhe">
+                        <span class="det-icon">📅</span>
+                        <div>
+                            <div class="det-label">Período</div>
+                            <div class="det-valor">
+                                @campanha.DataInicio.ToShortDateString()
+                                até
+                                @campanha.DataFim.ToShortDateString()
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Público-alvo *@
+                    <div class="card-detalhe">
+                        <span class="det-icon">ℹ️</span>
+                        <div>
+                            <div class="det-label">Público-alvo</div>
+                            <div class="det-valor">@campanha.PublicoAlvo</div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+        else
+        {
+            @* Card vazio quando não há campanhas cadastradas *@
+            <div class="campanha-card">
+                <div class="card-top">
+                    <h5>Nenhuma campanha cadastrada</h5>
+                    <span class="status-badge status-cinza">Sem dados</span>
+                </div>
+                <div class="card-detalhe">
+                    <span class="det-icon">📅</span>
+                    <div>
+                        <div class="det-label">Período</div>
+                        <div class="det-valor">--</div>
+                    </div>
+                </div>
+                <div class="card-detalhe">
+                    <span class="det-icon">ℹ️</span>
+                    <div>
+                        <div class="det-label">Público-alvo</div>
+                        <div class="det-valor">--</div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+
+    @* ===== CALENDÁRIO VACINAL ===== *@
+    <div class="secao-titulo">
+        <div class="icone azul">📅</div>
+        <h2>Calendário Vacinal Infantil</h2>
+    </div>
+
+    <table class="cal-tabela">
+        <thead>
+            <tr>
+                <th>Idade</th>
+                <th>Vacinas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Calendario != null && ViewBag.Calendario.Count > 0)
+            {
+                @* Itera os itens do calendário vacinal *@
+                foreach (var item in ViewBag.Calendario)
+                {
+                    <tr>
+                        <td>@item.Idade</td>
+                        <td>@item.Vacinas</td>
+                    </tr>
                 }
             }
             else
             {
-
-                <!-- CARD VAZIO SE NÃO TIVER CAMPANHA -->
-
-                <div class="col-md-4">
-
-                    <div class="card shadow-sm p-4 mb-4 text-muted">
-
-                        <h5>Nenhuma campanha cadastrada</h5>
-
-                        <span class="badge bg-secondary">
-                            Sem dados
-                        </span>
-
-                        <p class="mt-3">
-                            Período: --
-                        </p>
-
-                        <p>
-                            Público-alvo: --
-                        </p>
-
-                    </div>
-
-                </div>
-
+                <tr>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
             }
-
-        </div>
-
-    </div>
+        </tbody>
+    </table>
 
 
+    @* ===== LOCAIS + DOCUMENTOS NECESSÁRIOS ===== *@
+    <div class="bottom-grid">
 
-    <!-- CALENDARIO VACINAL -->
-    <div class="mb-5">
+        @* Card gradiente - locais de vacinação *@
+        <div class="card-locais">
+            <h4>📍 Onde se Vacinar</h4>
 
-        <div class="d-flex align-items-center mb-4">
-
-            <div class="icon-box me-3">
-                📅
-            </div>
-
-            <h2 class="section-title">
-                Calendário Vacinal Infantil
-            </h2>
-
-        </div>
-
-
-        <div class="card shadow-sm">
-
-            <table class="table mb-0">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Idade</th>
-
-                        <th>Vacinas</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    @if (ViewBag.Calendario != null && ViewBag.Calendario.Count > 0)
-                    {
-                        foreach (var item in ViewBag.Calendario)
-                        {
-
-                            <tr>
-
-                                <td>@item.Idade</td>
-
-                                <td>@item.Vacinas</td>
-
-                            </tr>
-
-                        }
-                    }
-                    else
-                    {
-
-                        <tr>
-
-                            <td>--</td>
-
-                            <td>--</td>
-
-                        </tr>
-
-                    }
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- LOCAIS + DOCUMENTOS -->
-
-    <div class="row mb-5">
-
-
-        <!-- LOCAIS -->
-
-        <div class="col-md-6">
-
-            <div class="card text-white p-4"
-                 style="background:linear-gradient(90deg,#1b7a60,#2c63d6)">
-
-                <h4 class="mb-3">
-
-                    Onde se Vacinar
-
-                </h4>
-
-
-                @if (ViewBag.Locais != null && ViewBag.Locais.Count > 0)
+            @if (ViewBag.Locais != null && ViewBag.Locais.Count > 0)
+            {
+                foreach (var local in ViewBag.Locais)
                 {
-
-                    foreach (var local in ViewBag.Locais)
-                    {
-
-                        <p>
-
-                            <strong>@local.Nome</strong>
-
-                            <br>
-
-                            @local.Horario
-
-                        </p>
-
-                    }
-
+                    <div class="local-item">
+                        <strong>@local.Nome</strong>
+                        <span>@local.Horario</span>
+                    </div>
                 }
-                else
-                {
-
-                    <p>
-
-                        <strong>Local não cadastrado</strong>
-
-                        <br>
-
-                        --
-
-                    </p>
-
-                }
-
-            </div>
-
+            }
+            else
+            {
+                <div class="local-item">
+                    <strong>Local não cadastrado</strong>
+                    <span>--</span>
+                </div>
+            }
         </div>
 
-
-
-        <!-- DOCUMENTOS -->
-
-        <div class="col-md-6">
-
-            <div class="card p-4 bg-warning bg-opacity-25 border-warning">
-
-                <h4 class="mb-3">
-
-                    Documentos Necessários
-
-                </h4>
-
-                <ul>
-
-                    <li>Cartão SUS ou CPF</li>
-
-                    <li>Carteira de vacinação (se possuir)</li>
-
-                    <li>Documento de identidade</li>
-
-                    <li>Comprovante de residência (para primeira dose)</li>
-
-                </ul>
-
-            </div>
-
+        @* Card amarelo - documentos necessários *@
+        <div class="card-docs-necessarios">
+            <h4>Documentos Necessários</h4>
+            <ul>
+                <li>Cartão SUS ou CPF</li>
+                <li>Carteira de vacinação (se possuir)</li>
+                <li>Documento de identidade</li>
+                <li>Comprovante de residência (para primeira dose)</li>
+            </ul>
         </div>
 
     </div>
 
 </div>
 
-<p>Total de documentos: @(ViewBag.Documentos == null ? "NULL" : ViewBag.Documentos.Count)</p>
 
+@* ===== MODAL DE DOCUMENTOS (PDFs anexados pelo admin) ===== *@
 <div class="modal fade" id="modalDocumentos">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5>Documentos da vacinação</h5>
+                <h5 class="modal-title">📄 Documentos da Vacinação</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -342,44 +525,36 @@
                 {
                     foreach (var doc in ViewBag.Documentos)
                     {
-
                         <div class="mb-4 p-3 border rounded">
 
-                            <h6 class="mb-2">
-                                📄 @doc.Titulo
-                            </h6>
+                            <h6 class="mb-2">📄 @doc.Titulo</h6>
 
+                            @* Preview do PDF em iframe *@
                             <iframe src="@Url.Content(doc.Caminho)"
                                     width="100%"
                                     height="320"
-                                    style="border:1px solid #ddd;border-radius:6px">
+                                    style="border:1px solid #ddd; border-radius:6px">
                             </iframe>
 
                             <div class="mt-2">
-
                                 <a href="@Url.Content(doc.Caminho)"
                                    target="_blank"
                                    class="btn btn-primary btn-sm">
                                     Abrir
                                 </a>
-
                                 <a href="@Url.Content(doc.Caminho)"
                                    download
                                    class="btn btn-success btn-sm">
                                     Baixar
                                 </a>
-
                             </div>
 
                         </div>
-
                     }
                 }
                 else
                 {
-                    <p class="text-muted">
-                        Nenhum documento disponível.
-                    </p>
+                    <p class="text-muted">Nenhum documento disponível.</p>
                 }
 
             </div>

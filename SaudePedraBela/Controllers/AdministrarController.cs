@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SaudePedraBela.Filters;
+
 
 namespace SaudePedraBela.Controllers
 {
+    [LoginFilter]
     public class AdministrarController : Controller
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            if (HttpContext.Session.GetString("UsuarioLogado") == null)
-            {
-                context.Result = RedirectToAction("Login", "Account");
-            }
-
-            base.OnActionExecuting(context);
-        }
+        
 
         public IActionResult Index()
         {

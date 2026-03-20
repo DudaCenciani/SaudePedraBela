@@ -1,38 +1,160 @@
 ﻿@model IEnumerable<SaudePedraBela.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Usuários";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        padding: 36px 40px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border-radius: 16px;
+        margin-bottom: 32px;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioLogin1)
-            </th>
-           
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioLogin1)
-            </td>
-           
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .admin-header-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .admin-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+    }
+
+    .admin-header p {
+        margin: 0;
+        opacity: 0.85;
+    }
+
+    .secao-card {
+        background: white;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .btn-novo {
+        background: #1e7a3a;
+        color: white;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        transition: background 0.2s;
+    }
+
+        .btn-novo:hover {
+            background: #15612e;
+            color: white;
+        }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .admin-table thead tr {
+            background: linear-gradient(90deg, #1e7a3a, #2563eb);
+            color: white;
+        }
+
+        .admin-table thead th {
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            text-align: left;
+        }
+
+        .admin-table tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+            .admin-table tbody tr:hover {
+                background: #f8fafc;
+            }
+
+        .admin-table tbody td {
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            color: #374151;
+        }
+
+    .btn-acao {
+        padding: 5px 12px;
+        border-radius: 7px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 4px;
+    }
+
+    .btn-editar {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .btn-detalhe {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .btn-del {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+</style>
+
+<div class="admin-header">
+    <div class="admin-header-icon">👤</div>
+    <div>
+        <h1>Usuários</h1>
+        <p>Gerencie os usuários com acesso ao painel administrativo</p>
+    </div>
+</div>
+
+<div class="secao-card">
+    <a asp-action="Create" class="btn-novo">➕ Novo Usuário</a>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.UsuarioLogin1)</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.UsuarioLogin1)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn-acao btn-editar">✏️ Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn-acao btn-detalhe">👁 Detalhes</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn-acao btn-del">🗑 Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SaudePedraBela.Data;
 using SaudePedraBela.Models;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
+using SaudePedraBela.Filters;
+
 
 
 namespace SaudePedraBela.Controllers
 {
+    [LoginFilter]
     public class UsuariosController : Controller
     {
         private readonly SaudePedraBelaContext _context;

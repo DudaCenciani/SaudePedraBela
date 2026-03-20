@@ -1,32 +1,131 @@
 ﻿@{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Login</h2>
+<style>
+    .login-wrap {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
+    .login-card {
+        background: white;
+        border-radius: 20px;
+        padding: 48px 40px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        border: 1.5px solid #e2e8f0;
+        width: 100%;
+        max-width: 420px;
+    }
 
-    <form asp-action="Login" method="post">
-        <input type="hidden" name="returnUrl" value="@Context.Request.Query["returnUrl"]" />
+    .login-icon {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto 20px;
+    }
 
-  
+    .login-card h2 {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 6px;
+    }
 
-    <div class="form-group">
-        <label>Usuário</label>
-        <input type="text" name="usuarioLogin" class="form-control" required />
+    .login-card p {
+        text-align: center;
+        color: #64748b;
+        font-size: 0.88rem;
+        margin-bottom: 28px;
+    }
+
+    .login-card label {
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: #374151;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .login-card .form-control {
+        border-radius: 10px;
+        border: 1.5px solid #e2e8f0;
+        padding: 10px 14px;
+        font-size: 0.92rem;
+        transition: border-color 0.2s;
+    }
+
+        .login-card .form-control:focus {
+            border-color: #1e7a3a;
+            box-shadow: 0 0 0 3px rgba(30,122,58,0.1);
+        }
+
+    .btn-entrar {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 8px;
+        transition: opacity 0.2s;
+    }
+
+        .btn-entrar:hover {
+            opacity: 0.9;
+        }
+
+    .erro-msg {
+        background: #fee2e2;
+        color: #dc2626;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        margin-top: 14px;
+        text-align: center;
+    }
+</style>
+
+<div class="login-wrap">
+    <div class="login-card">
+
+        <div class="login-icon">🔐</div>
+        <h2>Área Administrativa</h2>
+        <p>Informe suas credenciais para continuar</p>
+
+        <form asp-action="Login" method="post">
+            <input type="hidden" name="returnUrl" value="@Context.Request.Query["returnUrl"]" />
+
+            <div class="mb-3">
+                <label>Usuário</label>
+                <input type="text" name="usuarioLogin" class="form-control" required placeholder="Digite seu usuário" />
+            </div>
+
+            <div class="mb-3">
+                <label>Senha</label>
+                <input type="password" name="senha" class="form-control" required placeholder="••••••••" />
+            </div>
+
+            <button type="submit" class="btn-entrar">Entrar</button>
+
+            @if (ViewBag.Erro != null)
+            {
+                <div class="erro-msg">⚠️ @ViewBag.Erro</div>
+            }
+        </form>
+
     </div>
-
-    <div class="form-group">
-        <label>Senha</label>
-        <input type="password" name="senha" class="form-control" required />
-    </div>
-
-    <br />
-
-    <button type="submit" class="btn btn-primary">Entrar</button>
-
-    <div style="color:red">
-        @ViewBag.Erro
-    </div>
-
-</form>
+</div>

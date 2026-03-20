@@ -1,134 +1,293 @@
 ﻿@model List<GestaoAno>
 
-<h2>Gestão</h2>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Admin - Gestão";
+}
 
-<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAno">
-    + Novo Ano
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1e7a3a, #2563eb);
+        color: white;
+        padding: 36px 40px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border-radius: 16px;
+        margin-bottom: 32px;
+    }
+
+    .admin-header-icon {
+        background: rgba(255,255,255,0.15);
+        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .admin-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 4px;
+    }
+
+    .admin-header p {
+        margin: 0;
+        opacity: 0.85;
+        font-size: 0.95rem;
+    }
+
+    .btn-novo {
+        background: #1e7a3a;
+        color: white;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: background 0.2s;
+        margin-bottom: 24px;
+    }
+
+        .btn-novo:hover {
+            background: #15612e;
+            color: white;
+        }
+
+    .ano-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px 28px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .ano-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+        .ano-card-top h4 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1e7a3a;
+            margin: 0;
+        }
+
+    .ano-card-acoes {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-add-pdf {
+        background: #1e7a3a;
+        color: white;
+        border: none;
+        padding: 7px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+        .btn-add-pdf:hover {
+            background: #15612e;
+        }
+
+    .btn-excluir-ano {
+        background: #fee2e2;
+        color: #dc2626;
+        border: none;
+        padding: 7px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s;
+        display: inline-block;
+    }
+
+        .btn-excluir-ano:hover {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+    .arq-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        transition: border-color 0.2s;
+    }
+
+        .arq-item:hover {
+            border-color: #1e7a3a;
+        }
+
+        .arq-item span {
+            font-size: 0.9rem;
+            color: #374151;
+            font-weight: 600;
+        }
+
+    .arq-btns {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-abrir {
+        background: #2563eb;
+        color: white;
+        padding: 5px 14px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+
+        .btn-abrir:hover {
+            background: #1d4ed8;
+            color: white;
+        }
+
+    .btn-del {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 5px 14px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+
+        .btn-del:hover {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+    .empty-msg {
+        color: #94a3b8;
+        font-size: 0.88rem;
+        padding: 8px 0;
+    }
+</style>
+
+
+<div class="admin-header">
+    <div class="admin-header-icon">📁</div>
+    <div>
+        <h1>Gestão</h1>
+        <p>Gerencie os anos e arquivos PDF de relatórios de gestão</p>
+    </div>
+</div>
+
+<button class="btn-novo" data-bs-toggle="modal" data-bs-target="#modalAno">
+    ➕ Novo Ano
 </button>
-
-<hr />
 
 @foreach (var ano in Model)
 {
-    <div class="card p-3 mb-3">
-
-        <h4>@ano.Ano</h4>
-
-        <button class="btn btn-success btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modalArquivo_@ano.Id">
-            + Adicionar PDF
-        </button>
-
-        <a href="/AdminGestao/ExcluirAno/@ano.Id"
-           class="btn btn-danger btn-sm">
-            Excluir Ano
-        </a>
-
-        <hr />
-
-        @foreach (var arq in ano.Arquivos)
-        {
-            <div style="margin-bottom:10px;">
-
-                <strong>@arq.Titulo</strong>
-
-                <a href="/pdf/gestao/@arq.Arquivo"
-                   target="_blank"
-                   class="btn btn-sm btn-primary">
-                    Abrir
+    <div class="ano-card">
+        <div class="ano-card-top">
+            <h4>📅 @ano.Ano</h4>
+            <div class="ano-card-acoes">
+                <button class="btn-add-pdf"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalArquivo_@ano.Id">
+                    + Adicionar PDF
+                </button>
+                <a href="/AdminGestao/ExcluirAno/@ano.Id" class="btn-excluir-ano">
+                    🗑 Excluir Ano
                 </a>
-
-                <a href="/AdminGestao/ExcluirArquivo/@arq.Id"
-                   class="btn btn-sm btn-danger">
-                    Excluir
-                </a>
-
             </div>
-        }
+        </div>
 
+        @if (ano.Arquivos != null && ano.Arquivos.Any())
+        {
+            @foreach (var arq in ano.Arquivos)
+            {
+                <div class="arq-item">
+                    <span>📄 @arq.Titulo</span>
+                    <div class="arq-btns">
+                        <a href="/pdf/gestao/@arq.Arquivo" target="_blank" class="btn-abrir">Abrir</a>
+                        <a href="/AdminGestao/ExcluirArquivo/@arq.Id" class="btn-del">Excluir</a>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="empty-msg">Nenhum arquivo cadastrado.</p>
+        }
     </div>
 
-    <!-- MODAL PDF -->
     <div class="modal fade" id="modalArquivo_@ano.Id">
         <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5>Novo PDF - @ano.Ano</h5>
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="fw-bold">📄 Novo PDF — @ano.Ano</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-
-                <form asp-action="UploadArquivo"
-                      method="post"
-                      enctype="multipart/form-data">
-
+                <form asp-action="UploadArquivo" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
-
                         <input type="hidden" name="anoId" value="@ano.Id" />
-
                         <div class="mb-3">
-                            <label>Título</label>
+                            <label class="form-label fw-semibold">Título</label>
                             <input type="text" name="titulo" class="form-control" required />
                         </div>
-
                         <div class="mb-3">
-                            <label>PDF</label>
+                            <label class="form-label fw-semibold">PDF</label>
                             <input type="file" name="arquivo" accept="application/pdf" class="form-control" required />
                         </div>
-
                     </div>
-
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">
-                            Cancelar
-                        </button>
-
-                        <button type="submit" class="btn btn-primary">
-                            Salvar
-                        </button>
+                    <div class="modal-footer border-0">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar</button>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
 }
+
 <div class="modal fade" id="modalAno">
     <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5>Novo Ano</h5>
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="fw-bold">📅 Novo Ano</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <form asp-action="CriarAno" method="post">
-
                 <div class="modal-body">
-
                     <div class="mb-3">
-                        <label>Ano</label>
+                        <label class="form-label fw-semibold">Ano</label>
                         <input type="text" name="ano" class="form-control" required />
                     </div>
-
                 </div>
-
-                <div class="modal-footer">
-
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-
-                    <button type="submit" class="btn btn-primary">
-                        Salvar
-                    </button>
-
+                <div class="modal-footer border-0">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

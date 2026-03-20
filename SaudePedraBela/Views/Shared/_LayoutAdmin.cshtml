@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SaudePedraBela.styles.css" asp-append-version="true" />
+</head>
+<body style="background:#f4f6f9;">
+
+    <nav class="navbar navbar-light bg-white border-bottom shadow-sm mb-4">
+        <div class="container-fluid">
+
+            <a class="navbar-brand fw-bold text-success d-flex align-items-center gap-2"
+               asp-controller="Home" asp-action="Index">
+                ← Voltar ao Site
+            </a>
+
+            <a asp-controller="Administrar" asp-action="Index"
+               class="navbar-text fw-semibold text-decoration-none"
+               style="color:#1e7a3a;">
+                ⚙️ Painel de Administração
+            </a>
+
+        </div>
+    </nav>
+
+    <div class="container pb-5">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

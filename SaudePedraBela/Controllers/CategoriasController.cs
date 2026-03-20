@@ -10,11 +10,13 @@ using SaudePedraBela.Data;
 using SaudePedraBela.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SaudePedraBela.Filters;
+
 
 namespace SaudePedraBela.Controllers
 {
 
- 
+    [LoginFilter]
     public class CategoriasController : Controller
     {
         private readonly SaudePedraBelaContext _context;
@@ -23,15 +25,7 @@ namespace SaudePedraBela.Controllers
         {
             _context = context;
         }
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            if (HttpContext.Session.GetString("UsuarioLogado") == null)
-            {
-                context.Result = RedirectToAction("Login", "Account");
-            }
-
-            base.OnActionExecuting(context);
-        }
+        
 
         // GET: Categorias
         public async Task<IActionResult> Index()
