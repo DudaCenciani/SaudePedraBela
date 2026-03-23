@@ -1,11 +1,15 @@
-﻿@model List<GestaoAno>
+﻿@* Define o model da View como uma lista de anos de gestão *@
+@model List<GestaoAno>
 
 @{
+    @* Utiliza o layout administrativo *@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    @* Define o título da aba do navegador *@
     ViewData["Title"] = "Admin - Gestão";
 }
 
 <style>
+    /* Cabeçalho da página com gradiente verde-azul e ícone à esquerda */
     .admin-header {
         background: linear-gradient(135deg, #1e7a3a, #2563eb);
         color: white;
@@ -17,6 +21,7 @@
         margin-bottom: 32px;
     }
 
+    /* Ícone decorativo no cabeçalho com fundo semitransparente */
     .admin-header-icon {
         background: rgba(255,255,255,0.15);
         border-radius: 14px;
@@ -26,21 +31,24 @@
         align-items: center;
         justify-content: center;
         font-size: 1.8rem;
-        flex-shrink: 0;
+        flex-shrink: 0; /* Impede encolhimento em telas menores */
     }
 
+    /* Título principal do cabeçalho */
     .admin-header h1 {
         font-size: 1.8rem;
         font-weight: 800;
         margin: 0 0 4px;
     }
 
+    /* Subtítulo do cabeçalho com leve transparência */
     .admin-header p {
         margin: 0;
         opacity: 0.85;
         font-size: 0.95rem;
     }
 
+    /* Botão verde para abrir o modal de criação de novo ano */
     .btn-novo {
         background: #1e7a3a;
         color: white;
@@ -63,6 +71,7 @@
             color: white;
         }
 
+    /* Card branco que representa cada ano de gestão com seus arquivos */
     .ano-card {
         background: white;
         border-radius: 16px;
@@ -72,6 +81,7 @@
         border: 1.5px solid #e2e8f0;
     }
 
+    /* Topo do card: título do ano à esquerda e botões de ação à direita */
     .ano-card-top {
         display: flex;
         justify-content: space-between;
@@ -79,6 +89,7 @@
         margin-bottom: 16px;
     }
 
+        /* Título do ano em verde */
         .ano-card-top h4 {
             font-size: 1.2rem;
             font-weight: 800;
@@ -86,11 +97,13 @@
             margin: 0;
         }
 
+    /* Agrupa os botões de adicionar PDF e excluir ano lado a lado */
     .ano-card-acoes {
         display: flex;
         gap: 8px;
     }
 
+    /* Botão verde para abrir o modal de upload de PDF */
     .btn-add-pdf {
         background: #1e7a3a;
         color: white;
@@ -107,6 +120,7 @@
             background: #15612e;
         }
 
+    /* Botão vermelho claro para excluir o ano inteiro */
     .btn-excluir-ano {
         background: #fee2e2;
         color: #dc2626;
@@ -126,6 +140,7 @@
             color: #dc2626;
         }
 
+    /* Linha de cada arquivo PDF listado dentro do card do ano */
     .arq-item {
         display: flex;
         justify-content: space-between;
@@ -137,21 +152,25 @@
         transition: border-color 0.2s;
     }
 
+        /* Destaca a borda do arquivo ao passar o mouse */
         .arq-item:hover {
             border-color: #1e7a3a;
         }
 
+        /* Nome do arquivo em negrito */
         .arq-item span {
             font-size: 0.9rem;
             color: #374151;
             font-weight: 600;
         }
 
+    /* Agrupa os botões de abrir e excluir arquivo lado a lado */
     .arq-btns {
         display: flex;
         gap: 8px;
     }
 
+    /* Botão azul para abrir o PDF em nova aba */
     .btn-abrir {
         background: #2563eb;
         color: white;
@@ -168,6 +187,7 @@
             color: white;
         }
 
+    /* Botão vermelho claro para excluir o arquivo */
     .btn-del {
         background: #fee2e2;
         color: #dc2626;
@@ -184,6 +204,7 @@
             color: #dc2626;
         }
 
+    /* Mensagem exibida quando não há arquivos cadastrados em um ano */
     .empty-msg {
         color: #94a3b8;
         font-size: 0.88rem;
@@ -192,6 +213,7 @@
 </style>
 
 
+@* Cabeçalho visual da página com ícone e título *@
 <div class="admin-header">
     <div class="admin-header-icon">📁</div>
     <div>
@@ -200,35 +222,46 @@
     </div>
 </div>
 
+@* Botão que abre o modal de criação de novo ano de gestão *@
 <button class="btn-novo" data-bs-toggle="modal" data-bs-target="#modalAno">
     ➕ Novo Ano
 </button>
 
+@* Loop que renderiza um card para cada ano de gestão da lista (Model) *@
 @foreach (var ano in Model)
 {
     <div class="ano-card">
         <div class="ano-card-top">
             <h4>📅 @ano.Ano</h4>
             <div class="ano-card-acoes">
+                @* Botão que abre o modal de upload de PDF específico deste ano
+                   O ID do modal é único por ano para evitar conflitos *@
                 <button class="btn-add-pdf"
                         data-bs-toggle="modal"
                         data-bs-target="#modalArquivo_@ano.Id">
                     + Adicionar PDF
                 </button>
+
+                @* Link que aciona a exclusão do ano inteiro (e seus arquivos) via URL direta *@
                 <a href="/AdminGestao/ExcluirAno/@ano.Id" class="btn-excluir-ano">
                     🗑 Excluir Ano
                 </a>
             </div>
         </div>
 
+        @* Verifica se o ano possui arquivos cadastrados *@
         @if (ano.Arquivos != null && ano.Arquivos.Any())
         {
+            @* Loop que renderiza cada arquivo PDF vinculado ao ano *@
             @foreach (var arq in ano.Arquivos)
             {
                 <div class="arq-item">
                     <span>📄 @arq.Titulo</span>
                     <div class="arq-btns">
+                        @* Link para abrir o PDF em nova aba usando o caminho da pasta de gestão *@
                         <a href="/pdf/gestao/@arq.Arquivo" target="_blank" class="btn-abrir">Abrir</a>
+
+                        @* Link que aciona a exclusão do arquivo via URL direta *@
                         <a href="/AdminGestao/ExcluirArquivo/@arq.Id" class="btn-del">Excluir</a>
                     </div>
                 </div>
@@ -236,10 +269,13 @@
         }
         else
         {
+            @* Mensagem exibida quando o ano ainda não tem nenhum arquivo *@
             <p class="empty-msg">Nenhum arquivo cadastrado.</p>
         }
     </div>
 
+    @* Modal de upload de PDF gerado individualmente para cada ano
+       O ID único (modalArquivo_@ano.Id) evita conflito entre os modais *@
     <div class="modal fade" id="modalArquivo_@ano.Id">
         <div class="modal-dialog">
             <div class="modal-content border-0 shadow">
@@ -247,8 +283,10 @@
                     <h5 class="fw-bold">📄 Novo PDF — @ano.Ano</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+                @* Formulário com suporte a upload de arquivo (enctype multipart) *@
                 <form asp-action="UploadArquivo" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
+                        @* Campo oculto que envia o ID do ano junto com o upload *@
                         <input type="hidden" name="anoId" value="@ano.Id" />
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Título</label>
@@ -256,6 +294,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">PDF</label>
+                            @* Campo de arquivo restrito a PDFs via atributo accept *@
                             <input type="file" name="arquivo" accept="application/pdf" class="form-control" required />
                         </div>
                     </div>
@@ -269,6 +308,7 @@
     </div>
 }
 
+@* ===== MODAL: CRIAR NOVO ANO DE GESTÃO ===== *@
 <div class="modal fade" id="modalAno">
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
@@ -276,6 +316,7 @@
                 <h5 class="fw-bold">📅 Novo Ano</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+            @* Formulário que envia o novo ano para a action CriarAno do controller *@
             <form asp-action="CriarAno" method="post">
                 <div class="modal-body">
                     <div class="mb-3">

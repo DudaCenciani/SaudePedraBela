@@ -1,23 +1,30 @@
-﻿@model List<SaudePedraBela.Models.Categorias>
+﻿@* Define o model da View como uma lista de categorias, cada uma contendo seus documentos *@
+@model List<SaudePedraBela.Models.Categorias>
 
 @{
+    @* Define o título da aba do navegador *@
     ViewData["Title"] = "Plano Municipal de Saúde";
 }
 
 <div class="container">
-
     <h1>Plano Municipal de Saúde</h1>
 
+    @* Loop que renderiza cada categoria cadastrada no banco *@
     @foreach (var categoria in Model)
     {
+        @* Bloco de cada categoria com espaçamento inferior *@
         <div style="margin-bottom:20px">
 
+            @* Título da categoria com ícone de pasta *@
             <h3>📁 @categoria.NomeCategoria</h3>
 
+            @* Lista de documentos vinculados à categoria *@
             <ul>
+                @* Loop que renderiza cada documento da categoria atual *@
                 @foreach (var doc in categoria.Documentos)
                 {
                     <li>
+                        @* Link que abre o documento em nova aba usando o caminho armazenado no banco *@
                         <a href="@doc.CaminhoDocumento" target="_blank">
                             @doc.NomeDocumento
                         </a>

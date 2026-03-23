@@ -1,9 +1,12 @@
-﻿@{
+﻿@* Define o título da aba do navegador *@
+@{
     ViewData["Title"] = "Área Administrativa";
+    @* Utiliza o layout administrativo *@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <style>
+    /* Cabeçalho da página com gradiente verde-azul e ícone à esquerda */
     .painel-header {
         background: linear-gradient(135deg, #1e7a3a, #2563eb);
         color: white;
@@ -15,6 +18,7 @@
         margin-bottom: 36px;
     }
 
+    /* Ícone decorativo no cabeçalho com fundo semitransparente */
     .painel-header-icon {
         background: rgba(255,255,255,0.15);
         border-radius: 14px;
@@ -24,27 +28,32 @@
         align-items: center;
         justify-content: center;
         font-size: 1.8rem;
-        flex-shrink: 0;
+        flex-shrink: 0; /* Impede encolhimento em telas menores */
     }
 
+    /* Título principal do cabeçalho */
     .painel-header h1 {
         font-size: 1.8rem;
         font-weight: 800;
         margin: 0 0 4px;
     }
 
+    /* Subtítulo do cabeçalho com leve transparência */
     .painel-header p {
         margin: 0;
         opacity: 0.85;
         font-size: 0.95rem;
     }
 
+    /* Grid que organiza os cards dos módulos em 3 colunas iguais */
     .modulos-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
     }
 
+    /* Card individual de cada módulo administrativo:
+           funciona como link clicável com ícone, título e descrição centralizados */
     .modulo-card {
         background: white;
         border-radius: 16px;
@@ -61,6 +70,7 @@
         transition: all 0.2s ease;
     }
 
+        /* Efeito hover: borda verde, leve elevação e sombra destacada */
         .modulo-card:hover {
             border-color: #1e7a3a;
             transform: translateY(-4px);
@@ -69,6 +79,7 @@
             text-decoration: none;
         }
 
+    /* Ícone do módulo com fundo colorido (cor definida inline em cada card) */
     .modulo-icon {
         width: 56px;
         height: 56px;
@@ -79,6 +90,7 @@
         font-size: 1.6rem;
     }
 
+    /* Título do módulo dentro do card */
     .modulo-card h3 {
         font-size: 1rem;
         font-weight: 700;
@@ -86,17 +98,20 @@
         margin: 0;
     }
 
+    /* Descrição curta do módulo em tom mais claro */
     .modulo-card span {
         font-size: 0.82rem;
         color: #64748b;
     }
 
+    /* Responsividade: em telas médias (tablets), reduz para 2 colunas */
     @@media (max-width: 768px) {
         .modulos-grid {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
+    /* Responsividade: em telas pequenas (celular), exibe 1 coluna por vez */
     @@media (max-width: 480px) {
         .modulos-grid {
             grid-template-columns: 1fr;
@@ -104,6 +119,7 @@
     }
 </style>
 
+@* Cabeçalho visual da página com ícone e título *@
 <div class="painel-header">
     <div class="painel-header-icon">⚙️</div>
     <div>
@@ -112,44 +128,52 @@
     </div>
 </div>
 
+@* Grid com todos os módulos disponíveis na área administrativa *@
 <div class="modulos-grid">
 
+    @* Card de acesso ao gerenciamento de documentos gerais (link direto por URL) *@
     <a href="/Documentos" class="modulo-card">
         <div class="modulo-icon" style="background:#dbeafe; color:#2563eb;">📄</div>
         <h3>Documentos</h3>
         <span>Gerenciar documentos gerais</span>
     </a>
 
+    @* Card de acesso ao gerenciamento de categorias de documentos (link direto por URL) *@
     <a href="/Categorias" class="modulo-card">
         <div class="modulo-icon" style="background:#dcfce7; color:#16a34a;">🏷️</div>
         <h3>Categorias</h3>
         <span>Gerenciar categorias de documentos</span>
     </a>
 
+    @* Card de acesso ao gerenciamento de usuários do sistema (link direto por URL) *@
     <a href="/Usuarios" class="modulo-card">
         <div class="modulo-icon" style="background:#fef3c7; color:#92400e;">👤</div>
         <h3>Usuários</h3>
         <span>Gerenciar usuários do sistema</span>
     </a>
 
+    @* Card de acesso ao gerenciamento de escalas dos profissionais (link direto por URL) *@
     <a href="/EscalasAdmin" class="modulo-card">
         <div class="modulo-icon" style="background:#ede9fe; color:#7c3aed;">📅</div>
         <h3>Escalas</h3>
         <span>Gerenciar escalas dos profissionais</span>
     </a>
 
+    @* Card de acesso ao módulo de Vacinação (link gerado pelo Tag Helper asp-controller/asp-action) *@
     <a asp-controller="VacinacaoAdmin" asp-action="Index" class="modulo-card">
         <div class="modulo-icon" style="background:#fee2e2; color:#dc2626;">💉</div>
         <h3>Vacinação</h3>
         <span>Campanhas, calendário e locais</span>
     </a>
 
+    @* Card de acesso ao módulo da Farmácia (link gerado pelo Tag Helper asp-controller/asp-action) *@
     <a asp-controller="AdminFarmacia" asp-action="Index" class="modulo-card">
         <div class="modulo-icon" style="background:#dcfce7; color:#16a34a;">💊</div>
         <h3>Farmácia</h3>
         <span>Medicamentos e horários</span>
     </a>
 
+    @* Card de acesso ao módulo de Gestão (link gerado pelo Tag Helper asp-controller/asp-action) *@
     <a asp-controller="AdminGestao" asp-action="Index" class="modulo-card">
         <div class="modulo-icon" style="background:#ffedd5; color:#ea580c;">📊</div>
         <h3>Gestão</h3>

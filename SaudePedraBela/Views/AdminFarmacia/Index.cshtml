@@ -1,11 +1,15 @@
-﻿@model FarmaciaConfig
+﻿@* Define o model da View como FarmaciaConfig, dando acesso aos campos de horário e local *@
+@model FarmaciaConfig
 
 @{
+    @* Utiliza o layout administrativo *@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    @* Define o título da aba do navegador *@
     ViewData["Title"] = "Admin - Farmácia";
 }
 
 <style>
+    /* Cabeçalho da página admin com gradiente verde-azul e ícone à esquerda */
     .admin-header {
         background: linear-gradient(135deg, #1e7a3a, #2563eb);
         color: white;
@@ -17,6 +21,7 @@
         margin-bottom: 32px;
     }
 
+    /* Ícone decorativo dentro do cabeçalho com fundo semitransparente */
     .admin-header-icon {
         background: rgba(255,255,255,0.15);
         border-radius: 14px;
@@ -26,21 +31,24 @@
         align-items: center;
         justify-content: center;
         font-size: 1.8rem;
-        flex-shrink: 0;
+        flex-shrink: 0; /* Impede que o ícone encolha em telas menores */
     }
 
+    /* Título principal do cabeçalho */
     .admin-header h1 {
         font-size: 1.8rem;
         font-weight: 800;
         margin: 0 0 4px;
     }
 
+    /* Subtítulo do cabeçalho com leve transparência */
     .admin-header p {
         margin: 0;
         opacity: 0.85;
         font-size: 0.95rem;
     }
 
+    /* Card branco que agrupa cada seção da página (configuração e cards de medicamentos) */
     .secao-card {
         background: white;
         border-radius: 16px;
@@ -50,6 +58,7 @@
         margin-bottom: 28px;
     }
 
+        /* Título de cada seção dentro do card */
         .secao-card h3 {
             font-size: 1.1rem;
             font-weight: 800;
@@ -60,6 +69,7 @@
             gap: 8px;
         }
 
+    /* Botão verde para abrir o modal de criação de novo card */
     .btn-novo {
         background: #1e7a3a;
         color: white;
@@ -76,11 +86,13 @@
         margin-bottom: 20px;
     }
 
+        /* Escurece o botão no hover */
         .btn-novo:hover {
             background: #15612e;
             color: white;
         }
 
+    /* Linha de cada card de medicamento listado, com título e botões de ação */
     .card-item {
         display: flex;
         justify-content: space-between;
@@ -92,26 +104,31 @@
         transition: border-color 0.2s;
     }
 
+        /* Destaca a borda do item ao passar o mouse */
         .card-item:hover {
             border-color: #1e7a3a;
         }
 
+    /* Nome do card em negrito */
     .card-item-info strong {
         display: block;
         font-size: 0.92rem;
         color: #1a1a2e;
     }
 
+    /* Descrição do card em tom mais claro */
     .card-item-info span {
         font-size: 0.82rem;
         color: #64748b;
     }
 
+    /* Agrupa os botões de editar e excluir lado a lado */
     .card-item-btns {
         display: flex;
         gap: 8px;
     }
 
+    /* Botão de edição com fundo amarelo claro */
     .btn-editar {
         background: #fef3c7;
         color: #92400e;
@@ -127,6 +144,7 @@
             background: #fde68a;
         }
 
+    /* Botão de exclusão com fundo vermelho claro */
     .btn-del {
         background: #fee2e2;
         color: #dc2626;
@@ -144,6 +162,7 @@
 </style>
 
 
+@* Cabeçalho visual da página com ícone e título *@
 <div class="admin-header">
     <div class="admin-header-icon">💊</div>
     <div>
@@ -152,30 +171,36 @@
     </div>
 </div>
 
-{{-- CONFIGURAÇÃO HORÁRIO/LOCAL --}}
+@* ===== SEÇÃO: CONFIGURAÇÃO DE HORÁRIO E LOCAL ===== *@
 <div class="secao-card">
     <h3>🕐 Configuração de Atendimento</h3>
+
+    @* Formulário que envia os dados de horário e local para a action SalvarConfig *@
     <form asp-action="SalvarConfig" method="post">
         <div class="mb-3">
             <label class="form-label fw-semibold">Horário</label>
+            @* Campo vinculado ao campo Horario do model FarmaciaConfig *@
             <input asp-for="Horario" class="form-control" placeholder="Ex: 7h às 17h" />
         </div>
         <div class="mb-3">
             <label class="form-label fw-semibold">Local</label>
+            @* Campo vinculado ao campo Local do model FarmaciaConfig *@
             <input asp-for="Local" class="form-control" placeholder="Ex: Rua Bernardino de Lima Paes, 45" />
         </div>
         <button type="submit" class="btn btn-success">💾 Salvar Configuração</button>
     </form>
 </div>
 
-{{-- CARDS DE MEDICAMENTOS --}}
+@* ===== SEÇÃO: LISTAGEM E GERENCIAMENTO DE CARDS ===== *@
 <div class="secao-card">
     <h3>💊 Cards de Medicamentos</h3>
 
+    @* Botão que abre o modal de criação de novo card via Bootstrap *@
     <button class="btn-novo" data-bs-toggle="modal" data-bs-target="#modalNovoCard">
         ➕ Novo Card
     </button>
 
+    @* Loop que renderiza um item para cada card de medicamento vindo do ViewBag *@
     @foreach (var card in ViewBag.Cards)
     {
         <div class="card-item">
@@ -184,10 +209,12 @@
                 <span>@card.Descricao</span>
             </div>
             <div class="card-item-btns">
+                @* Botão de editar: passa os dados do card atual para a função JS que preenche o modal *@
                 <button class="btn-editar"
                         onclick="abrirModalEditar(@card.Id, '@card.Titulo', '@card.Descricao', '@card.Link', @card.Ordem)">
                     ✏️ Editar
                 </button>
+                @* Botão de excluir: passa o ID do card para a função JS que abre o modal de confirmação *@
                 <button class="btn-del" onclick="confirmarExclusao(@card.Id)">
                     🗑 Excluir
                 </button>
@@ -197,7 +224,7 @@
 </div>
 
 
-<!-- MODAL NOVO CARD -->
+@* ===== MODAL: CRIAR NOVO CARD ===== *@
 <div class="modal fade" id="modalNovoCard" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
@@ -205,6 +232,7 @@
                 <h5 class="fw-bold">➕ Novo Card</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+            @* Formulário com suporte a upload de arquivo (enctype multipart) *@
             <form asp-action="CriarCard" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3">
@@ -219,10 +247,12 @@
                         <label class="form-label fw-semibold">Link (opcional)</label>
                         <input name="Link" class="form-control">
                     </div>
+                    @* Campo alternativo ao link: permite anexar um PDF ao card *@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">OU PDF</label>
                         <input type="file" name="arquivoPdf" class="form-control">
                     </div>
+                    @* Ordem de exibição do card na página pública *@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Ordem</label>
                         <input name="Ordem" type="number" class="form-control">
@@ -237,7 +267,7 @@
     </div>
 </div>
 
-<!-- MODAL EDITAR CARD -->
+@* ===== MODAL: EDITAR CARD EXISTENTE ===== *@
 <div class="modal fade" id="modalEditarCard">
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
@@ -246,8 +276,10 @@
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form asp-action="EditarCard" method="post">
+                @* Campo oculto que armazena o ID do card a ser editado (preenchido pelo JS) *@
                 <input type="hidden" name="Id" id="editId" />
                 <div class="modal-body">
+                    @* Campos preenchidos automaticamente pelo JS com os dados do card selecionado *@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Título</label>
                         <input name="Titulo" id="editTitulo" class="form-control" />
@@ -274,7 +306,7 @@
     </div>
 </div>
 
-<!-- MODAL CONFIRMAR EXCLUSÃO -->
+@* ===== MODAL: CONFIRMAR EXCLUSÃO ===== *@
 <div class="modal fade" id="modalExcluir">
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
@@ -285,6 +317,7 @@
             <div class="modal-body">Tem certeza que deseja excluir este card?</div>
             <div class="modal-footer border-0">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                @* Link de confirmação: o href é preenchido dinamicamente pelo JS com o ID do card *@
                 <a id="btnConfirmarExcluir" class="btn btn-danger">Excluir</a>
             </div>
         </div>
@@ -292,6 +325,8 @@
 </div>
 
 <script>
+    // Função que preenche os campos do modal de edição com os dados do card selecionado
+    // e abre o modal via Bootstrap
     function abrirModalEditar(id, titulo, descricao, link, ordem) {
         document.getElementById("editId").value = id;
         document.getElementById("editTitulo").value = titulo;
@@ -301,6 +336,8 @@
         new bootstrap.Modal(document.getElementById('modalEditarCard')).show();
     }
 
+    // Função que define a URL de exclusão no botão de confirmação com o ID do card
+    // e abre o modal de confirmação via Bootstrap
     function confirmarExclusao(id) {
         document.getElementById("btnConfirmarExcluir").href = "/AdminFarmacia/ExcluirCard/" + id;
         new bootstrap.Modal(document.getElementById('modalExcluir')).show();

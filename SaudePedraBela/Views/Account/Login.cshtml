@@ -1,9 +1,12 @@
-﻿@{
+﻿@* Define o título da aba do navegador para esta página *@
+@{
     ViewData["Title"] = "Login";
+    @* Utiliza o layout administrativo ao invés do layout público padrão *@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <style>
+    /* Container principal: centraliza o card de login vertical e horizontalmente na tela */
     .login-wrap {
         min-height: 80vh;
         display: flex;
@@ -11,6 +14,7 @@
         justify-content: center;
     }
 
+    /* Card branco com sombra que envolve todo o formulário de login */
     .login-card {
         background: white;
         border-radius: 20px;
@@ -18,9 +22,10 @@
         box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         border: 1.5px solid #e2e8f0;
         width: 100%;
-        max-width: 420px;
+        max-width: 420px; /* Largura máxima para não esticar demais em telas grandes */
     }
 
+    /* Ícone decorativo no topo do card com gradiente verde-azul */
     .login-icon {
         background: linear-gradient(135deg, #1e7a3a, #2563eb);
         width: 64px;
@@ -30,9 +35,10 @@
         align-items: center;
         justify-content: center;
         font-size: 1.8rem;
-        margin: 0 auto 20px;
+        margin: 0 auto 20px; /* Centraliza horizontalmente com espaço abaixo */
     }
 
+    /* Título principal do card */
     .login-card h2 {
         text-align: center;
         font-size: 1.5rem;
@@ -41,6 +47,7 @@
         margin-bottom: 6px;
     }
 
+    /* Subtítulo/descrição abaixo do título */
     .login-card p {
         text-align: center;
         color: #64748b;
@@ -48,6 +55,7 @@
         margin-bottom: 28px;
     }
 
+    /* Estilo dos labels dos campos do formulário */
     .login-card label {
         font-weight: 600;
         font-size: 0.88rem;
@@ -56,19 +64,22 @@
         display: block;
     }
 
+    /* Estilo dos campos de input do formulário */
     .login-card .form-control {
         border-radius: 10px;
         border: 1.5px solid #e2e8f0;
         padding: 10px 14px;
         font-size: 0.92rem;
-        transition: border-color 0.2s;
+        transition: border-color 0.2s; /* Transição suave ao focar */
     }
 
+        /* Estilo do input quando está em foco: borda verde com leve sombra */
         .login-card .form-control:focus {
             border-color: #1e7a3a;
             box-shadow: 0 0 0 3px rgba(30,122,58,0.1);
         }
 
+    /* Botão de submissão do formulário com gradiente e largura total */
     .btn-entrar {
         background: linear-gradient(135deg, #1e7a3a, #2563eb);
         color: white;
@@ -80,16 +91,18 @@
         font-size: 1rem;
         cursor: pointer;
         margin-top: 8px;
-        transition: opacity 0.2s;
+        transition: opacity 0.2s; /* Transição suave no hover */
     }
 
+        /* Efeito hover: leve redução de opacidade para indicar interatividade */
         .btn-entrar:hover {
             opacity: 0.9;
         }
 
+    /* Mensagem de erro exibida quando as credenciais estão incorretas */
     .erro-msg {
-        background: #fee2e2;
-        color: #dc2626;
+        background: #fee2e2; /* Fundo vermelho claro */
+        color: #dc2626; /* Texto vermelho */
         border-radius: 10px;
         padding: 10px 14px;
         font-size: 0.88rem;
@@ -99,33 +112,45 @@
     }
 </style>
 
+@* Container externo que centraliza o card na página *@
 <div class="login-wrap">
     <div class="login-card">
 
+        @* Ícone de cadeado decorativo no topo do card *@
         <div class="login-icon">🔐</div>
+
         <h2>Área Administrativa</h2>
         <p>Informe suas credenciais para continuar</p>
 
+        @* Formulário de login que envia os dados via POST para a action Login do controller Account *@
         <form asp-action="Login" method="post">
+
+            @* Campo oculto que preserva a URL de retorno após o login,
+               caso o usuário tenha sido redirecionado de outra página *@
             <input type="hidden" name="returnUrl" value="@Context.Request.Query["returnUrl"]" />
 
+            @* Campo de texto para o nome de usuário *@
             <div class="mb-3">
                 <label>Usuário</label>
                 <input type="text" name="usuarioLogin" class="form-control" required placeholder="Digite seu usuário" />
             </div>
 
+            @* Campo de senha (os caracteres ficam ocultos) *@
             <div class="mb-3">
                 <label>Senha</label>
                 <input type="password" name="senha" class="form-control" required placeholder="••••••••" />
             </div>
 
+            @* Botão que submete o formulário *@
             <button type="submit" class="btn-entrar">Entrar</button>
 
+            @* Exibe a mensagem de erro vinda do controller (ViewBag.Erro) apenas se ela existir,
+               por exemplo quando o usuário ou senha estiverem incorretos *@
             @if (ViewBag.Erro != null)
             {
                 <div class="erro-msg">⚠️ @ViewBag.Erro</div>
             }
-        </form>
 
+        </form>
     </div>
 </div>

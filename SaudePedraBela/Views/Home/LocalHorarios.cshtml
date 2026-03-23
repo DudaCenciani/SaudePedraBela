@@ -1,59 +1,70 @@
 ﻿@{
+    @* Define o título da aba do navegador *@
     ViewData["Title"] = "Local e Horários";
 }
 
 <style>
 
+    /* Banner do topo da página com gradiente verde-azul horizontal */
     .banner-local {
-        background: linear-gradient(90deg,#1e7a3a,#2563eb);
-        color:white;
-        padding:60px 0;
+        background: linear-gradient(90deg, #1e7a3a, #2563eb);
+        color: white;
+        padding: 60px 0;
     }
 
-    .banner-local h1{
-        font-size:42px;
-        font-weight:600;
+        /* Título principal do banner */
+        .banner-local h1 {
+            font-size: 42px;
+            font-weight: 600;
+        }
+
+    /* Card branco com sombra que envolve cada unidade de saúde */
+    .card-unidade {
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
-    .card-unidade{
-        background:white;
-        border-radius:14px;
-        padding:25px;
-        box-shadow:0 4px 10px rgba(0,0,0,0.08);
+        /* Título de cada unidade dentro do card */
+        .card-unidade h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+    /* Caixa azul claro de informações importantes no rodapé da página */
+    .info-box {
+        background: #eaf2ff;
+        border: 1px solid #c6d7ff;
+        border-radius: 14px;
+        padding: 25px;
     }
 
-    .card-unidade h3{
-        font-size:20px;
-        margin-bottom:15px;
+    /* Ícone inline com margem à direita (classe utilitária) */
+    .icon {
+        width: 20px;
+        margin-right: 8px;
     }
 
-    .info-box{
-        background:#eaf2ff;
-        border:1px solid #c6d7ff;
-        border-radius:14px;
-        padding:25px;
-    }
-
-    .icon{
-        width:20px;
-        margin-right:8px;
-    }
-
+    /* Imagem de capa da unidade com altura fixa e corte proporcional */
     .card-img {
         width: 100%;
         height: 180px;
-        object-fit: cover;
-        border-radius: 12px 12px 0 0;
+        object-fit: cover; /* Recorta a imagem mantendo proporção */
+        border-radius: 12px 12px 0 0; /* Arredonda apenas os cantos superiores */
         margin-bottom: 15px;
     }
 
 </style>
 
 
+@* ===== BANNER DO TOPO =====
+   Cabeçalho com ícone decorativo e título da página *@
 <div class="banner-local">
     <div class="container d-flex align-items-center">
 
-        <div style="background:rgba(255,255,255,0.15);padding:18px;border-radius:12px;margin-right:20px">
+        @* Ícone de localização com fundo semitransparente *@
+        <div style="background:rgba(255,255,255,0.15); padding:18px; border-radius:12px; margin-right:20px">
             📍
         </div>
 
@@ -66,27 +77,26 @@
 </div>
 
 
+@* ===== GRID DE UNIDADES DE SAÚDE ===== *@
 <div class="container mt-5">
 
     <div class="row g-4">
 
-        <!-- CENTRO DE SAUDE -->
-
+        @* --- Centro de Saúde Angelina Santana Schievenin --- *@
         <div class="col-md-4">
             <div class="card-unidade">
 
+                @* Foto da unidade carregada da pasta wwwroot/images *@
                 <img src="~/images/PostoAngelina.png" class="card-img" alt="Centro de Saúde">
 
                 <h3>Centro de Saúde Angelina Santana Schievenin</h3>
 
                 <p>📍 R. Bernardino de Lima Paes, 45<br>Centro</p>
-
                 <p>🕒 Seg a Dom: 07:00 às 19:00</p>
-
                 <p>📞 (11) 4037-1277 Ramal 108</p>
-
                 <p>✉️ enfermagem@pedrabela.sp.gov.br</p>
 
+                @* Link externo que abre a localização no Google Maps *@
                 <a target="_blank"
                    href="https://maps.google.com/?q=Rua+Bernardino+de+Lima+Paes+45+Pedra+Bela">
                     Ver no Google Maps
@@ -96,8 +106,7 @@
         </div>
 
 
-        <!-- FARMACIA -->
-
+        @* --- Farmácia Municipal --- *@
         <div class="col-md-4">
             <div class="card-unidade">
 
@@ -106,11 +115,8 @@
                 <h3>Farmácia Municipal</h3>
 
                 <p>📍 R. Bernardino de Lima Paes, 45<br>Centro</p>
-
                 <p>🕒 Seg a Sex: 07:00 às 19:00</p>
-
                 <p>📞 (11) 4037-1277 Ramal 122</p>
-
                 <p>✉️ farmacia@pedrabela.sp.gov.br</p>
 
                 <a target="_blank"
@@ -122,8 +128,7 @@
         </div>
 
 
-        <!-- DIRETORIA -->
-
+        @* --- Diretoria Municipal de Saúde --- *@
         <div class="col-md-4">
             <div class="card-unidade">
 
@@ -132,13 +137,9 @@
                 <h3>Diretoria Municipal de Saúde</h3>
 
                 <p>📍 R. Bernardino de Lima Paes, 45<br>Centro</p>
-
                 <p>🕒 Seg a Sex: 08:00 às 17:00</p>
-
                 <p>📞 (11) 4037-1277 Ramal 112</p>
-
-                <p> (11) 95033-3639 </p>
-
+                <p>(11) 95033-3639</p>
                 <p>✉️ secretariasaude@pedrabela.sp.gov.br</p>
 
                 <a target="_blank"
@@ -150,8 +151,8 @@
         </div>
 
 
-        <!-- UBS -->
-
+        @* --- UBS Dr. Jorge Hirodi Orita ---
+           Utiliza imagem diferente (DrJorge.jpeg) *@
         <div class="col-md-4">
             <div class="card-unidade">
 
@@ -160,11 +161,8 @@
                 <h3>UBS Dr. Jorge Hirodi Orita</h3>
 
                 <p>📍 R. Bernardino de Lima Paes, 51<br>Centro</p>
-
                 <p>🕒 Seg a Sex: 08:00 às 17:00</p>
-
                 <p>📞 (11) 95033-3639</p>
-
                 <p>✉️ esf@pedrabela.sp.gov.br</p>
 
                 <a target="_blank"
@@ -176,19 +174,16 @@
         </div>
 
 
-        <!-- SAMU -->
-
+        @* --- Base do SAMU 192 ---
+           Sem imagem de capa e sem e-mail cadastrado *@
         <div class="col-md-4">
             <div class="card-unidade">
 
                 <h3>Base do SAMU 192</h3>
 
                 <p>📍 R. Hilário Maciel Leme, 191<br>Centro</p>
-
                 <p>🕒 Atendimento 24h</p>
-
                 <p>📞 192</p>
-
                 <p>✉️ email:-</p>
 
                 <a target="_blank"
@@ -200,19 +195,16 @@
         </div>
 
 
-        <!-- ACADEMIA -->
-
+        @* --- Academia da Saúde - PAPI ---
+           Sem imagem de capa, telefone e e-mail ainda não cadastrados *@
         <div class="col-md-4">
             <div class="card-unidade">
 
                 <h3>Academia da Saúde - PAPI</h3>
 
                 <p>📍 R. Américo Augusto Leme, 195<br>Centro</p>
-
                 <p>🕒 Seg a Sex: 08:00 às 17:00</p>
-
                 <p>📞 -</p>
-
                 <p>✉️ email:-</p>
 
                 <a target="_blank"
@@ -223,10 +215,11 @@
             </div>
         </div>
 
-
     </div>
 
 
+    @* ===== CAIXA DE INFORMAÇÕES IMPORTANTES =====
+       Exibida abaixo do grid com orientações gerais ao cidadão *@
     <div class="info-box mt-5">
 
         <h4>Informações Importantes</h4>

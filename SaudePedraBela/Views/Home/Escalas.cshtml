@@ -1,4 +1,5 @@
 ﻿@{
+    @* Define o título da aba do navegador *@
     ViewData["Title"] = "Escalas";
 }
 
@@ -10,6 +11,7 @@
 <style>
 
     /* ---------- HEADER ---------- */
+    /* Cabeçalho da página com gradiente verde-azul e ícone à esquerda */
     .esc-header {
         background: linear-gradient(135deg, #1e7a3a 0%, #2563eb 100%);
         color: white;
@@ -19,6 +21,7 @@
         gap: 24px;
     }
 
+    /* Ícone decorativo no cabeçalho com fundo semitransparente */
     .esc-header-icon {
         background: rgba(255,255,255,0.15);
         border-radius: 16px;
@@ -28,15 +31,17 @@
         align-items: center;
         justify-content: center;
         font-size: 2rem;
-        flex-shrink: 0;
+        flex-shrink: 0; /* Impede encolhimento em telas menores */
     }
 
+    /* Título principal do cabeçalho */
     .esc-header h1 {
         font-size: 2.2rem;
         font-weight: 800;
         margin: 0 0 6px 0;
     }
 
+    /* Subtítulo do cabeçalho com leve transparência */
     .esc-header p {
         margin: 0;
         opacity: 0.88;
@@ -44,6 +49,7 @@
     }
 
     /* ---------- CONTAINER ---------- */
+    /* Limita a largura do conteúdo e centraliza na página */
     .esc-container {
         max-width: 1100px;
         margin: 0 auto;
@@ -51,6 +57,7 @@
     }
 
     /* ---------- TÍTULO DO ANO ---------- */
+    /* Exibe o ano atual em destaque acima do grid de cards */
     .esc-ano {
         text-align: center;
         font-size: 1.6rem;
@@ -60,6 +67,7 @@
     }
 
     /* ---------- GRID DE CARDS ---------- */
+    /* Grade de 3 colunas para os cards das unidades de saúde */
     .esc-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -67,7 +75,7 @@
         margin-bottom: 40px;
     }
 
-    /* Card de cada unidade */
+    /* Card individual de cada unidade de saúde */
     .esc-card {
         background: white;
         border-radius: 16px;
@@ -82,13 +90,14 @@
         gap: 16px;
     }
 
+        /* Efeito hover: borda verde, leve elevação e sombra destacada */
         .esc-card:hover {
             border-color: #1e7a3a;
             transform: translateY(-3px);
             box-shadow: 0 8px 24px rgba(30,122,58,0.12);
         }
 
-    /* Ícone colorido no topo do card */
+    /* Ícone colorido no topo do card (cor definida inline em cada card) */
     .esc-card-icon {
         width: 54px;
         height: 54px;
@@ -99,6 +108,7 @@
         font-size: 1.4rem;
     }
 
+    /* Nome da unidade dentro do card */
     .esc-card h4 {
         font-size: 0.98rem;
         font-weight: 700;
@@ -107,7 +117,7 @@
         line-height: 1.4;
     }
 
-    /* Botão verde principal */
+    /* Botão verde principal para acessar os arquivos */
     .btn-acessar {
         background: #1e7a3a;
         color: white;
@@ -118,14 +128,14 @@
         font-size: 0.88rem;
         cursor: pointer;
         transition: background 0.2s;
-        width: 100%;
+        width: 100%; /* Ocupa toda a largura do card */
     }
 
         .btn-acessar:hover {
             background: #15612e;
         }
 
-        /* Botão cinza para cards secundários (PAPI, SAMU) */
+        /* Variação cinza para unidades secundárias (PAPI e SAMU) */
         .btn-acessar.secundario {
             background: #64748b;
         }
@@ -135,6 +145,7 @@
             }
 
     /* ---------- AVISO ---------- */
+    /* Caixa de aviso azul claro exibida abaixo do grid */
     .esc-aviso {
         background: #eaf2ff;
         border: 1.5px solid #c6d7ff;
@@ -145,34 +156,36 @@
     }
 
     /* ---------- MODAL DE ARQUIVOS ---------- */
-    /* Overlay escuro */
+    /* Overlay escuro que cobre toda a tela quando o modal está aberto */
     .arq-overlay {
-        display: none;
+        display: none; /* Oculto por padrão, ativado via classe .ativo pelo JS */
         position: fixed;
-        inset: 0;
+        inset: 0; /* Cobre toda a viewport */
         background: rgba(0,0,0,0.5);
-        z-index: 9999;
+        z-index: 9999; /* Garante que fique acima de todos os outros elementos */
         justify-content: center;
         align-items: center;
         padding: 20px;
     }
 
+        /* Classe adicionada pelo JS para exibir o overlay */
         .arq-overlay.ativo {
             display: flex;
         }
 
-    /* Caixa do modal */
+    /* Caixa branca do modal com scroll interno */
     .arq-box {
         background: white;
         border-radius: 18px;
         width: 100%;
         max-width: 700px;
-        max-height: 85vh;
-        overflow-y: auto;
+        max-height: 85vh; /* Limita a altura para não ultrapassar a tela */
+        overflow-y: auto; /* Permite scroll interno quando o conteúdo é longo */
         box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        animation: slideUp 0.3s ease;
+        animation: slideUp 0.3s ease; /* Animação de entrada suave */
     }
 
+    /* Animação de entrada do modal: sobe e aparece gradualmente */
     @@keyframes slideUp {
         from {
             transform: translateY(30px);
@@ -185,19 +198,20 @@
         }
     }
 
-    /* Cabeçalho do modal */
+    /* Cabeçalho fixo do modal (fica visível mesmo ao rolar o conteúdo) */
     .arq-header {
         padding: 22px 28px 18px;
         border-bottom: 1px solid #e8ecf0;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: sticky;
+        position: sticky; /* Mantém o cabeçalho visível durante o scroll interno */
         top: 0;
         background: white;
         border-radius: 18px 18px 0 0;
     }
 
+        /* Título do modal */
         .arq-header h3 {
             font-size: 1.15rem;
             font-weight: 800;
@@ -205,6 +219,7 @@
             margin: 0;
         }
 
+    /* Botão circular para fechar o modal */
     .arq-close {
         background: #f1f5f9;
         border: none;
@@ -217,17 +232,18 @@
         transition: background 0.2s;
     }
 
+        /* Efeito hover: fica vermelho para indicar fechamento */
         .arq-close:hover {
             background: #fee2e2;
             color: #dc2626;
         }
 
-    /* Corpo do modal */
+    /* Corpo do modal onde a lista de arquivos é renderizada pelo JS */
     .arq-body {
         padding: 20px 28px 28px;
     }
 
-    /* Título do ano dentro do modal */
+    /* Título do ano dentro do modal (agrupamento por ano) */
     .arq-ano-titulo {
         text-align: center;
         font-size: 1.2rem;
@@ -236,17 +252,17 @@
         margin: 16px 0 8px;
     }
 
-    /* Título do mês dentro do modal */
+    /* Título do mês dentro do modal (agrupamento por mês) */
     .arq-mes-titulo {
         font-size: 0.92rem;
         font-weight: 700;
         color: #1e7a3a;
         margin: 16px 0 8px;
         padding-bottom: 4px;
-        border-bottom: 1.5px solid #e2e8f0;
+        border-bottom: 1.5px solid #e2e8f0; /* Separador visual abaixo do nome do mês */
     }
 
-    /* Item de arquivo */
+    /* Linha individual de cada arquivo listado no modal */
     .arq-item {
         display: flex;
         justify-content: space-between;
@@ -262,17 +278,19 @@
             border-color: #1e7a3a;
         }
 
+        /* Nome do arquivo */
         .arq-item span {
             font-size: 0.88rem;
             color: #374151;
         }
 
+    /* Agrupa os botões de visualizar e baixar lado a lado */
     .arq-item-btns {
         display: flex;
         gap: 8px;
     }
 
-    /* Botões visualizar/baixar */
+    /* Botão azul para abrir o PDF em nova aba */
     .btn-vis {
         background: #2563eb;
         color: white;
@@ -289,6 +307,7 @@
             color: white;
         }
 
+    /* Botão verde para baixar o PDF */
     .btn-baixar {
         background: #1e7a3a;
         color: white;
@@ -305,7 +324,7 @@
             color: white;
         }
 
-    /* Mensagem vazia */
+    /* Mensagem exibida quando não há arquivos na pasta */
     .arq-vazio {
         text-align: center;
         color: #94a3b8;
@@ -314,12 +333,14 @@
     }
 
     /* ---------- RESPONSIVO ---------- */
+    /* Em telas médias (tablets): reduz para 2 colunas */
     @@media (max-width: 900px) {
         .esc-grid {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
+    /* Em telas pequenas (celular): 1 coluna e cabeçalho centralizado */
     @@media (max-width: 600px) {
         .esc-grid {
             grid-template-columns: 1fr;
@@ -346,14 +367,14 @@
 
 <div class="esc-container">
 
-    @* Título do ano atual *@
+    @* Título do ano atual exibido acima do grid *@
     <div class="esc-ano">2026</div>
 
     @* ===== GRID DE CARDS DAS UNIDADES ===== *@
     <div class="esc-grid">
 
-        @* --- Clínicos e Especialistas --- *@
-        @* data-pasta é usado pelo JS para buscar os arquivos na pasta correta *@
+        @* --- Clínicos e Especialistas ---
+           data-pasta: identifica qual subpasta o JS deve buscar no servidor *@
         <div class="esc-card">
             <div class="esc-card-icon" style="background:#dbeafe; color:#2563eb;">🏥</div>
             <h4>Clínicos e Especialistas</h4>
@@ -362,7 +383,7 @@
             </button>
         </div>
 
-        @* --- Centro de Saúde --- *@
+        @* --- Centro de Saúde Angelina Santana Schievenin --- *@
         <div class="esc-card">
             <div class="esc-card-icon" style="background:#dcfce7; color:#16a34a;">🏨</div>
             <h4>C.S Angelina Santana Schievenin</h4>
@@ -371,7 +392,7 @@
             </button>
         </div>
 
-        @* --- UBS --- *@
+        @* --- UBS Dr. Jorge Hirodi Orita --- *@
         <div class="esc-card">
             <div class="esc-card-icon" style="background:#fce7f3; color:#db2777;">🏪</div>
             <h4>UBS Dr. Jorge Hirodi Orita</h4>
@@ -380,7 +401,7 @@
             </button>
         </div>
 
-        @* --- Academia de Saúde (PAPI) --- *@
+        @* --- Academia de Saúde (PAPI) --- botão secundário (cinza) *@
         <div class="esc-card">
             <div class="esc-card-icon" style="background:#ede9fe; color:#7c3aed;">🏃</div>
             <h4>Academia de Saúde (PAPI)</h4>
@@ -389,7 +410,7 @@
             </button>
         </div>
 
-        @* --- SAMU --- *@
+        @* --- Base Descentralizada do SAMU 192 --- botão secundário (cinza) *@
         <div class="esc-card">
             <div class="esc-card-icon" style="background:#fee2e2; color:#dc2626;">🚑</div>
             <h4>Base Descentralizada do SAMU 192</h4>
@@ -408,18 +429,19 @@
 </div>
 
 
-@* ===== MODAL DE ARQUIVOS ===== *@
-@* Aberto pelo JS quando o usuário clica em "Acessar Arquivos" *@
+@* ===== MODAL DE ARQUIVOS =====
+   Exibido ao clicar em "Acessar Arquivos"; conteúdo preenchido dinamicamente pelo JS *@
 <div id="modalArquivos" class="arq-overlay" onclick="fecharModalFora(event)">
     <div class="arq-box">
 
         <div class="arq-header">
             <h3>📁 Arquivos Disponíveis</h3>
+            @* Botão que fecha o modal ao clicar no ✕ *@
             <button class="arq-close" onclick="fecharModal()">✕</button>
         </div>
 
         <div class="arq-body">
-            @* Lista preenchida dinamicamente pelo JS *@
+            @* Div vazia preenchida pelo JS com a lista de arquivos agrupados por ano e mês *@
             <div id="listaArquivos"></div>
         </div>
 
@@ -429,7 +451,7 @@
 
 <script>
 
-    // Converte número do mês para nome em português
+    // Converte o número do mês (1-12) para o nome em português
     function nomeMes(mes) {
         const meses = [
             "", "Janeiro", "Fevereiro", "Março", "Abril",
@@ -439,32 +461,35 @@
         return meses[mes];
     }
 
-    // Abre o modal com os arquivos da pasta clicada
+    // Adiciona o evento de clique em todos os botões "Acessar Arquivos"
     document.querySelectorAll(".abrir-arquivos").forEach(btn => {
         btn.addEventListener("click", function () {
 
+            // Obtém o nome da pasta a partir do atributo data-pasta do botão clicado
             const pasta = this.dataset.pasta;
             const lista = document.getElementById("listaArquivos");
 
-            // Mostra carregando enquanto busca
+            // Exibe mensagem de carregamento enquanto aguarda a resposta do servidor
             lista.innerHTML = "<p style='text-align:center;color:#94a3b8;padding:20px 0'>Carregando...</p>";
+
+            // Abre o modal e trava o scroll da página
             document.getElementById("modalArquivos").classList.add("ativo");
             document.body.style.overflow = "hidden";
 
-            // Busca os arquivos da pasta no controller EscalasAdmin
+            // Requisição ao endpoint do controller EscalasAdmin para listar os arquivos da pasta
             fetch("/EscalasAdmin/ListarArquivos?pasta=" + pasta)
                 .then(res => res.json())
                 .then(arquivos => {
 
                     lista.innerHTML = "";
 
-                    // Se não tiver arquivos mostra mensagem
+                    // Se não houver arquivos, exibe mensagem de lista vazia
                     if (arquivos.length === 0) {
                         lista.innerHTML = "<div class='arq-vazio'>Nenhum arquivo encontrado.</div>";
                         return;
                     }
 
-                    // Agrupa os arquivos por ano e mês
+                    // Agrupa os arquivos em um objeto hierárquico: { ano: { mes: [arquivos] } }
                     let agrupado = {};
                     arquivos.forEach(a => {
                         if (!agrupado[a.ano]) agrupado[a.ano] = {};
@@ -472,15 +497,18 @@
                         agrupado[a.ano][a.mes].push(a);
                     });
 
-                    // Renderiza agrupado por ano > mês > arquivos
+                    // Renderiza a lista agrupada por ano > mês > arquivos
                     for (let ano in agrupado) {
 
+                        // Cabeçalho do ano com separador
                         lista.innerHTML += `<div class="arq-ano-titulo">${ano}</div><hr style="border-color:#e2e8f0">`;
 
                         for (let mes in agrupado[ano]) {
 
+                            // Cabeçalho do mês convertido de número para nome
                             lista.innerHTML += `<div class="arq-mes-titulo">${nomeMes(parseInt(mes))}</div>`;
 
+                            // Renderiza cada arquivo com botões de visualizar e baixar
                             agrupado[ano][mes].forEach(a => {
                                 lista.innerHTML += `
                                     <div class="arq-item">
@@ -496,25 +524,27 @@
                     }
                 })
                 .catch(() => {
+                    // Exibe mensagem de erro caso a requisição falhe
                     lista.innerHTML = "<div class='arq-vazio' style='color:#dc2626'>Erro ao carregar arquivos.</div>";
                 });
         });
     });
 
-    // Fecha o modal pelo botão ✕
+    // Fecha o modal ao clicar no botão ✕ e restaura o scroll da página
     function fecharModal() {
         document.getElementById("modalArquivos").classList.remove("ativo");
         document.body.style.overflow = "";
     }
 
-    // Fecha clicando fora da caixa do modal
+    // Fecha o modal ao clicar fora da caixa (no overlay escuro)
+    // Verifica se o clique foi diretamente no overlay e não em um filho dele
     function fecharModalFora(event) {
         if (event.target === document.getElementById("modalArquivos")) {
             fecharModal();
         }
     }
 
-    // Fecha com a tecla ESC
+    // Fecha o modal ao pressionar a tecla ESC
     document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") fecharModal();
     });

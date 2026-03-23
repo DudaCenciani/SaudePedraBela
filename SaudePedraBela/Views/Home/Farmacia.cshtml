@@ -6,6 +6,7 @@
 <style>
 
     /* ---------- HEADER ---------- */
+    /* Cabeçalho da página com gradiente verde-azul e ícone à esquerda */
     .farm-header {
         background: linear-gradient(135deg, #1e7a3a 0%, #2563eb 100%);
         color: white;
@@ -15,6 +16,7 @@
         gap: 24px;
     }
 
+    /* Ícone decorativo no cabeçalho com fundo semitransparente */
     .farm-header-icon {
         background: rgba(255,255,255,0.15);
         border-radius: 16px;
@@ -24,15 +26,17 @@
         align-items: center;
         justify-content: center;
         font-size: 2rem;
-        flex-shrink: 0;
+        flex-shrink: 0; /* Impede encolhimento em telas menores */
     }
 
+    /* Título principal do cabeçalho */
     .farm-header h1 {
         font-size: 2.2rem;
         font-weight: 800;
         margin: 0 0 6px 0;
     }
 
+    /* Subtítulo do cabeçalho com leve transparência */
     .farm-header p {
         margin: 0;
         opacity: 0.88;
@@ -40,6 +44,7 @@
     }
 
     /* ---------- CONTAINER ---------- */
+    /* Limita a largura do conteúdo e centraliza na página */
     .farm-container {
         max-width: 1100px;
         margin: 0 auto;
@@ -47,6 +52,7 @@
     }
 
     /* ---------- TÍTULO DE SEÇÃO ---------- */
+    /* Cabeçalho reutilizável com ícone colorido e texto ao lado */
     .secao-titulo {
         display: flex;
         align-items: center;
@@ -54,6 +60,7 @@
         margin-bottom: 28px;
     }
 
+        /* Ícone quadrado com bordas arredondadas */
         .secao-titulo .icone {
             width: 50px;
             height: 50px;
@@ -65,16 +72,19 @@
             flex-shrink: 0;
         }
 
+            /* Variação verde para a seção de medicamentos */
             .secao-titulo .icone.verde {
                 background: #dcfce7;
                 color: #16a34a;
             }
 
+            /* Variação roxa para a seção de alto custo */
             .secao-titulo .icone.roxo {
                 background: #ede9fe;
                 color: #7c3aed;
             }
 
+        /* Título da seção */
         .secao-titulo h2 {
             font-size: 1.6rem;
             font-weight: 800;
@@ -83,18 +93,20 @@
         }
 
     /* ---------- CARD HORÁRIO ---------- */
+    /* Card com gradiente que exibe horário e local de atendimento lado a lado */
     .card-horario {
         background: linear-gradient(135deg, #1e7a3a, #2563eb);
         border-radius: 16px;
         padding: 30px 36px;
         color: white;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr; /* Duas colunas: horário e local */
         gap: 20px;
         margin-bottom: 50px;
         box-shadow: 0 8px 25px rgba(37,99,235,0.2);
     }
 
+        /* Título do card ocupa as duas colunas */
         .card-horario h3 {
             font-size: 1.1rem;
             font-weight: 800;
@@ -102,6 +114,7 @@
             grid-column: 1 / -1;
         }
 
+    /* Label pequeno acima de cada dado (ex: "Segunda a Sexta") */
     .horario-item small {
         display: block;
         font-size: 0.75rem;
@@ -109,11 +122,13 @@
         margin-bottom: 4px;
     }
 
+    /* Valor do dado em destaque (ex: horário ou endereço) */
     .horario-item strong {
         font-size: 1rem;
     }
 
     /* ---------- CARDS DE MEDICAMENTOS ---------- */
+    /* Grade de 2 colunas para os cards de medicamentos */
     .med-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -121,17 +136,18 @@
         margin-bottom: 60px;
     }
 
+    /* Card individual de cada medicamento/relação */
     .med-card {
         background: white;
         border-radius: 14px;
-        padding: 24px 24px 24px 28px;
+        padding: 24px 24px 24px 28px; /* Padding esquerdo maior por causa da barra lateral */
         box-shadow: 0 2px 12px rgba(0,0,0,0.07);
         border: 1.5px solid #e2e8f0;
         position: relative;
         transition: all 0.2s;
     }
 
-        /* Barra verde lateral */
+        /* Barra verde decorativa na lateral esquerda do card */
         .med-card::before {
             content: "";
             position: absolute;
@@ -143,12 +159,14 @@
             border-radius: 10px;
         }
 
+        /* Efeito hover: borda verde, elevação e sombra */
         .med-card:hover {
             border-color: #1e7a3a;
             transform: translateY(-3px);
             box-shadow: 0 8px 24px rgba(30,122,58,0.12);
         }
 
+        /* Título do card de medicamento */
         .med-card h3 {
             font-size: 1rem;
             font-weight: 700;
@@ -156,6 +174,7 @@
             margin: 0 0 8px 0;
         }
 
+        /* Descrição do card */
         .med-card p {
             font-size: 0.88rem;
             color: #64748b;
@@ -163,6 +182,7 @@
             margin: 0 0 14px 0;
         }
 
+        /* Link para acessar o PDF ou URL externa */
         .med-card a {
             color: #2563eb;
             font-weight: 600;
@@ -177,17 +197,20 @@
     /* ============================================
            TIMELINE ALTO CUSTO — estilo original mantido
            ============================================ */
+
+    /* Wrapper que limita a largura da timeline */
     .alto-custo-wrap {
         width: min(60rem, 100%);
         margin: 0 auto;
     }
 
+        /* Lista da timeline usando CSS Grid com linha vertical */
         .alto-custo-wrap ul {
-            --col-gap: 2rem;
-            --row-gap: 2rem;
-            --line-w: 0.25rem;
+            --col-gap: 2rem; /* Espaço entre a linha e os itens */
+            --row-gap: 2rem; /* Espaço vertical entre os itens */
+            --line-w: 0.25rem; /* Espessura da linha vertical */
             display: grid;
-            grid-template-columns: var(--line-w) 1fr;
+            grid-template-columns: var(--line-w) 1fr; /* Coluna da linha + coluna do conteúdo */
             grid-auto-columns: max-content;
             column-gap: var(--col-gap);
             list-style: none;
@@ -195,29 +218,31 @@
             margin: 0;
         }
 
-            /* Linha vertical */
+            /* Linha vertical cinza que conecta todos os itens da timeline */
             .alto-custo-wrap ul::before {
                 content: "";
                 grid-column: 1;
-                grid-row: 1 / span 20;
+                grid-row: 1 / span 20; /* Cobre todas as linhas da grid */
                 background: rgb(225, 225, 225);
                 border-radius: calc(var(--line-w) / 2);
             }
 
+            /* Espaçamento entre itens (exceto o último) */
             .alto-custo-wrap ul li:not(:last-child) {
                 margin-bottom: var(--row-gap);
             }
 
+            /* Cada item da timeline ocupa a segunda coluna (ao lado da linha) */
             .alto-custo-wrap ul li {
                 grid-column: 2;
                 --inlineP: 1.5rem;
                 margin-inline: var(--inlineP);
                 grid-row: span 2;
                 display: grid;
-                grid-template-rows: min-content min-content min-content;
+                grid-template-rows: min-content min-content min-content; /* Cabeçalho | Título | Descrição */
             }
 
-                /* Cabeçalho colorido da etapa */
+                /* Cabeçalho colorido da etapa (cor definida via --accent-color inline) */
                 .alto-custo-wrap ul li .date {
                     --dateH: 3rem;
                     height: var(--dateH);
@@ -230,9 +255,10 @@
                     display: grid;
                     place-content: center;
                     position: relative;
-                    border-radius: calc(var(--dateH) / 2) 0 0 calc(var(--dateH) / 2);
+                    border-radius: calc(var(--dateH) / 2) 0 0 calc(var(--dateH) / 2); /* Arredondado à esquerda */
                 }
 
+                    /* Triângulo decorativo abaixo do cabeçalho colorido */
                     .alto-custo-wrap ul li .date::before {
                         content: "";
                         width: var(--inlineP);
@@ -245,7 +271,7 @@
                         right: 0;
                     }
 
-                    /* Bolinha na linha */
+                    /* Bolinha colorida posicionada sobre a linha vertical da timeline */
                     .alto-custo-wrap ul li .date::after {
                         content: "";
                         position: absolute;
@@ -259,6 +285,7 @@
                         right: calc(100% + var(--col-gap) + var(--line-w) / 2);
                     }
 
+                /* Área de título e descrição com fundo cinza claro */
                 .alto-custo-wrap ul li .title,
                 .alto-custo-wrap ul li .descr {
                     background: #f5f5f5;
@@ -266,6 +293,7 @@
                     padding-inline: 1.5rem;
                 }
 
+                /* Bloco do título da etapa */
                 .alto-custo-wrap ul li .title {
                     overflow: hidden;
                     padding-block-start: 1.5rem;
@@ -273,11 +301,13 @@
                     font-weight: 500;
                 }
 
+                /* Bloco da descrição da etapa */
                 .alto-custo-wrap ul li .descr {
                     padding-block-end: 1.5rem;
                     font-weight: 300;
                 }
 
+                    /* Sombra decorativa no topo do título e no rodapé da descrição */
                     .alto-custo-wrap ul li .title::before,
                     .alto-custo-wrap ul li .descr::before {
                         content: "";
@@ -300,49 +330,51 @@
                     bottom: 0.25rem;
                 }
 
+                /* Links dentro das descrições da timeline */
                 .alto-custo-wrap ul li .descr a {
                     color: #2563eb;
                     font-weight: 600;
                 }
 
-    /* Layout 2 colunas em telas maiores */
+    /* Em telas maiores: timeline em 2 colunas com linha central */
     @@media (min-width: 40rem) {
         .alto-custo-wrap ul {
-            grid-template-columns: 1fr var(--line-w) 1fr;
+            grid-template-columns: 1fr var(--line-w) 1fr; /* Coluna esquerda | linha | coluna direita */
         }
-
+            /* Linha central fica na coluna do meio */
             .alto-custo-wrap ul::before {
                 grid-column: 2;
             }
-
+            /* Itens ímpares ficam à esquerda da linha */
             .alto-custo-wrap ul li:nth-child(odd) {
                 grid-column: 1;
             }
-
+            /* Itens pares ficam à direita da linha */
             .alto-custo-wrap ul li:nth-child(even) {
                 grid-column: 3;
             }
-
+            /* O segundo item começa na segunda linha para criar o efeito alternado */
             .alto-custo-wrap ul li:nth-child(2) {
                 grid-row: 2/4;
             }
-
+            /* Triângulo dos itens ímpares espelhado para apontar para a direita */
             .alto-custo-wrap ul li:nth-child(odd) .date::before {
                 clip-path: polygon(0 0, 100% 0, 100% 100%);
                 left: 0;
             }
-
+            /* Bolinha dos itens ímpares posicionada à direita (sobre a linha central) */
             .alto-custo-wrap ul li:nth-child(odd) .date::after {
                 transform: translate(-50%, -50%);
                 left: calc(100% + var(--col-gap) + var(--line-w) / 2);
             }
-
+            /* Cabeçalho dos itens ímpares arredondado à direita */
             .alto-custo-wrap ul li:nth-child(odd) .date {
                 border-radius: 0 calc(var(--dateH) / 2) calc(var(--dateH) / 2) 0;
             }
     }
 
     /* ---------- RESPONSIVO GERAL ---------- */
+    /* Em telas pequenas: tudo em coluna única e cabeçalho centralizado */
     @@media (max-width: 700px) {
         .card-horario {
             grid-template-columns: 1fr;
@@ -373,12 +405,13 @@
 
 <div class="farm-container">
 
-    @* ===== HORÁRIO DE ATENDIMENTO ===== *@
-    @* Dados vêm do ViewBag.Config configurado pelo admin *@
+    @* ===== HORÁRIO DE ATENDIMENTO =====
+       Exibe horário e local vindos do ViewBag.Config configurado pelo admin *@
     <div class="card-horario">
         <h3>🕐 Horário de Atendimento — Farmácia Municipal</h3>
         <div class="horario-item">
             <small>Segunda a Sexta</small>
+            @* Operador ?. evita erro se Config for null *@
             <strong>@ViewBag.Config?.Horario</strong>
         </div>
         <div class="horario-item">
@@ -388,21 +421,22 @@
     </div>
 
 
-    @* ===== RELAÇÃO DE MEDICAMENTOS ===== *@
-    @* Cards gerados dinamicamente pelo admin (ViewBag.Cards) *@
+    @* ===== RELAÇÃO DE MEDICAMENTOS =====
+       Cards gerados dinamicamente a partir dos dados do ViewBag.Cards *@
     <div class="secao-titulo">
         <div class="icone verde">💊</div>
         <h2>Relação de Medicamentos</h2>
     </div>
 
     <div class="med-grid">
+        @* Loop que renderiza um card para cada item cadastrado pelo admin *@
         @foreach (var card in ViewBag.Cards)
         {
             <div class="med-card">
                 <h3>@card.Titulo</h3>
                 <p>@card.Descricao</p>
 
-                @* Prioriza PDF; se não tiver, usa link externo *@
+                @* Prioriza exibição de PDF; se não houver, exibe link externo *@
                 @if (!string.IsNullOrEmpty(card.Arquivo))
                 {
                     <a href="/pdf/farmacia/@card.Arquivo" target="_blank">📄 Clique aqui para acessar</a>
@@ -416,7 +450,8 @@
     </div>
 
 
-    @* ===== ALTO CUSTO — TIMELINE ORIGINAL ===== *@
+    @* ===== ALTO CUSTO — TIMELINE =====
+       Apresenta o passo a passo para solicitação de medicamentos de alto custo *@
     <div class="secao-titulo">
         <div class="icone roxo">📋</div>
         <h2>Medicamentos de Alto Custo</h2>
@@ -425,6 +460,7 @@
     <div class="alto-custo-wrap">
         <ul>
 
+            @* Etapa 1: Preenchimento do termo de solicitação *@
             <li style="--accent-color:#41516C">
                 <div class="date">Protocolo</div>
                 <div class="title">Termo de Solicitação</div>
@@ -435,6 +471,7 @@
                 </div>
             </li>
 
+            @* Etapa 2: Entrega dos documentos pessoais e laudo na farmácia *@
             <li style="--accent-color:#FBCA3E">
                 <div class="date">Entrega de Documentos</div>
                 <div class="title">Documentos Necessários</div>
@@ -445,6 +482,7 @@
                 </div>
             </li>
 
+            @* Etapa 3: Aguardar análise do Ministério da Saúde (prazo de 60 dias) *@
             <li style="--accent-color:#E24A68">
                 <div class="date">Aguardar</div>
                 <div class="title">Análise do MS</div>
@@ -454,6 +492,7 @@
                 </div>
             </li>
 
+            @* Etapa 4: Retirada mensal do medicamento após aprovação *@
             <li style="--accent-color:#1B5F8C">
                 <div class="date">Aprovado</div>
                 <div class="title">Retirada do Medicamento</div>
@@ -464,6 +503,7 @@
                 </div>
             </li>
 
+            @* Etapa 5 (opcional): Termo para representante legal retirar o medicamento *@
             <li style="--accent-color:#4CADAD">
                 <div class="date">Representante Legal</div>
                 <div class="title">Termo de Representante</div>

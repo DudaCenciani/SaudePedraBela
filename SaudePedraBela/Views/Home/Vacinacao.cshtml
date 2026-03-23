@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CampanhaVacinacao>
+﻿@* Define o model da View como uma coleção de campanhas de vacinação *@
+@model IEnumerable<CampanhaVacinacao>
 
 @* =====================================================
    VACINAÇÃO - Info-Saúde Pedra Bela
@@ -8,6 +9,7 @@
 <style>
 
     /* ---------- HEADER ---------- */
+    /* Cabeçalho com gradiente verde-azul e ícone à esquerda */
     .vac-header {
         background: linear-gradient(135deg, #1e7a3a 0%, #2563eb 100%);
         color: white;
@@ -17,6 +19,7 @@
         gap: 24px;
     }
 
+    /* Ícone decorativo no cabeçalho com fundo semitransparente */
     .vac-header-icon {
         background: rgba(255,255,255,0.15);
         border-radius: 16px;
@@ -29,12 +32,14 @@
         flex-shrink: 0;
     }
 
+    /* Título principal do cabeçalho */
     .vac-header h1 {
         font-size: 2.2rem;
         font-weight: 800;
         margin: 0 0 6px 0;
     }
 
+    /* Subtítulo do cabeçalho com leve transparência */
     .vac-header p {
         margin: 0;
         opacity: 0.88;
@@ -42,6 +47,7 @@
     }
 
     /* ---------- CONTAINER GERAL ---------- */
+    /* Limita a largura do conteúdo e centraliza na página */
     .vac-container {
         max-width: 1100px;
         margin: 0 auto;
@@ -49,6 +55,7 @@
     }
 
     /* ---------- TÍTULO DE SEÇÃO ---------- */
+    /* Cabeçalho reutilizável com ícone quadrado e título ao lado */
     .secao-titulo {
         display: flex;
         align-items: center;
@@ -56,6 +63,7 @@
         margin-bottom: 28px;
     }
 
+        /* Ícone roxo padrão das seções */
         .secao-titulo .icone {
             background: #ede9fe;
             color: #7c3aed;
@@ -69,12 +77,13 @@
             flex-shrink: 0;
         }
 
-            /* ícone azul para calendário */
+            /* Variação azul para a seção do calendário vacinal */
             .secao-titulo .icone.azul {
                 background: #dbeafe;
                 color: #2563eb;
             }
 
+        /* Título de cada seção */
         .secao-titulo h2 {
             font-size: 1.6rem;
             font-weight: 800;
@@ -83,6 +92,7 @@
         }
 
     /* ---------- CARDS DE CAMPANHA ---------- */
+    /* Grade de 3 colunas para os cards de campanhas */
     .campanhas-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -90,6 +100,7 @@
         margin-bottom: 60px;
     }
 
+    /* Card branco individual de cada campanha */
     .campanha-card {
         background: white;
         border-radius: 16px;
@@ -98,7 +109,7 @@
         border: 1.5px solid #e2e8f0;
     }
 
-        /* Linha do topo: título + badge */
+        /* Linha do topo: título à esquerda e badge de status à direita */
         .campanha-card .card-top {
             display: flex;
             justify-content: space-between;
@@ -107,6 +118,7 @@
             margin-bottom: 18px;
         }
 
+        /* Nome da campanha */
         .campanha-card h5 {
             font-size: 1rem;
             font-weight: 700;
@@ -114,26 +126,29 @@
             margin: 0;
         }
 
-    /* Badge de status */
+    /* Badge de status da campanha (cor varia conforme o status) */
     .status-badge {
         font-size: 0.72rem;
         font-weight: 700;
         padding: 4px 12px;
         border-radius: 20px;
-        white-space: nowrap;
+        white-space: nowrap; /* Impede quebra de linha no badge */
         flex-shrink: 0;
     }
 
+    /* Badge verde: campanha em andamento */
     .status-verde {
         background: #dcfce7;
         color: #15803d;
     }
 
+    /* Badge cinza: status padrão/desconhecido */
     .status-cinza {
         background: #f1f5f9;
         color: #64748b;
     }
 
+    /* Badge azul: campanha disponível */
     .status-azul {
         background: #dbeafe;
         color: #1d4ed8;
@@ -147,37 +162,43 @@
         margin-bottom: 12px;
     }
 
+        /* Emoji/ícone do detalhe */
         .card-detalhe .det-icon {
             font-size: 0.9rem;
             margin-top: 2px;
         }
 
+        /* Label do campo (ex: "Período", "Público-alvo") em cinza claro */
         .card-detalhe .det-label {
             font-size: 0.75rem;
             color: #94a3b8;
             margin-bottom: 2px;
         }
 
+        /* Valor do campo em cor mais escura */
         .card-detalhe .det-valor {
             font-size: 0.88rem;
             color: #374151;
         }
 
     /* ---------- TABELA CALENDÁRIO ---------- */
+    /* Tabela do calendário vacinal com bordas arredondadas e sombra */
     .cal-tabela {
         width: 100%;
         border-collapse: collapse;
         border-radius: 14px;
-        overflow: hidden;
+        overflow: hidden; /* Garante que o border-radius seja aplicado */
         box-shadow: 0 2px 12px rgba(0,0,0,0.07);
         margin-bottom: 60px;
     }
 
+        /* Cabeçalho da tabela com gradiente verde-azul */
         .cal-tabela thead tr {
             background: linear-gradient(90deg, #1e7a3a, #2563eb);
             color: white;
         }
 
+        /* Células do cabeçalho */
         .cal-tabela thead th {
             padding: 16px 20px;
             font-size: 0.92rem;
@@ -185,23 +206,26 @@
             text-align: left;
         }
 
+        /* Linhas do corpo da tabela com separador sutil */
         .cal-tabela tbody tr {
             border-bottom: 1px solid #f1f5f9;
             background: white;
             transition: background 0.15s;
         }
 
+            /* Destaque suave ao passar o mouse na linha */
             .cal-tabela tbody tr:hover {
                 background: #f8fafc;
             }
 
+        /* Células do corpo da tabela */
         .cal-tabela tbody td {
             padding: 14px 20px;
             font-size: 0.9rem;
             color: #374151;
         }
 
-            /* Coluna idade (negrito suave) */
+            /* Coluna de idade em negrito para destaque visual */
             .cal-tabela tbody td:first-child {
                 font-weight: 600;
                 color: #1a1a2e;
@@ -209,6 +233,7 @@
             }
 
     /* ---------- LOCAIS + DOCUMENTOS ---------- */
+    /* Grade de 2 colunas para os cards de locais e documentos necessários */
     .bottom-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -216,7 +241,7 @@
         margin-bottom: 40px;
     }
 
-    /* Card "Onde se Vacinar" com gradiente */
+    /* Card gradiente verde-azul com os locais de vacinação */
     .card-locais {
         background: linear-gradient(135deg, #1e7a3a, #2563eb);
         border-radius: 16px;
@@ -224,28 +249,32 @@
         color: white;
     }
 
+        /* Título do card de locais */
         .card-locais h4 {
             font-size: 1.1rem;
             font-weight: 800;
             margin-bottom: 20px;
         }
 
+    /* Item de cada local de vacinação */
     .local-item {
         margin-bottom: 14px;
     }
 
+        /* Nome do local em negrito */
         .local-item strong {
             display: block;
             font-size: 0.92rem;
             margin-bottom: 2px;
         }
 
+        /* Horário do local com leve transparência */
         .local-item span {
             font-size: 0.83rem;
             opacity: 0.85;
         }
 
-    /* Card "Documentos Necessários" amarelo suave */
+    /* Card amarelo suave com os documentos necessários para vacinação */
     .card-docs-necessarios {
         background: #fefce8;
         border: 1.5px solid #fde68a;
@@ -253,6 +282,7 @@
         padding: 28px;
     }
 
+        /* Título do card de documentos em marrom */
         .card-docs-necessarios h4 {
             font-size: 1.1rem;
             font-weight: 800;
@@ -260,12 +290,14 @@
             margin-bottom: 18px;
         }
 
+        /* Lista de documentos sem marcadores padrão */
         .card-docs-necessarios ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
+            /* Cada item da lista com separador inferior */
             .card-docs-necessarios ul li {
                 font-size: 0.9rem;
                 color: #78350f;
@@ -273,10 +305,12 @@
                 border-bottom: 1px solid #fde68a;
             }
 
+                /* Remove separador do último item */
                 .card-docs-necessarios ul li:last-child {
                     border-bottom: none;
                 }
 
+                /* Marcador personalizado laranja */
                 .card-docs-necessarios ul li::before {
                     content: "• ";
                     color: #d97706;
@@ -284,6 +318,7 @@
                 }
 
     /* ---------- BOTÃO VER ANEXOS ---------- */
+    /* Botão verde que abre o modal de documentos PDF */
     .btn-anexos {
         background: #1e7a3a;
         color: white;
@@ -306,6 +341,7 @@
         }
 
     /* ---------- RESPONSIVO ---------- */
+    /* Em telas médias: campanhas em 2 colunas e seção inferior em coluna única */
     @@media (max-width: 900px) {
         .campanhas-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -316,6 +352,7 @@
         }
     }
 
+    /* Em telas pequenas: tudo em coluna única e cabeçalho centralizado */
     @@media (max-width: 600px) {
         .campanhas-grid {
             grid-template-columns: 1fr;
@@ -342,7 +379,7 @@
 
 <div class="vac-container">
 
-    @* ===== BOTÃO DOCUMENTOS (abre modal) ===== *@
+    @* ===== BOTÃO QUE ABRE O MODAL DE DOCUMENTOS PDF ===== *@
     <button class="btn-anexos"
             data-bs-toggle="modal"
             data-bs-target="#modalDocumentos">
@@ -363,22 +400,23 @@
             @* Itera cada campanha cadastrada no banco *@
             foreach (var campanha in Model)
             {
-                @* Define a cor do badge conforme o status *@
+                @* Define a classe CSS do badge com base no valor do status (switch expression) *@
                 var badgeClass = campanha.Status?.ToLower() switch
                 {
                     "em andamento" => "status-verde",
                     "disponível" => "status-azul",
-                    _ => "status-cinza"
+                    _ => "status-cinza" // Valor padrão para qualquer outro status
                 };
 
                 <div class="campanha-card">
 
                     <div class="card-top">
                         <h5>@campanha.Titulo</h5>
+                        @* Badge colorido conforme o status da campanha *@
                         <span class="status-badge @badgeClass">@campanha.Status</span>
                     </div>
 
-                    @* Período *@
+                    @* Período de início e fim da campanha *@
                     <div class="card-detalhe">
                         <span class="det-icon">📅</span>
                         <div>
@@ -391,7 +429,7 @@
                         </div>
                     </div>
 
-                    @* Público-alvo *@
+                    @* Público-alvo da campanha *@
                     <div class="card-detalhe">
                         <span class="det-icon">ℹ️</span>
                         <div>
@@ -405,7 +443,7 @@
         }
         else
         {
-            @* Card vazio quando não há campanhas cadastradas *@
+            @* Card placeholder exibido quando não há campanhas cadastradas *@
             <div class="campanha-card">
                 <div class="card-top">
                     <h5>Nenhuma campanha cadastrada</h5>
@@ -431,7 +469,8 @@
     </div>
 
 
-    @* ===== CALENDÁRIO VACINAL ===== *@
+    @* ===== CALENDÁRIO VACINAL =====
+       Dados vêm do ViewBag.Calendario carregado pelo controller *@
     <div class="secao-titulo">
         <div class="icone azul">📅</div>
         <h2>Calendário Vacinal Infantil</h2>
@@ -447,7 +486,7 @@
         <tbody>
             @if (ViewBag.Calendario != null && ViewBag.Calendario.Count > 0)
             {
-                @* Itera os itens do calendário vacinal *@
+                @* Itera cada linha do calendário vacinal *@
                 foreach (var item in ViewBag.Calendario)
                 {
                     <tr>
@@ -458,6 +497,7 @@
             }
             else
             {
+                @* Linha placeholder quando não há dados cadastrados *@
                 <tr>
                     <td>--</td>
                     <td>--</td>
@@ -470,12 +510,13 @@
     @* ===== LOCAIS + DOCUMENTOS NECESSÁRIOS ===== *@
     <div class="bottom-grid">
 
-        @* Card gradiente - locais de vacinação *@
+        @* Card gradiente com os locais de vacinação vindos do ViewBag.Locais *@
         <div class="card-locais">
             <h4>📍 Onde se Vacinar</h4>
 
             @if (ViewBag.Locais != null && ViewBag.Locais.Count > 0)
             {
+                @* Itera cada local de vacinação cadastrado *@
                 foreach (var local in ViewBag.Locais)
                 {
                     <div class="local-item">
@@ -486,6 +527,7 @@
             }
             else
             {
+                @* Placeholder quando não há locais cadastrados *@
                 <div class="local-item">
                     <strong>Local não cadastrado</strong>
                     <span>--</span>
@@ -493,7 +535,7 @@
             }
         </div>
 
-        @* Card amarelo - documentos necessários *@
+        @* Card amarelo com lista fixa de documentos necessários para vacinação *@
         <div class="card-docs-necessarios">
             <h4>Documentos Necessários</h4>
             <ul>
@@ -509,7 +551,8 @@
 </div>
 
 
-@* ===== MODAL DE DOCUMENTOS (PDFs anexados pelo admin) ===== *@
+@* ===== MODAL DE DOCUMENTOS =====
+   Exibe os PDFs anexados pelo admin com preview via iframe e botões de abrir/baixar *@
 <div class="modal fade" id="modalDocumentos">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -523,19 +566,21 @@
 
                 @if (ViewBag.Documentos != null && ViewBag.Documentos.Count > 0)
                 {
+                    @* Itera cada documento PDF cadastrado pelo admin *@
                     foreach (var doc in ViewBag.Documentos)
                     {
                         <div class="mb-4 p-3 border rounded">
 
                             <h6 class="mb-2">📄 @doc.Titulo</h6>
 
-                            @* Preview do PDF em iframe *@
+                            @* Preview do PDF incorporado via iframe *@
                             <iframe src="@Url.Content(doc.Caminho)"
                                     width="100%"
                                     height="320"
                                     style="border:1px solid #ddd; border-radius:6px">
                             </iframe>
 
+                            @* Botões para abrir em nova aba ou baixar o PDF *@
                             <div class="mt-2">
                                 <a href="@Url.Content(doc.Caminho)"
                                    target="_blank"
@@ -554,6 +599,7 @@
                 }
                 else
                 {
+                    @* Mensagem exibida quando não há documentos cadastrados *@
                     <p class="text-muted">Nenhum documento disponível.</p>
                 }
 
