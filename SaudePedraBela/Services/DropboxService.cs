@@ -1,10 +1,69 @@
-﻿namespace SaudePedraBela.Services
+﻿using Dropbox.Api;
+using Microsoft.Extensions.Options;
+using SaudePedraBela.Models;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+
+namespace SaudePedraBela.Services
 {
     public class DropboxService
     {
+        private readonly DropboxSettings _settings;
+
+        // O construtor agora recebe as configurações via Injeção de Dependência
+        public DropboxService(IOptions<DropboxSettings> settings)
+        {
+            _settings = settings.Value;
+        }
+
+        private DropboxClient GetClient()
+        {
+            // O SDK cuida da renovação usando o RefreshToken quando o AccessToken expira
+            return new DropboxClient(
+                _settings.RefreshToken,
+                _settings.AppKey,
+                _settings.AppSecret);
+        }
+
+        public async Task<string> UploadArquivo(string pasta, string nomeArquivo, Stream conteudo)
+        {
+            using (var dbx = GetClient())
+            {
+                var caminho = $"{pasta}/{nomeArquivo}".Replace("//", "/");
+                await dbx.Files.UploadAsync(caminho, Dropbox.Api.Files.WriteMode.Overwrite.Instance, body: conteudo);
+
+                var sharedLink = await dbx.Sharing.CreateSharedLinkWithSettingsAsync(caminho);
+                return sharedLink.Url.Replace("dl=0", "raw=1");
+            }
+        }
+
+        public async Task DeletarArquivo(string caminhoArquivo)
+        {
+            using (var dbx = GetClient())
+            {
+                try
+                {
+                    await dbx.Files.DeleteV2Async(caminhoArquivo);
+                }
+                catch (Exception ex)
+                {
+                    // Trate erros como "arquivo não encontrado" aqui
+                    throw new Exception($"Erro ao deletar arquivo: {ex.Message}");
+                }
+            }
+        }
     }
 }
 
+//antes de enviar o push alterações:
+/*
+ * - Alterado o appsettings.json para incluir as chaves de acesso ao DropBox
+ * - Alterado o Program.cs para habilitar a injeção de dependência do DropboxService e DropboxSettings
+ * - Criado arquivo DropboxSettings.cs para armazenar as chaves de acesso ao DropBox
+ * - Criado o código do DropboxService.cs para realizar as operações de upload e delete de arquivos no DropBox
+ */
 
 //Codigos para configurar token de acesso ao DropBox
 /*

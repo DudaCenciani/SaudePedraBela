@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SaudePedraBela.Data;
+using SaudePedraBela.Models;
+using SaudePedraBela.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,14 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// 1. Vincula a seção do appsettings com a classe DropboxSettings
+builder.Services.Configure<DropboxSettings>(builder.Configuration.GetSection("DropboxSettings"));
+
+// 2. Registra o serviço para ser usado em Controllers ou outras classes
+builder.Services.AddScoped<DropboxService>();
+
+
 
 var app = builder.Build();
 
