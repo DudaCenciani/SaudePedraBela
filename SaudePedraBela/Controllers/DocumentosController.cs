@@ -35,6 +35,9 @@ using SaudePedraBela.Models;
 // Importa o filtro de login criado para proteger as páginas admin
 using SaudePedraBela.Filters;
 
+//Importa o serviço de Dropbox para upload de arquivos
+using SaudePedraBela.Services;
+
 namespace SaudePedraBela.Controllers
 {
  
@@ -43,12 +46,14 @@ namespace SaudePedraBela.Controllers
         // Variável que representa a conexão com o banco de dados
         // "readonly" significa que só pode ser definida uma vez (no construtor)
         private readonly SaudePedraBelaContext _context;
+        private readonly DropboxService _dropboxService;
 
         // Construtor do controller
         // O ASP.NET injeta automaticamente o contexto do banco de dados aqui
-        public DocumentosController(SaudePedraBelaContext context)
+        public DocumentosController(SaudePedraBelaContext context, DropboxService dropboxService)
         {
             _context = context;
+            _dropboxService = dropboxService;
         }
 
         // ===================================================
@@ -128,12 +133,21 @@ namespace SaudePedraBela.Controllers
                 // Pega apenas o nome do arquivo (sem o caminho completo)
                 var nomeArquivo = Path.GetFileName(arquivoPdf.FileName);
 
-                // Monta o caminho completo onde o arquivo será salvo no servidor
-                var caminho = Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    "wwwroot/documentos",
-                    nomeArquivo
-                );
+                using (var stream = arquivoPdf.OpenReadStream())
+                {
+                    //Define a pasta no Dropbox onde será salvo o arquivo
+                    string linkDropbox = await _dropboxService.UploadArquivo("/documentos", nomeArquivo, stream);
+                    //Salva o link do dropbox no BD ao invés do caminho local
+                    documento.CaminhoDocumento = linkDropbox;
+                }
+
+                /* CODIGO ANTIGO PARA SALVAR O ARQUIVO LOCALMENTE 
+                    // Monta o caminho completo onde o arquivo será salvo no servidor
+                    var caminho = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot/documentos",
+                        nomeArquivo
+                    );
 
                 // Salva o arquivo fisicamente na pasta wwwroot/documentos
                 using (var stream = new FileStream(caminho, FileMode.Create))
@@ -144,16 +158,16 @@ namespace SaudePedraBela.Controllers
                 // Salva o caminho relativo do arquivo no documento
                 // Esse caminho é usado para exibir/baixar o PDF no site
                 documento.CaminhoDocumento = "/documentos/" + nomeArquivo;
+            }*/
             }
+                // Adiciona o documento ao banco de dados
+                _context.Add(documento);
 
-            // Adiciona o documento ao banco de dados
-            _context.Add(documento);
+                // Salva as alterações de forma assíncrona
+                await _context.SaveChangesAsync();
 
-            // Salva as alterações de forma assíncrona
-            await _context.SaveChangesAsync();
-
-            // Redireciona para a lista de documentos
-            return RedirectToAction(nameof(Index));
+                // Redireciona para a lista de documentos
+                return RedirectToAction(nameof(Index));
         }
 
         // ===================================================
@@ -307,6 +321,16 @@ namespace SaudePedraBela.Controllers
             // o arquivo físico na pasta wwwroot/documentos permanece
             if (documento != null)
             {
+                //Remove o arquivo no DropBox (talvez seja necessário tratar a string do link salvo no BD)
+                try
+                {
+                    await _dropboxService.DeletarArquivo($"/documentos/{documento.NomeDocumento}");
+                }
+                catch
+                {
+                    //local para tratar erros durante a exclusão do arquivo
+                }
+
                 _context.Documento.Remove(documento);
             }
 
