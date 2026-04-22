@@ -162,7 +162,7 @@
         }
 
         .footer-brand img {
-            height: 70px;
+            height: 85px;
             background: white;
             border-radius: 10px;
             padding: 6px;
@@ -174,16 +174,22 @@
             font-size: 0.85rem;
             color: #94a3b8;
         }
+        .footer-col{
+            text-align: left;
+        }
 
         .footer-col h4 {
             color: white;
             font-size: 1rem;
             font-weight: 700;
             margin-bottom: 18px;
+            text-align: left;
         }
 
         .footer-col ul {
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
             .footer-col ul li {
@@ -203,16 +209,17 @@
 
         .footer-col .contato-item {
             display: flex;
-            align-items: flex-start;
+            align-items: center; 
             gap: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             font-size: 0.88rem;
             color: #94a3b8;
         }
 
             .footer-col .contato-item i {
+                width: 20px;
                 color: #4ade80;
-                margin-top: 2px;
+                text-align: center;
             }
 
         .footer-bottom {
@@ -351,8 +358,8 @@
                 <h4>Links Rápidos</h4>
                 <ul>
                     <li><a asp-controller="Home" asp-action="Index">Início</a></li>
-                    <li><a href="/Home/Index#services">Serviços</a></a></li>
-                    <li><a href="/Home/Index#contact">Contato</a>Contato</a></li>
+                    <li><a href="/Home/Index#services">Serviços</a></li>
+                    <li><a href="/Home/Index#contact">Contato</a></li>
                 </ul>
             </div>
 
@@ -366,6 +373,11 @@
                 <div class="contato-item">
                     <i class="fa fa-envelope"></i>
                     <span>secretariasaude@pedrabela.sp.gov.br</span>
+                </div>
+                <!--Teste de rodapé-->
+                <div class="contato-item">
+                    <i class="fa-brands fa-whatsapp fa-lg" style="color: #4ade80;"></i>
+                    <span>(11) 94322-6381</span>
                 </div>
             </div>
 
